@@ -23,17 +23,42 @@ Layers.generate(() => {
         
         // Create a noisy circle
         angle = 0
+        const startAngle = random(0, TWO_PI-TWO_PI/6)
+        const endAngle = startAngle + random(PI/16, TWO_PI/6)
+        
         const lily = []
         for (let n = 0; n < lilyDetail; n++) {
-          let xx = cos(angle) * size * map(noise(i*1000+n*.25), 0, 1, .9, 1.1) + x
-          let yy = sin(angle) * size * map(noise(i*1000+n*.25), 0, 1, .9, 1.1) + y
+          let xx
+          let yy
+          if (angle > startAngle && angle < endAngle) {
+            xx = cos(angle) * size * .1
+            yy = sin(angle) * size * .1
+          } else {
+            xx = cos(angle) * size * map(noise(i*1000+n*.25), 0, 1, .9, 1.1)
+            yy = sin(angle) * size * map(noise(i*1000+n*.25), 0, 1, .9, 1.1)
+          }
+
           lily.push([xx, yy])
           angle += TWO_PI / lilyDetail
         }
 
+        // Colors
+        let col = [...this.colors[3]]
+        col[0] += random(-50, 50)
+
+        let stroke = [...col]
+        stroke[0] += random(-25, 25)
+        stroke[2] -= random(.03, .15)
+        
         $pads.push({
+          x,
+          y,
           points: lily,
-          size: size
+          size: size,
+          strokeWeight: random(.0025, .015) * minSize,
+          stroke,
+          color: col,
+          rotate: random(0, TWO_PI),
         })
       }
 
@@ -42,16 +67,23 @@ Layers.generate(() => {
     },
     
     draw () {
-      background(0)
-      fill(255)
+      background(this.colors[4])
 
       // Draw lilies
       $pads.forEach(pad => {
+        fill(pad.color)
+        stroke(pad.stroke)
+  
+        strokeWeight(pad.strokeWeight)
+        push()
+        translate(pad.x, pad.y)
+        rotate(pad.rotate)
         beginShape()
         pad.points.forEach(point => {
           vertex(point[0], point[1])
         })
         endShape(CLOSE)
+        pop()
       })
     }
   })
