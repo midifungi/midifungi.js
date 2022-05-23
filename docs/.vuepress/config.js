@@ -7,6 +7,10 @@ module.exports = {
   title: 'Midifungi 🎹🍄',
   description: 'A layer-based p5.js framework with live editing and MIDI support',
 
+  head: [
+    ['link', {rel: 'icon', type: 'image/png', href: '/midifungi.png'}]
+  ],
+
   plugins: [
     [
       registerComponentsPlugin({

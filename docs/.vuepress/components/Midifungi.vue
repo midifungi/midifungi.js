@@ -4,14 +4,12 @@
 
 <script>
 export default {
-  props: {
-    /**
-     * List of paths to sketch scripts to load
-     * Prefix with @username/001/path to load /sketch/midifungi/001/path.js
-     */
-    layers: Array,
-    height: Number
-  },
+  props: [
+    // List of paths to sketch scripts to load
+    // Prefix with @username/001/path to load /sketch/midifungi/001/path.js
+    'layers',
+    'height',
+  ],
 
   computed: {
     wrapHeight () {return (this.height || 450) + 'px'}

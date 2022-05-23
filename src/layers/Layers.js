@@ -313,9 +313,9 @@ export default window.Layers = {
           const prop = layer.menu[binding.prop]
 
           if (prop.step) {
-            Layers[key].store[binding.prop] = stepRound(scaleBetween(control.data[2]/127, prop.min, prop.max, 0, 1), prop.step, prop.min)
+            Layers[key].store[binding.prop] = stepRound(map(control.data[2]/127, prop.min, prop.max, 0, 1), prop.step, prop.min)
           } else {
-            Layers[key].store[binding.prop] = scaleBetween(control.data[2]/127, prop.min, prop.max, 0, 1)
+            Layers[key].store[binding.prop] = map(control.data[2]/127, prop.min, prop.max, 0, 1)
           }
           Layers[key].throttledDraw()
           Layers[key].$menu?.refresh()

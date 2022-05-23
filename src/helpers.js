@@ -27,19 +27,6 @@ window.getProgress = function (seconds = 7) {
 } 
 
 /**
- * @see https://stackoverflow.com/questions/5294955/how-to-scale-down-a-range-of-numbers-with-a-known-min-and-max-value
- * @param {*} unscaledNum The number to be scaled
- * @param {*} minAllowed  The minimum allowed value of the scaled number
- * @param {*} maxAllowed  The maximum allowed value of the scaled number
- * @param {*} min         The minimum value of the original number
- * @param {*} max         The maximum value of the original number
- * @returns 
- */
-  window.scaleBetween = function (unscaledNum, minAllowed, maxAllowed, min, max) {
-  return (maxAllowed - minAllowed) * (unscaledNum - min) / (max - min) + minAllowed;
-}
-
-/**
  * @see https://stackoverflow.com/a/14627826
  * @param {*} number The number to round
  * @param {*} increment The increment to round to
