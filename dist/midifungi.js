@@ -24518,9 +24518,9 @@
               const prop = layer.menu[binding.prop];
 
               if (prop.step) {
-                Layers[key].store[binding.prop] = stepRound(scaleBetween(control.data[2]/127, prop.min, prop.max, 0, 1), prop.step, prop.min);
+                Layers[key].store[binding.prop] = stepRound(map(control.data[2]/127, prop.min, prop.max, 0, 1), prop.step, prop.min);
               } else {
-                Layers[key].store[binding.prop] = scaleBetween(control.data[2]/127, prop.min, prop.max, 0, 1);
+                Layers[key].store[binding.prop] = map(control.data[2]/127, prop.min, prop.max, 0, 1);
               }
               Layers[key].throttledDraw();
               Layers[key].$menu?.refresh();
@@ -24984,19 +24984,6 @@
       const period = +params.fps * seconds / 2;
       return (frameCount % period) / period
     }; 
-
-    /**
-     * @see https://stackoverflow.com/questions/5294955/how-to-scale-down-a-range-of-numbers-with-a-known-min-and-max-value
-     * @param {*} unscaledNum The number to be scaled
-     * @param {*} minAllowed  The minimum allowed value of the scaled number
-     * @param {*} maxAllowed  The maximum allowed value of the scaled number
-     * @param {*} min         The minimum value of the original number
-     * @param {*} max         The maximum value of the original number
-     * @returns 
-     */
-      window.scaleBetween = function (unscaledNum, minAllowed, maxAllowed, min, max) {
-      return (maxAllowed - minAllowed) * (unscaledNum - min) / (max - min) + minAllowed;
-    };
 
     /**
      * @see https://stackoverflow.com/a/14627826
