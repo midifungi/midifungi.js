@@ -11,9 +11,7 @@ module.exports = {
     [
       registerComponentsPlugin({
         components: {
-          // Home page getting started
-          example001: path.resolve(__dirname, './components/example/001-simple-layer/Sketch.vue'),
-          example001x2: path.resolve(__dirname, './components/example/001-simple-layer/Sketch2.vue'),
+          Midifungi: path.resolve(__dirname, './components/Midifungi.vue')
         }
       }),
     ],
@@ -57,8 +55,15 @@ module.exports = {
         link: '/midi.md',
       },
       {
-        text: '🖼️ Example Sketches',
-        link: '/sketches/'
+        text: '🖼️ Gallery',
+        link: '/sketches/',
+        collapsible: true,
+        children: [
+          {
+            text: 'Midifungi - 001 - Sillily pads',
+            link: '/sketches/midifungi/001.html'
+          }
+        ]
       },
       {
         text: '📚 Reference',

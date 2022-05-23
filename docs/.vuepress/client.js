@@ -1,11 +1,14 @@
-import { defineClientConfig } from '@vuepress/client'
-import p5 from 'p5'
-import '@lib/midifungi.js'
+import {defineClientConfig} from '@vuepress/client'
 
 export default defineClientConfig({
-  enhance({ app, router, siteData }){
-    window.p5 = p5
-  },
-  setup(){},
-  rootComponents: [],
+  async enhance() {
+    if (!__VUEPRESS_SSR__) {
+      const mod = await import('../../src/midifungi.js')
+      window.Layers = mod.default
+
+      let $script = document.createElement('script')
+      $script.setAttribute('src', '/packages/p5.js')
+      document.querySelector('head').appendChild($script)
+    }
+  }
 })

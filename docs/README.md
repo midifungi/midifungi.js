@@ -1,8 +1,6 @@
 # Midifungi - A layer-based p5.js framework with live editing and MIDI support 🎹🍄
 
-<div style="height: 450px">
-<example001 />
-</div>
+<Midifungi :layers="['@midifungi/001/sketch']" />
 
 Midifungi is [p5.js](https://p5js.org/reference/) framework designed around the idea of creative coding in "layers of code" instead of "lines of code". You still sketch in a similar way, but instead of writing code into a single `draw()` you layer code across multiple draw loops each containing:
 - their own canvas and offscreen buffer
@@ -40,6 +38,7 @@ window.p5 = p5 // @fixme
 In fact, you can add it to existing sketches just for the [MIDI mapping system](/midi) with zero modifcation to your existing code...but here we'll explore new ways to sketch 🧑‍🎨
 ::: -->
 
+<!-- 
 <div style="height: 300px">
   <example001 />
 </div>
@@ -50,4 +49,4 @@ In fact, you can add it to existing sketches just for the [MIDI mapping system](
 
 <div style="height: 400px">
   <example001x2 />
-</div>
+</div> -->
