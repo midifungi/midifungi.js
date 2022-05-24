@@ -20,11 +20,19 @@ export default {
       if (path[0] === '@') {
         path = path.substr(1)
       }
-      this.loadScript(path)
+      this.maybeLoadScript(path)
     })
   },
 
   methods: {
+    maybeLoadScript (path) {
+      if (!window.Layers) {
+        setTimeout(() => this.maybeLoadScript(path), 0)
+      } else {
+        this.loadScript(path)
+      }
+    },
+    
     async loadScript (path) {
       // Unfortunately we have to split this out with vite
       // @see https://github.com/vitejs/vite/issues/4945#issuecomment-951770052
