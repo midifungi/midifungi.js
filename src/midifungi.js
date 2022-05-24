@@ -38,7 +38,6 @@ const onSetup = function () {
     return
   }
 
-  p5.disableFriendlyErrors = true
   Layers.init()
 
   window.params = Object.assign({
@@ -160,6 +159,10 @@ function onReady () {
   window.recenter = function () {
     _renderer.position(windowWidth / 2 - width / 2, windowHeight / 2 - height / 2, 'fixed')
   }
+}
+
+if (window.p5) {
+  window.p5.disableFriendlyErrors = true
 }
 
 if (/complete|interactive|loaded/.test(document.readyState)) {

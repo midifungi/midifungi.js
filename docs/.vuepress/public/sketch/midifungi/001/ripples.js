@@ -9,6 +9,11 @@ export default function () {
         this.moveDown()
       },
   
+      beforeGenerate () {
+        // Layers.lilies.generate()
+        // Layers.lilies.draw()
+      },
+
       draw () {
         background(this.colors[4])
         noFill()

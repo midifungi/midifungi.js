@@ -1,6 +1,6 @@
 {
   "name": "midifungi",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A layer-based p5.js framework with live editing and MIDI support",
   "main": "dist/midifungi.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "server": "npx http-server",
     "test": "echo \"Error: no test specified\" && exit 1",
 
-    "postinstall": "node ./post-install.js"
+    "postinstall": "node ./postinstall.js"
   },
   "repository": {
     "type": "git",

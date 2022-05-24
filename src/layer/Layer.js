@@ -232,7 +232,10 @@ class Layer {
    * (eg rect, circle, etc without having to type canvas.rect())
    */
   useGlobalContext () {
-    this._context = {}
+    console.log(window.p5.disableFriendlyErrors)
+  p5.prototype._preloadMethods = []
+  window.IS_MINIFIED = true
+  this._context = {}
     this._storeContext = {}
     p5Overrides.forEach(key => {
       this._context[key] = window[key]

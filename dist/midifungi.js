@@ -4,7 +4,7 @@
  * https://twitter.com/midifungi
  * https://github.com/midifungi/midifungi
  * ---
- * @version 0.0.3
+ * @version 0.0.4
  * @license "Apache 2.0"
  * ---
  * This file was bundled with Rollup
@@ -24243,7 +24243,7 @@
       methods: {},
 
       // About
-      version: '0.0.3',
+      version: '0.0.4',
       curId: 0,
 
       // Menus
@@ -25522,7 +25522,10 @@
        * (eg rect, circle, etc without having to type canvas.rect())
        */
       useGlobalContext () {
-        this._context = {};
+        console.log(window.p5.disableFriendlyErrors);
+      p5.prototype._preloadMethods = [];
+      window.IS_MINIFIED = true;
+      this._context = {};
         this._storeContext = {};
         p5Overrides.forEach(key => {
           this._context[key] = window[key];
@@ -25679,7 +25682,7 @@
      * Midifungi 🎹🍄
      * A p5js library that helps you organize your code into layers
      * ---
-     * @version 0.0.3
+     * @version 0.0.4
      * @license "Apache 2.0" with the addendum that you cannot use this or its output for NFTs without permission
      */
 
@@ -25698,7 +25701,6 @@
         return
       }
 
-      p5.disableFriendlyErrors = true;
       Layers$1.init();
 
       window.params = Object.assign({
@@ -25820,6 +25822,10 @@
       window.recenter = function () {
         _renderer.position(windowWidth / 2 - width / 2, windowHeight / 2 - height / 2, 'fixed');
       };
+    }
+
+    if (window.p5) {
+      window.p5.disableFriendlyErrors = true;
     }
 
     if (/complete|interactive|loaded/.test(document.readyState)) {
