@@ -4,7 +4,7 @@
  * https://twitter.com/midifungi
  * https://github.com/midifungi/midifungi
  * ---
- * @version 0.0.1
+ * @version 0.0.2
  * @license "Apache 2.0"
  * ---
  * This file was bundled with Rollup
@@ -24243,7 +24243,7 @@
       methods: {},
 
       // About
-      version: '0.0.1',
+      version: '0.0.2',
       curId: 0,
 
       // Menus
@@ -25367,13 +25367,14 @@
 
         this.callSetup();
 
-        // Add a slight delay to filters to allow for faster render on load
+        // Add a slight delay to draw to allow other setups() to finish
+        // Add an extra delay to filters to allow for faster render on load
         if (this.type === 'filter' && !this.disabled) {
+          Layers.mergeLayers(this);
           setTimeout(() => {
-            Layers.mergeLayers(this);
             this.draw();
           }, 0);
-        } else {
+        } else if (!this.disabled) {
           this.draw();
         }
       }
@@ -25570,6 +25571,42 @@
       }
 
       /**
+       * Moves the layer up/down within the stack
+       * @param {*} seconds 
+       * @returns 
+       */
+      moveDown () {
+        const idx = Layers.all.findIndex(layer => layer.id === this.id);
+        if (idx) {
+          const curCanvas = this.canvas.elt;
+          const curOffscreen = this.offscreen.elt;
+          const targetCanvas = Layers.all[idx-1].canvas.elt;
+          const targetOffscreen = Layers.all[idx-1].offscreen.elt;
+          
+          this.canvas.elt.parentElement.insertBefore(curCanvas, targetCanvas);
+          this.canvas.elt.parentElement.insertBefore(curOffscreen, targetOffscreen);
+          
+          Layers.all.splice(idx, 1);
+          Layers.all.splice(idx-1, 0, this);
+        }
+      }
+      moveUp () {
+        const idx = Layers.all.findIndex(layer => layer.id === this.id);
+        if (idx < Layers.all.length - 1) {
+          const curCanvas = this.canvas.elt;
+          const curOffscreen = this.offscreen.elt;
+          const targetCanvas = Layers.all[idx+1].canvas.elt;
+          const targetOffscreen = Layers.all[idx+1].offscreen.elt;
+
+          this.canvas.elt.parentElement.insertAfter(curCanvas, targetCanvas);
+          this.canvas.elt.parentElement.insertAfter(curOffscreen, targetOffscreen);
+
+          Layers.all.splice(idx, 1);
+          Layers.all.splice(idx+1, 0, this);
+        }
+      }
+      
+      /**
        * Uses frameCount to return the progress within a loop of the passed number of seconds
        * @param {*} seconds 
        * @returns 
@@ -25642,7 +25679,7 @@
      * Midifungi 🎹🍄
      * A p5js library that helps you organize your code into layers
      * ---
-     * @version 0.0.1
+     * @version 0.0.2
      * @license "Apache 2.0" with the addendum that you cannot use this or its output for NFTs without permission
      */
 
