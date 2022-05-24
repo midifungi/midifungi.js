@@ -7,7 +7,8 @@ export default defineClientConfig({
       await import('../../src/midifungi.js')
 
       if (mod.Element) {
-        new mod()
+        window._test = mod
+        // new mod()
       } else {
         new window.p5()
       }
