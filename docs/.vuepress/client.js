@@ -6,9 +6,8 @@ export default defineClientConfig({
       const mod = await import ('../../node_modules/p5/lib/p5.min.js')
       await import('../../src/midifungi.js')
 
-      if (mod.Element) {
-        window._test = mod
-        // new mod()
+      if (typeof mod.default === 'function') {
+        new mod.default()
       } else {
         new window.p5()
       }
