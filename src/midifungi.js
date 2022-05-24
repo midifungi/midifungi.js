@@ -9,10 +9,6 @@
 // Dependencies
 import '../node_modules/tweakpane/dist/tweakpane.js'
 import '../node_modules/@tweakpane/plugin-essentials/dist/tweakpane-plugin-essentials.js'
-import cloneDeep from '../node_modules/lodash-es/cloneDeep.js'
-import defaultsDeep from '../node_modules/lodash-es/defaultsDeep.js'
-import debounce from '../node_modules/lodash-es/debounce.js'
-import throttle from '../node_modules/lodash-es/throttle.js'
 
 // Midifungi
 import Layers from './layers/Layers.js'
@@ -20,14 +16,11 @@ import './helpers.js'
 import './layer/Layer.js'
 import p5Overrides from './p5-overrides.js'
 
-// UI
+// // UI
 import './tweakpane.theme.js'
 
-// Globals
-window.cloneDeep = cloneDeep
-window.defaultsDeep = defaultsDeep
-window.debounce = debounce
-window.throttle = throttle
+// These are being added from somewhere but I can't pin point it yet
+let _set, _get
 
 /**
  * Run Layers.generate callbacks
@@ -38,7 +31,16 @@ const onSetup = function () {
     return
   }
 
+  window.p5.disableFriendlyErrors = true
   Layers.init()
+
+  // Restore funky _get, _set
+  if (_get) {
+    window.get = _get
+  }
+  if (_set) {
+    window.set = _set
+  }
 
   window.params = Object.assign({
     fps: 30,
@@ -48,7 +50,7 @@ const onSetup = function () {
     // Width of canvas, centered
     width: 0,
     height: 0,
-  }, getURLParams())
+  }, window.getURLParams())
 
   // ccapture
   if (+params.record) {
@@ -163,6 +165,14 @@ function onReady () {
 
 if (window.p5) {
   window.p5.disableFriendlyErrors = true
+  if (window.get) {
+    _get = window.get
+    delete window.get
+  }
+  if (window.set) {
+    _set = window.set
+    delete window.set
+  }
 }
 
 if (/complete|interactive|loaded/.test(document.readyState)) {
