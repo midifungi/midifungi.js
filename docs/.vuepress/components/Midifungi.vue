@@ -11,29 +11,41 @@ export default {
     'height',
   ],
 
+  data() {
+    return {
+      loadedLayers: Array(this.layers.length).fill(null),
+      numLoadedLayers: 0,
+    }
+  },
+
   computed: {
     wrapHeight () {return (this.height || 450) + 'px'}
   },
 
   mounted () {
-    this.layers && this.layers.forEach(path => {
-      if (path[0] === '@') {
-        path = path.substr(1)
-      }
-      this.maybeLoadScript(path)
-    })
+    this.loadLayers()
   },
 
   methods: {
-    maybeLoadScript (path) {
+    loadLayers () {
+      const $this = this
+      $this.layers && $this.layers.forEach((path, i) => {
+        if (path[0] === '@') {
+          path = path.substr(1)
+        }
+        $this.maybeLoadScript(path, i)
+      })
+    },
+    
+    maybeLoadScript (path, i) {
       if (!window.Layers) {
-        setTimeout(() => this.maybeLoadScript(path), 0)
+        setTimeout(() => this.maybeLoadScript(path, i), 0)
       } else {
-        this.loadScript(path)
+        this.loadScript(path, i)
       }
     },
     
-    async loadScript (path) {
+    async loadScript (path, i) {
       // Unfortunately we have to split this out with vite
       // @see https://github.com/vitejs/vite/issues/4945#issuecomment-951770052
       const splitName = path.split('/')
@@ -55,7 +67,14 @@ export default {
       }
 
       Layers.target = this.$refs.target
-      sketch.default()
+      this.loadedLayers[i] = sketch
+      this.numLoadedLayers++
+
+      if (this.numLoadedLayers === this.layers.length) {
+        this.loadedLayers.forEach(sketch => {
+          sketch.default()
+        })
+      }
     }
   }
 }
