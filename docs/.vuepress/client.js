@@ -7,10 +7,9 @@ export default defineClientConfig({
       await import('../../src/midifungi.js')
 
       if (typeof mod.default === 'function') {
-        new mod.default()
-      } else {
-        new window.p5()
+        window.p5 = new mod.default
       }
+      new window.p5()
     }
   }
 })
