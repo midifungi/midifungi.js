@@ -1,6 +1,4 @@
 export default function () {
-console.log('loaded ripples')
-
 Layers.generate(() => {
   new Layer({
     id: 'ripples',

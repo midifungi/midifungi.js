@@ -1,6 +1,4 @@
 export default function () {
-console.log('loaded lillies')
-  
 // Devlog: https://midifungi.notion.site/Lily-Pads-6d00ef1fc4484fd08a2a986fde9ba98c
 Layers.generate(() => {
   // Number of points per lily pad

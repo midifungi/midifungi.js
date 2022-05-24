@@ -74,6 +74,7 @@ export default {
       this.loadedLayers[i] = sketch
       this.numLoadedLayers++
 
+      console.log(path, sketch.default)
       if (this.numLoadedLayers === this.layers.length) {
         this.loadedLayers.forEach(sketch => {
           sketch.default()
