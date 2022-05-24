@@ -11,6 +11,10 @@ export default {
     'height',
   ],
 
+  /**
+   * Create an empty array to hold the layer modules
+   * Once they are all loaded, we'll run them sequentially
+   */
   data() {
     return {
       loadedLayers: Array(this.layers.length).fill(null),
