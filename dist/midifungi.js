@@ -4,7 +4,7 @@
  * https://twitter.com/midifungi
  * https://github.com/midifungi/midifungi
  * ---
- * @version 0.0.2
+ * @version 0.0.3
  * @license "Apache 2.0"
  * ---
  * This file was bundled with Rollup
@@ -24243,7 +24243,7 @@
       methods: {},
 
       // About
-      version: '0.0.2',
+      version: '0.0.3',
       curId: 0,
 
       // Menus
@@ -25679,7 +25679,7 @@
      * Midifungi 🎹🍄
      * A p5js library that helps you organize your code into layers
      * ---
-     * @version 0.0.2
+     * @version 0.0.3
      * @license "Apache 2.0" with the addendum that you cannot use this or its output for NFTs without permission
      */
 
