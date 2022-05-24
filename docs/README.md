@@ -1,6 +1,10 @@
 # Midifungi - A layer-based p5.js framework with live editing and MIDI support 🎹🍄
 
-<Midifungi :layers="['@midifungi/001/sketch']" />
+:::warning 📅 Coming soon
+Midifungi is still in experimental mode. If you've found this site please keep the magic and secrets hidden within 🌈
+:::
+
+<Midifungi :layers="['@midifungi/001/lilies', '@midifungi/001/ripples']" height=600 />
 
 Midifungi is [p5.js](https://p5js.org/reference/) framework designed around the idea of creative coding in "layers of code" instead of "lines of code". You still sketch in a similar way, but instead of writing code into a single `draw()` you layer code across multiple draw loops each containing:
 - their own canvas and offscreen buffer

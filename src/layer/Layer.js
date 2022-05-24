@@ -77,13 +77,14 @@ class Layer {
 
     this.callSetup()
 
-    // Add a slight delay to filters to allow for faster render on load
+    // Add a slight delay to draw to allow other setups() to finish
+    // Add an extra delay to filters to allow for faster render on load
     if (this.type === 'filter' && !this.disabled) {
+      Layers.mergeLayers(this)
       setTimeout(() => {
-        Layers.mergeLayers(this)
         this.draw()
       }, 0)
-    } else {
+    } else if (!this.disabled) {
       this.draw()
     }
   }
@@ -279,6 +280,42 @@ class Layer {
     delete Layers[id]
   }
 
+  /**
+   * Moves the layer up/down within the stack
+   * @param {*} seconds 
+   * @returns 
+   */
+  moveDown () {
+    const idx = Layers.all.findIndex(layer => layer.id === this.id)
+    if (idx) {
+      const curCanvas = this.canvas.elt
+      const curOffscreen = this.offscreen.elt
+      const targetCanvas = Layers.all[idx-1].canvas.elt
+      const targetOffscreen = Layers.all[idx-1].offscreen.elt
+      
+      this.canvas.elt.parentElement.insertBefore(curCanvas, targetCanvas)
+      this.canvas.elt.parentElement.insertBefore(curOffscreen, targetOffscreen)
+      
+      Layers.all.splice(idx, 1)
+      Layers.all.splice(idx-1, 0, this)
+    }
+  }
+  moveUp () {
+    const idx = Layers.all.findIndex(layer => layer.id === this.id)
+    if (idx < Layers.all.length - 1) {
+      const curCanvas = this.canvas.elt
+      const curOffscreen = this.offscreen.elt
+      const targetCanvas = Layers.all[idx+1].canvas.elt
+      const targetOffscreen = Layers.all[idx+1].offscreen.elt
+
+      this.canvas.elt.parentElement.insertAfter(curCanvas, targetCanvas)
+      this.canvas.elt.parentElement.insertAfter(curOffscreen, targetOffscreen)
+
+      Layers.all.splice(idx, 1)
+      Layers.all.splice(idx+1, 0, this)
+    }
+  }
+  
   /**
    * Uses frameCount to return the progress within a loop of the passed number of seconds
    * @param {*} seconds 
