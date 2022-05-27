@@ -27,7 +27,7 @@ Layers.generate(() => {
       cells.forEach(cell => {
         const col = [...this.colors[2]]
         col[0] += random(-10, 10)
-        col[3] = random(.1, .5)
+        col[3] = random(.5, .8)
 
         $cells.push({
           fill: col
@@ -35,14 +35,18 @@ Layers.generate(() => {
       })
     },
 
+    afterGenerate () {
+      this.canvas.elt.style.visibility = 'hidden'
+    },
+
     draw () {
-      clear()
       // Hex width/height
       const hexW = cellSize
       const hexH = sqrt(3) * hexW/2
       const w = hexW * 3/4 * 2
       const h = hexH
-      
+
+      // Draw hexes
       stroke(0)
       strokeWeight($strokeWeight)
       push()

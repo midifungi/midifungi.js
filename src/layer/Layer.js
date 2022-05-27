@@ -132,6 +132,8 @@ class Layer {
       this.canvas.pixelDensity(this.pixelDensity)
       this.offscreen.pixelDensity(this.pixelDensity)
     }
+    this.canvas.elt.classList.add('midifungi-layer', `midifungi-layer-${this.id}`)
+    this.offscreen.elt.classList.add('midifungi-offscreen', `midifungi-layer-${this.id}`)
 
     // Setup the target to receive the canvases
     if (this.target && !this._hasMovedTarget) {
