@@ -169,6 +169,16 @@ class Layer {
     this.beforeGenerate && this.beforeGenerate()
     this.restoreGlobalContext()
 
+    // Setup
+    if (this.setup && !this._hasSetContextOnSetup) {
+      this._hasSetContextOnSetup = true
+      const _setup = this.setup
+      this.setup = function () {
+        this.useGlobalContext()
+        _setup.call(this, this.canvas, this.offscreen)
+        this.restoreGlobalContext()
+      }
+    }
     callSetup && this.callSetup()
     
     this.useGlobalContext()
@@ -182,9 +192,7 @@ class Layer {
    */
   callSetup () {
     // Call the setup
-    this.useGlobalContext()
     this.setup && this.setup.call(this, this.offscreen)
-    this.restoreGlobalContext()
 
     // Call the Layers setup hook
     Layers.setup && Layers.setup.call(this, this.offscreen)
@@ -219,7 +227,7 @@ class Layer {
         this.canvas.elt.style.left = `${this.x}px`
         this.canvas.elt.style.top = `${this.y}px`
       }
-      
+
       // Draw
       this.useGlobalContext()
       this.opts.draw && this.opts.draw.call(this, this.offscreen)

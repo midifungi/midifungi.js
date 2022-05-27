@@ -44,9 +44,7 @@ export default {
                 max: menu.max,
                 step: menu.step
               }).on('change', ev => {
-                this.useGlobalContext()
                 menu.onChange.call(this, ev)
-                this.restoreGlobalContext()
                 maybeBindControlToLayer()
               })
               .on('click', ev => {
