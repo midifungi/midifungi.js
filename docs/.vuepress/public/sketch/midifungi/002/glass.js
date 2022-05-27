@@ -1,5 +1,6 @@
 export default function () {
 let defaultColorRange = 10
+let defaultColorOffset = Layers.default.colors[2][0]
   
 Layers.generate(() => {
   const cellSize = minSize * .07
@@ -10,24 +11,32 @@ Layers.generate(() => {
     [0, -4], [1, -3], [2, -2], [2, 0], [2, 2], [1, 3], [0, 4], [-1, 3], [-2, 2], [-2, 0], [-2, -2], [-1, -3],
   ]
 
+  // Common between value
+  const onChange = function (ev) {
+    if (ev.presetKey === 'colorRange') {
+      Layers.glass.menu.colorRange.default = ev.value
+    } else if (ev.presetKey === 'colorOffset') {
+      Layers.glass.menu.colorOffset.default = ev.value
+    }
+    
+    this.setup()
+    this.draw()
+    Layers.filter.store.canvas.setBackground(this.canvas.elt)
+  }
+  
   new Layer({
     id: 'glass',
     noLoop: true,
 
     menu: {
+      colorOffset: {min: 0, max: 360, default: defaultColorOffset, onChange},
       colorRange: {
         min: 0,
         max: 360,
         default: defaultColorRange,
-        onChange: function (ev) {
-          Layers.glass.menu.colorRange.default = ev.value
-          
-          this.setup()
-          this.draw()
-          Layers.filter.store.canvas.setBackground(this.canvas.elt)
-        },
+        onChange,
       },
-      strokeWeight: {min: 1, max: minSize * .025, step: 1},
+      strokeWeight: {min: 1, max: minSize * .025},
     },
 
     store: {
@@ -39,7 +48,7 @@ Layers.generate(() => {
       
       cells.forEach(cell => {
         const col = [...this.colors[2]]
-        col[0] += random(-$colorRange, $colorRange)
+        col[0] = wrap($colorOffset + random(-$colorRange, $colorRange), 0, 359)
         col[3] = random(.5, .8)
 
         $cells.push({

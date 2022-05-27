@@ -231,14 +231,12 @@ export default {
           menu.onChange = function () {this.draw()}
         }
         
-        if ('step' in menu) {
-          if (menu.step) {
-            menu.step = menu.step
-          } else if (menu.step > 1) {
-            menu.step = 1
-          } else {
-            menu.step = 0.001
-          }
+        if (menu.step) {
+          menu.step = menu.step
+        } else if (menu.step > 1) {
+          menu.step = 1
+        } else {
+          menu.step = 0.001
         }
 
         // Add the item to the store if it doesn't exist
