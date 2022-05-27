@@ -228,7 +228,9 @@ export default {
           type: 'slider',
         })
         if (!menu.onChange) {
-          menu.onChange = function () {this.draw()}
+          menu.onChange = function () {
+            this.noLoop && this.draw()
+          }
         }
         
         if (menu.step) {

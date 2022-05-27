@@ -10,11 +10,10 @@ const Star = class {
     this.y = random(-height, height)
     this.z = random(width)
     this.lastZ = this.z
-    this.speed = 1
   }
 
   update () {
-    this.z -= this.speed
+    this.z -= Layers.starfield.store.speed
     if (this.z < 1) {
       this.x = random(-width/2, width/2)
       this.y = random(-height/2, height/2)
@@ -46,7 +45,8 @@ Layers.generate(() => {
     id: 'starfield',
 
     menu: {
-      numStars: {min: 400, max: 1200, step: 1, onChange () {this.generate()}},
+      numStars: {min: 100, max: 2000, step: 1, onChange () {this.setup()}},
+      speed: {min: 0, max: 50}
     },
     
     store: {
@@ -54,7 +54,7 @@ Layers.generate(() => {
     },
 
     setup () {
-      this.store.stars = []
+      $stars = []
       for (let i = 0; i < $numStars; i++) {
         $stars.push(new Star())
       }

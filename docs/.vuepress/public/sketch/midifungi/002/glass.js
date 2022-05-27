@@ -20,13 +20,13 @@ Layers.generate(() => {
     }
     
     this.setup()
-    this.draw()
+    // this.draw()
     Layers.filter.store.canvas.setBackground(this.canvas.elt)
   }
   
   new Layer({
     id: 'glass',
-    noLoop: true,
+    // noLoop: true,
 
     menu: {
       colorOffset: {min: 0, max: 360, default: defaultColorOffset, onChange},
@@ -61,7 +61,7 @@ Layers.generate(() => {
       this.canvas.elt.style.visibility = 'hidden'
     },
 
-    draw () {
+    draw (offscreen) {
       // Hex width/height
       const hexW = cellSize
       const hexH = sqrt(3) * hexW/2
