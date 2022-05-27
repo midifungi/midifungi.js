@@ -235,7 +235,7 @@ export default {
         
         if (menu.step) {
           menu.step = menu.step
-        } else if (menu.step > 1) {
+        } else if (menu.max > 1) {
           menu.step = 1
         } else {
           menu.step = 0.001

@@ -21,7 +21,7 @@ Midifungi is [p5.js](https://p5js.org/reference/) framework designed around the 
 <!-- First add p5.js -->
 <script src="https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/p5.js"></script>
 <!-- Then add midifungi.js -->
-<script src="https://unpkg.com/midifungi@0.0.9/dist/midifungi.js"></script>
+<script src="https://unpkg.com/midifungi@0.0.10/dist/midifungi.js"></script>
 ```
 
 ### Or import from NPM

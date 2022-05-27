@@ -4,7 +4,7 @@
  * https://twitter.com/midifungi
  * https://github.com/midifungi/midifungi
  * ---
- * @version 0.0.9
+ * @version 0.0.10
  * @license "Apache 2.0"
  * ---
  * This file was bundled with Rollup
@@ -21465,7 +21465,7 @@
       methods: {},
 
       // About
-      version: '0.0.9',
+      version: '0.0.10',
       curId: 0,
 
       // Menus
@@ -21740,11 +21740,12 @@
               const prop = layer.menu[binding.prop];
 
               if (prop.step) {
-                Layers[key].store[binding.prop] = stepRound(map(control.data[2]/127, prop.min, prop.max, 0, 1), prop.step, prop.min);
+                Layers[key].store[binding.prop] = stepRound(map(control.data[2]/127, 0, 1, prop.min, prop.max), prop.step, prop.min);
               } else {
-                Layers[key].store[binding.prop] = map(control.data[2]/127, prop.min, prop.max, 0, 1);
+                Layers[key].store[binding.prop] = map(control.data[2]/127, 0, 1, prop.min, prop.max);
               }
-              Layers[key].throttledDraw();
+              Layers[key].noLoop && Layers[key].throttledDraw();
+              prop.onChange && prop.onChange.call(layer, Layers[key].store[binding.prop]);
               Layers[key].$menu?.refresh();
             }
           });
@@ -25061,9 +25062,7 @@
                     max: menu.max,
                     step: menu.step
                   }).on('change', ev => {
-                    this.useGlobalContext();
                     menu.onChange.call(this, ev);
-                    this.restoreGlobalContext();
                     maybeBindControlToLayer();
                   })
                   .on('click', ev => {
@@ -25247,17 +25246,17 @@
               type: 'slider',
             });
             if (!menu.onChange) {
-              menu.onChange = function () {this.draw();};
+              menu.onChange = function () {
+                this.noLoop && this.draw();
+              };
             }
             
-            if ('step' in menu) {
-              if (menu.step) {
-                menu.step = menu.step;
-              } else if (menu.step > 1) {
-                menu.step = 1;
-              } else {
-                menu.step = 0.001;
-              }
+            if (menu.step) {
+              menu.step = menu.step;
+            } else if (menu.max > 1) {
+              menu.step = 1;
+            } else {
+              menu.step = 0.001;
             }
 
             // Add the item to the store if it doesn't exist
@@ -25491,6 +25490,16 @@
         this.beforeGenerate && this.beforeGenerate();
         this.restoreGlobalContext();
 
+        // Setup
+        if (this.setup && !this._hasSetContextOnSetup) {
+          this._hasSetContextOnSetup = true;
+          const _setup = this.setup;
+          this.setup = function () {
+            this.useGlobalContext();
+            _setup.call(this, this.canvas, this.offscreen);
+            this.restoreGlobalContext();
+          };
+        }
         callSetup && this.callSetup();
         
         this.useGlobalContext();
@@ -25504,9 +25513,7 @@
        */
       callSetup () {
         // Call the setup
-        this.useGlobalContext();
         this.setup && this.setup.call(this, this.offscreen);
-        this.restoreGlobalContext();
 
         // Call the Layers setup hook
         Layers.setup && Layers.setup.call(this, this.offscreen);
@@ -25541,7 +25548,7 @@
             this.canvas.elt.style.left = `${this.x}px`;
             this.canvas.elt.style.top = `${this.y}px`;
           }
-          
+
           // Draw
           this.useGlobalContext();
           this.opts.draw && this.opts.draw.call(this, this.offscreen);
@@ -25726,7 +25733,7 @@
      * Midifungi 🎹🍄
      * A p5js library that helps you organize your code into layers
      * ---
-     * @version 0.0.9
+     * @version 0.0.10
      * @license "Apache 2.0" with the addendum that you cannot use this or its output for NFTs without permission
      */
 
