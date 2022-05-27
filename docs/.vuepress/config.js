@@ -64,9 +64,13 @@ module.exports = {
         collapsible: true,
         children: [
           {
-            text: 'Midifungi - 001 - Sillily pads',
+            text: '001 - Sillily pads',
             link: '/sketches/midifungi/001.html'
-          }
+          },
+          {
+            text: '002 - Stained View',
+            link: '/sketches/midifungi/002.html'
+          },
         ]
       },
       {

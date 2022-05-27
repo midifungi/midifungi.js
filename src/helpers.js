@@ -36,3 +36,18 @@ window.getProgress = function (seconds = 7) {
 window.stepRound = function (number, increment, offset) {
   return Math.ceil((number - offset) / increment ) * increment + offset;
 }
+
+/**
+ * Polygons
+ * @see https://p5js.org/examples/form-regular-polygon.html
+ */
+window.polygon = function (x, y, radius, npoints) {
+  const angle = TWO_PI / npoints
+  beginShape()
+  for (let a = 0; a < TWO_PI; a += angle) {
+    const sx = x + cos(a) * radius
+    const sy = y + sin(a) * radius
+    vertex(sx, sy)
+  }
+  endShape(CLOSE)
+}
