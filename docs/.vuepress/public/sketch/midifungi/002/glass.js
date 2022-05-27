@@ -1,4 +1,5 @@
 export default function () {
+let defaultColorRange = 10
   
 Layers.generate(() => {
   const cellSize = minSize * .07
@@ -14,7 +15,19 @@ Layers.generate(() => {
     noLoop: true,
 
     menu: {
-      strokeWeight: {min: 1, max: minSize * .025, step: 1}
+      colorRange: {
+        min: 0,
+        max: 360,
+        default: defaultColorRange,
+        onChange: function (ev) {
+          Layers.glass.menu.colorRange.default = ev.value
+          
+          this.setup()
+          this.draw()
+          Layers.filter.store.canvas.setBackground(this.canvas.elt)
+        },
+      },
+      strokeWeight: {min: 1, max: minSize * .025, step: 1},
     },
 
     store: {
@@ -26,7 +39,7 @@ Layers.generate(() => {
       
       cells.forEach(cell => {
         const col = [...this.colors[2]]
-        col[0] += random(-10, 10)
+        col[0] += random(-$colorRange, $colorRange)
         col[3] = random(.5, .8)
 
         $cells.push({
@@ -47,8 +60,8 @@ Layers.generate(() => {
       const h = hexH
 
       // Draw hexes
-      stroke(0)
-      strokeWeight($strokeWeight)
+      clear()
+      noStroke()
       push()
       translate(width/2, height/2)
       cells.forEach((cell, n) => {

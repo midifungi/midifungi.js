@@ -29,6 +29,9 @@ export default {
   mounted () {
     this.loadLayers()
   },
+  beforeUnmount () {
+    Layers.dispose()
+  },
 
   methods: {
     loadLayers () {

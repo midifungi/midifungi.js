@@ -25,6 +25,8 @@ export default window.Layers = {
   
   // The original renderer/canvas context before any layers
   _context: {},
+  // The current layer using global context
+  _globalContextLayer: null,
 
   default: {
     // @see Shades of Purple theme: 

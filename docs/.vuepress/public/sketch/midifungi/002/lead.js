@@ -13,6 +13,8 @@ Layers.generate(() => {
 
   opts.id = 'lead'
   opts.store = Layers.glass.store
+  opts.menuDisabled = true
+  opts.noLoop = false
   delete opts.afterGenerate
 
   opts.draw = function () {

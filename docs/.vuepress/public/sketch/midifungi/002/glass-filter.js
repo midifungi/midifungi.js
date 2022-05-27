@@ -5,10 +5,16 @@ let $waterCanvas
 Layers.generate(() => {
   new Layer({
     id: 'filter',
+    menuDisabled: true,
 
     store: {
       model: null,
       canvas: null
+    },
+
+    onDispose () {
+      delete this.store.model
+      delete this.store.canvas
     },
     
     setup () {

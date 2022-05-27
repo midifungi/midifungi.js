@@ -44,7 +44,9 @@ export default {
                 max: menu.max,
                 step: menu.step
               }).on('change', ev => {
+                this.useGlobalContext()
                 menu.onChange.call(this, ev)
+                this.restoreGlobalContext()
                 maybeBindControlToLayer()
               })
               .on('click', ev => {
@@ -226,9 +228,20 @@ export default {
           min: menu.min || 0,
           max: menu.max || 1,
           type: 'slider',
-          onChange: function () {this.draw()}
         })
-        menu.step = ('step' in menu) ? menu.step : 0.001
+        if (!menu.onChange) {
+          menu.onChange = function () {this.draw()}
+        }
+        
+        if ('step' in menu) {
+          if (menu.step) {
+            menu.step = menu.step
+          } else if (menu.step > 1) {
+            menu.step = 1
+          } else {
+            menu.step = 0.001
+          }
+        }
 
         // Add the item to the store if it doesn't exist
         if (!(key in this.store)) {

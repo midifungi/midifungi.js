@@ -16,6 +16,7 @@ class Layer {
 
     // Last moved target
     this._hasMovedTarget = null
+    this.requestAnimationFrameID = null
     
     // Defaults
     this.opts = window.defaultsDeep(opts, {
@@ -45,6 +46,8 @@ class Layer {
       // Listeners
       onClick: null,
       beforeGenerate: null,
+      afterGenerate: null,
+      onDispose: null,
       
       // Custom methods
       methods: {},
@@ -107,6 +110,7 @@ class Layer {
     if (!this.colorMode) this.colorMode = this.opts.colorMode
     if (!this.beforeGenerate) this.beforeGenerate = this.opts.beforeGenerate
     if (!this.afterGenerate) this.afterGenerate = this.opts.afterGenerate
+    if (!this.onDispose) this.onDispose = this.opts.onDispose
     if (!this.setup) this.setup = this.opts.setup
     if (!this.type) this.type = this.opts.type
     if (!this.noLoop) this.noLoop = this.opts.noLoop
@@ -226,7 +230,7 @@ class Layer {
     }
 
     // Loop drawing
-    requestAnimationFrame(() => !Layers.noLoop && !this.noLoop && this.draw())
+    this.requestAnimationFrameID = requestAnimationFrame(() => !Layers.noLoop && !this.noLoop && this.draw())
   }
 
   /**
@@ -234,6 +238,9 @@ class Layer {
    * (eg rect, circle, etc without having to type canvas.rect())
    */
   useGlobalContext () {
+    if (Layers._globalContextLayer === this.id) return
+    Layers._globalContextLayer = this.id
+
     this._context = {}
     this._storeContext = {}
     p5Overrides.forEach(key => {
@@ -258,6 +265,8 @@ class Layer {
     })
   }
   restoreGlobalContext () {
+    Layers._globalContextLayer = null
+
     p5Overrides.forEach(key => {
       window[key] = this._context[key]
     })
@@ -273,6 +282,9 @@ class Layer {
    * Free memory and delete reference from Layers
    */
   dispose () {
+    window.cancelAnimationFrame(this.requestAnimationFrameID)
+    this.requestAnimationFrameID = null
+    this.onDispose && this.onDispose()
     this.canvas.remove()
     this.offscreen.remove()
 
