@@ -4,7 +4,7 @@
  * https://twitter.com/midifungi
  * https://github.com/midifungi/midifungi
  * ---
- * @version 0.0.7
+ * @version 0.0.9
  * @license "Apache 2.0"
  * ---
  * This file was bundled with Rollup
@@ -21450,6 +21450,8 @@
       
       // The original renderer/canvas context before any layers
       _context: {},
+      // The current layer using global context
+      _globalContextLayer: null,
 
       default: {
         // @see Shades of Purple theme: 
@@ -21463,7 +21465,7 @@
       methods: {},
 
       // About
-      version: '0.0.7',
+      version: '0.0.9',
       curId: 0,
 
       // Menus
@@ -25000,15 +25002,17 @@
      * Polygons
      * @see https://p5js.org/examples/form-regular-polygon.html
      */
-    window.polygon = function (x, y, radius, npoints) {
+    window.polygon = function (x, y, radius, npoints, canv) {
+      if (!canv) canv = window;
+      
       const angle = TWO_PI / npoints;
-      beginShape();
+      canv.beginShape();
       for (let a = 0; a < TWO_PI; a += angle) {
         const sx = x + cos(a) * radius;
         const sy = y + sin(a) * radius;
-        vertex(sx, sy);
+        canv.vertex(sx, sy);
       }
-      endShape(CLOSE);
+      canv.endShape(CLOSE);
     };
 
     /**
@@ -25057,7 +25061,9 @@
                     max: menu.max,
                     step: menu.step
                   }).on('change', ev => {
+                    this.useGlobalContext();
                     menu.onChange.call(this, ev);
+                    this.restoreGlobalContext();
                     maybeBindControlToLayer();
                   })
                   .on('click', ev => {
@@ -25239,9 +25245,20 @@
               min: menu.min || 0,
               max: menu.max || 1,
               type: 'slider',
-              onChange: function () {this.draw();}
             });
-            menu.step = ('step' in menu) ? menu.step : 0.001;
+            if (!menu.onChange) {
+              menu.onChange = function () {this.draw();};
+            }
+            
+            if ('step' in menu) {
+              if (menu.step) {
+                menu.step = menu.step;
+              } else if (menu.step > 1) {
+                menu.step = 1;
+              } else {
+                menu.step = 0.001;
+              }
+            }
 
             // Add the item to the store if it doesn't exist
             if (!(key in this.store)) {
@@ -25321,6 +25338,7 @@
 
         // Last moved target
         this._hasMovedTarget = null;
+        this.requestAnimationFrameID = null;
         
         // Defaults
         this.opts = window.defaultsDeep(opts, {
@@ -25350,6 +25368,8 @@
           // Listeners
           onClick: null,
           beforeGenerate: null,
+          afterGenerate: null,
+          onDispose: null,
           
           // Custom methods
           methods: {},
@@ -25412,6 +25432,7 @@
         if (!this.colorMode) this.colorMode = this.opts.colorMode;
         if (!this.beforeGenerate) this.beforeGenerate = this.opts.beforeGenerate;
         if (!this.afterGenerate) this.afterGenerate = this.opts.afterGenerate;
+        if (!this.onDispose) this.onDispose = this.opts.onDispose;
         if (!this.setup) this.setup = this.opts.setup;
         if (!this.type) this.type = this.opts.type;
         if (!this.noLoop) this.noLoop = this.opts.noLoop;
@@ -25437,6 +25458,8 @@
           this.canvas.pixelDensity(this.pixelDensity);
           this.offscreen.pixelDensity(this.pixelDensity);
         }
+        this.canvas.elt.classList.add('midifungi-layer', `midifungi-layer-${this.id}`);
+        this.offscreen.elt.classList.add('midifungi-offscreen', `midifungi-layer-${this.id}`);
 
         // Setup the target to receive the canvases
         if (this.target && !this._hasMovedTarget) {
@@ -25529,7 +25552,7 @@
         }
 
         // Loop drawing
-        requestAnimationFrame(() => !Layers.noLoop && !this.noLoop && this.draw());
+        this.requestAnimationFrameID = requestAnimationFrame(() => !Layers.noLoop && !this.noLoop && this.draw());
       }
 
       /**
@@ -25537,6 +25560,9 @@
        * (eg rect, circle, etc without having to type canvas.rect())
        */
       useGlobalContext () {
+        if (Layers._globalContextLayer === this.id) return
+        Layers._globalContextLayer = this.id;
+
         this._context = {};
         this._storeContext = {};
         p5Overrides.forEach(key => {
@@ -25561,6 +25587,8 @@
         });
       }
       restoreGlobalContext () {
+        Layers._globalContextLayer = null;
+
         p5Overrides.forEach(key => {
           window[key] = this._context[key];
         });
@@ -25576,6 +25604,9 @@
        * Free memory and delete reference from Layers
        */
       dispose () {
+        window.cancelAnimationFrame(this.requestAnimationFrameID);
+        this.requestAnimationFrameID = null;
+        this.onDispose && this.onDispose();
         this.canvas.remove();
         this.offscreen.remove();
 
@@ -25677,6 +25708,7 @@
  
  body .tp-dfwv {
    min-width: 300px;
+   z-index: 999999999999;
  }
  /* Input and monitor view */
  body .tp-lblv_v {
@@ -25694,7 +25726,7 @@
      * Midifungi 🎹🍄
      * A p5js library that helps you organize your code into layers
      * ---
-     * @version 0.0.7
+     * @version 0.0.9
      * @license "Apache 2.0" with the addendum that you cannot use this or its output for NFTs without permission
      */
 
