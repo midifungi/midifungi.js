@@ -4,7 +4,7 @@
  * https://twitter.com/midifungi
  * https://github.com/midifungi/midifungi
  * ---
- * @version 0.0.6
+ * @version 0.0.7
  * @license "Apache 2.0"
  * ---
  * This file was bundled with Rollup
@@ -21463,7 +21463,7 @@
       methods: {},
 
       // About
-      version: '0.0.6',
+      version: '0.0.7',
       curId: 0,
 
       // Menus
@@ -24997,6 +24997,21 @@
     };
 
     /**
+     * Polygons
+     * @see https://p5js.org/examples/form-regular-polygon.html
+     */
+    window.polygon = function (x, y, radius, npoints) {
+      const angle = TWO_PI / npoints;
+      beginShape();
+      for (let a = 0; a < TWO_PI; a += angle) {
+        const sx = x + cos(a) * radius;
+        const sy = y + sin(a) * radius;
+        vertex(sx, sy);
+      }
+      endShape(CLOSE);
+    };
+
+    /**
      * Shows the context menu for the Moar
      */
     var contextMenu = {
@@ -25679,7 +25694,7 @@
      * Midifungi 🎹🍄
      * A p5js library that helps you organize your code into layers
      * ---
-     * @version 0.0.6
+     * @version 0.0.7
      * @license "Apache 2.0" with the addendum that you cannot use this or its output for NFTs without permission
      */
 
