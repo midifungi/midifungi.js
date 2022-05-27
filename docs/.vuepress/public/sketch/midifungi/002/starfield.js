@@ -10,7 +10,7 @@ const Star = class {
     this.y = random(-height, height)
     this.z = random(width)
     this.lastZ = this.z
-    this.speed = 10
+    this.speed = 1
   }
 
   update () {
@@ -58,7 +58,6 @@ Layers.generate(() => {
       for (let i = 0; i < $numStars; i++) {
         $stars.push(new Star())
       }
-      console.log($stars.length)
     },
 
     draw () {

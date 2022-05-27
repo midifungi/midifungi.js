@@ -29,6 +29,7 @@
  
  body .tp-dfwv {
    min-width: 300px;
+   z-index: 999999999999;
  }
  /* Input and monitor view */
  body .tp-lblv_v {

@@ -27,7 +27,7 @@ Layers.generate(() => {
       cells.forEach(cell => {
         const col = [...this.colors[2]]
         col[0] += random(-10, 10)
-        col[3] = random(.5, 1)
+        col[3] = random(.1, .5)
 
         $cells.push({
           fill: col

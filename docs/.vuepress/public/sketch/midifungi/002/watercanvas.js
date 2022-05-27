@@ -119,22 +119,28 @@ WaterCanvas.prototype.setBackground = function(backgroundImageUrl){
 	this.pixelsIn = null;
 	
 	if(this.backgroundImageUrl!=null){
-	
-		// Background image loading
-		this.backgroundImg = new Image();  
-		
-		var self = this; 	
-		this.backgroundImg.onload = function(){  
-			self.ctxHelp.drawImage(self.backgroundImg, 0, 0, self.width, self.height); 
+		// Image vs canvas
+		if (typeof this.backgroundImageUrl === 'string') {
+			// Background image loading
+			this.backgroundImg = new Image();  
 			
-			// Get the canvas pixel data
-			var imgDataIn = self.ctxHelp.getImageData(0, 0, self.width, self.height);
-			self.pixelsIn = imgDataIn.data;
-			
-			// Also paint it on the output canvas
-			self.ctx.putImageData(imgDataIn, 0, 0);
+			var self = this; 	
+			this.backgroundImg.onload = function(){  
+				self.ctxHelp.drawImage(self.backgroundImg, 0, 0, self.width, self.height); 
+				
+				// Get the canvas pixel data
+				var imgDataIn = self.ctxHelp.getImageData(0, 0, self.width, self.height);
+				self.pixelsIn = imgDataIn.data;
+				
+				// Also paint it on the output canvas
+				self.ctx.putImageData(imgDataIn, 0, 0);
+			}
+			this.backgroundImg.src = this.backgroundImageUrl;
+		} else {
+			this.ctx.clearRect(0, 0, this.width, this.height)
+			this.ctx.drawImage(this.backgroundImageUrl, 0, 0)
+			this.pixelsIn = this.ctx.getImageData(0, 0, this.width, this.height).data
 		}
-		this.backgroundImg.src = this.backgroundImageUrl;
 		
 	} else {
 	
@@ -192,7 +198,8 @@ WaterCanvas.prototype.drawNextFrame = function(){
 	// https://developer.mozilla.org/en/HTML/Canvas/Pixel_manipulation_with_canvas
 	var imgDataOut = this.ctx.getImageData(0, 0, this.width, this.height);
 	var pixelsOut = imgDataOut.data;
-	for (var i = 0; n = pixelsOut.length, i < n; i += 4) {
+	let n = pixelsOut.length
+	for (var i = 0; i < n; i += 4) {
 		var pixel = i/4;
 		var x = pixel % this.width;
 		var y = (pixel-x) / this.width;
@@ -218,7 +225,7 @@ WaterCanvas.prototype.drawNextFrame = function(){
 		var red 	= this.pixelsIn[iPix  ];
 		var green 	= this.pixelsIn[iPix+1];
 		var blue 	= this.pixelsIn[iPix+2];
-		
+		var alpha = this.pixelsIn[iPix+3]
 		
 		// Set the pixel to output
 		strength *= this.lightReflection;
@@ -227,7 +234,10 @@ WaterCanvas.prototype.drawNextFrame = function(){
 		pixelsOut[i  ] = red *= strength;
 		pixelsOut[i+1] = green *= strength;
 		pixelsOut[i+2] = blue *= strength;
-		pixelsOut[i+3] = 255; // alpha 
+		pixelsOut[i+3] = alpha *= strength
+		// pixelsOut[i+3] = 255; // alpha 
+
+		n = pixelsOut.length
 	}
 
 	this.ctx.putImageData(imgDataOut, 0,0);
@@ -391,12 +401,12 @@ window.WaterModel = function(width, height, props) {
  * @returns A float value representing the hight of the water.
  */
 WaterModel.prototype.getWater = function(x, y){
-	xTrans = x/this.resolution;
-	yTrans = y/this.resolution;
+	let xTrans = x/this.resolution;
+	let yTrans = y/this.resolution;
 
 	if(!this.interpolate || this.resolution==1.0){
-		xF = Math.floor(xTrans); 
-		yF = Math.floor(yTrans);	
+		let xF = Math.floor(xTrans); 
+		let yF = Math.floor(yTrans);	
 
 		if(xF>this.width-1 || yF>this.height-1)
 			return 0.0;
@@ -406,10 +416,10 @@ WaterModel.prototype.getWater = function(x, y){
 	
 	
 	// Else use Bilinear Interpolation
-	xF = Math.floor(xTrans); 
-	yF = Math.floor(yTrans);
-	xC = Math.ceil(xTrans); 
-	yC = Math.ceil(yTrans);	
+	let xF = Math.floor(xTrans); 
+	let yF = Math.floor(yTrans);
+	let xC = Math.ceil(xTrans); 
+	let yC = Math.ceil(yTrans);	
 
 	if(xC>this.width-1 || yC>this.height-1)
 		return 0.0;
@@ -673,7 +683,7 @@ RainMaker.prototype.setRainMaxPressure = function(rainMaxPressure){
  * Enables mouse interactivity by adding event listeners to the given documentElement and
  * using the mouse coordinates to 'touch' the water.
  */
-function enableMouseInteraction(waterModel, documentElement){		
+window.enableMouseInteraction = function (waterModel, documentElement){		
 	var mouseDown = false;
 	
 	var canvasHolder = document.getElementById(documentElement);
@@ -700,12 +710,12 @@ function enableMouseInteraction(waterModel, documentElement){
 /**
  * Creates a canvas with a radial gradient from white in the center to black on the outside.
  */
-function createRadialCanvas(width, height){
+window.createRadialCanvas = function (width, height){
 	// Create a canvas
 	var pointerCanvas = document.createElement('canvas');  
 	pointerCanvas.setAttribute('width', width);  
 	pointerCanvas.setAttribute('height', height);  
-	pointerCtx = pointerCanvas.getContext('2d'); 
+	window.pointerCtx = pointerCanvas.getContext('2d'); 
 	
 	// Create a drawing on the canvas
 	var radgrad = pointerCtx.createRadialGradient(width/2,height/2,0,  width/2,height/2,height/2);
@@ -729,7 +739,7 @@ function createRadialCanvas(width, height){
  * 		[0.5, 1.0, 0.5]
  * 	];
  */
-function create2DArray(canvas){
+window.create2DArray = function (canvas){
 	var width = canvas.width;
 	var height = canvas.height;
 
@@ -747,7 +757,8 @@ function create2DArray(canvas){
 	var imgData = pointerCtx.getImageData(0, 0, width, height);
 	var pixels = imgData.data;	
 
-	for (var i = 0; n = pixels.length, i < n; i += 4) {				
+	let n = pixels.length
+	for (var i = 0; i < n; i += 4) {				
 		// Get the pixel from input
 		var pixVal 	= pixels[i];// only use red
 		var arrVal = pixVal/255.0;
