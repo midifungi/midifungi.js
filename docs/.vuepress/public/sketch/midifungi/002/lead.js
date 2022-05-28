@@ -1,4 +1,7 @@
 export default function () {
+/**
+* This layer adds the black wireframe that holds the glass together
+*/
 Layers.generate(() => {
   const cellSize = minSize * .07
   // Position of cells
@@ -10,13 +13,13 @@ Layers.generate(() => {
   
   // Update draw to use noFill
   const opts = cloneDeep(Layers.glass.opts)
-
+  
   opts.id = 'lead'
   opts.store = Layers.glass.store
   opts.menuDisabled = true
   opts.noLoop = false
   delete opts.afterGenerate
-
+  
   opts.draw = function () {
     clear()
     // Hex width/height
@@ -37,6 +40,6 @@ Layers.generate(() => {
   }
   
   const lead = new Layer(opts)
-  lead.canvas.elt.style.zIndex = 100
+  lead.canvas.elt.style.zIndex = 2
 })
 }

@@ -191,8 +191,7 @@ WaterCanvas.prototype.drawNextFrame = function(){
 		// Nothing else to do for now
 		return;
 	}
-
-			
+	
 	// Make the canvas give us a CanvasDataArray. 
 	// Creating an array ourselves is slow!!!
 	// https://developer.mozilla.org/en/HTML/Canvas/Pixel_manipulation_with_canvas
@@ -247,7 +246,6 @@ WaterCanvas.prototype.drawNextFrame = function(){
 	if(this.showStats){
 		this.fpsCounter++;
 		
-	
 		this.ctx.textBaseline = "top";
 		this.ctx.font = 'normal 200 10px arial';
 		

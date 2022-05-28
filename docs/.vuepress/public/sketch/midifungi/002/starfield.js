@@ -1,10 +1,24 @@
 export default function () {
+/*
+"Billions and Billions"
+---
+Twinkle twinkling
+Up above a world so high
+Leaving past behind
+---
+Sketched for @sableRaph's Weekly Creative Coding Challenge: https://openprocessing.org/curation/78544
+Devlog: https://midifungi.notion.site/Stained-Glass-0e8c133187c14f50bca886f5d2808656
+Made with Midifungi.js
+*/  
+
+
+
 /**
- * Star
+ * Star class adapted from Code Train:
  * @see https://youtu.be/17WoOqgXsRM
  * @see https://editor.p5js.org/codingtrain/sketches/1wLHIck3T
  */
-const Star = class {
+ const Star = class {
   constructor () {
     this.x = random(-width, width)
     this.y = random(-height, height)
@@ -40,6 +54,9 @@ const Star = class {
   }
 }
 
+/**
+ * Starfield layer
+ */
 Layers.generate(() => {
   new Layer({
     id: 'starfield',

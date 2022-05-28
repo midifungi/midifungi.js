@@ -68,7 +68,7 @@ module.exports = {
             link: '/sketches/midifungi/001.html'
           },
           {
-            text: '002 - Stained View',
+            text: '002 - Billions and Billions',
             link: '/sketches/midifungi/002.html'
           },
         ]
