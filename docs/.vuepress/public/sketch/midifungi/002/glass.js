@@ -6,8 +6,8 @@ let defaultColorRange = 10
 let defaultColorOffset = Layers.default.colors[2][0]
 
 Layers.generate(() => {
-  // @fixme minSize not working properly
-  const cellSize = min(width, height, 400) / 16 * 1.3
+  // 1.3 is a magic number
+  const cellSize = min(minSize/16, 400/12) * 1.3
 
   // Position of cells
   // @see https://www.redblobgames.com/grids/hexagons/#size-and-spacing
@@ -38,6 +38,7 @@ Layers.generate(() => {
   new Layer({
     id: 'glass',
     noLoop: true,
+    menuDisabled: true,
     
     menu: {
       colorOffset: {min: 0, max: 360, default: defaultColorOffset, onChange},
@@ -91,7 +92,7 @@ Layers.generate(() => {
       // @see Layers.filter
       cells.forEach((cell, n) => {
         fill($cells[n].fill)
-        polygon(cell[0]*w, cell[1]*h, cellSize, 6)
+        polygon(cell[0]*w, cell[1]*h, ceil(cellSize), 6)
       })
       // background(255)
       pop()

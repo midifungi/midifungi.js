@@ -74,15 +74,18 @@ Layers.generate(() => {
 
       // Size fo the draw area
       const size = min(width, height, 400)
-      let ratio
+      let scale
       if (width > height) {
-        ratio = height / size
+        scale = height / size
       } else {
-        ratio = width / size
+        scale = width / size
       }
 
+      let offsetX = (width - size * scale) / 2
+      let offsetY = (height - size * scale) / 2
+      
       clear()
-      image(offscreen, 0, 0, width*ratio, height*ratio)
+      image(offscreen, offsetX, offsetY, width*scale, height*scale)
     }
   })
 })

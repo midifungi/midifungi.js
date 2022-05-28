@@ -3,8 +3,28 @@ export default function () {
 * This layer adds the black wireframe that holds the glass together
 */
 Layers.generate(() => {
-  // The 1.3 is a truly magical number to deal with scaling from glass filter
-  const cellSize = min(minSize/16, 400/12) * 1.3
+  let defaultColorRange = 10
+  let defaultColorOffset = Layers.default.colors[2][0]
+
+  // Common between value
+  const onChange = throttle(function (ev) {
+    if (ev.presetKey === 'colorRange') {
+      Layers.glass.menu.colorRange.default = ev.value
+    } else if (ev.presetKey === 'colorOffset') {
+      Layers.glass.menu.colorOffset.default = ev.value
+    }
+    
+    this.setup()
+    this.throttledDraw()
+
+    // Repaint the filter for one frame
+    Layers.filter.store.canvas.setBackground(this.canvas.elt)
+    Layers.filter.store.model.evolving = true
+    Layers.filter.store.frames = 90
+    Layers.filter.throttledDraw()
+    Layers.filter.store.canvas.drawNextFrame()
+  }, 100, {trailing: true})
+  
   // Position of cells
   // @see https://www.redblobgames.com/grids/hexagons/#size-and-spacing
   const cells = [
@@ -12,35 +32,98 @@ Layers.generate(() => {
     [0, -4], [1, -3], [2, -2], [2, 0], [2, 2], [1, 3], [0, 4], [-1, 3], [-2, 2], [-2, 0], [-2, -2], [-1, -3],
   ]
   
-  // Update draw to use noFill
-  const opts = cloneDeep(Layers.glass.opts)
-  
-  opts.id = 'lead'
-  opts.store = Layers.glass.store
-  opts.menuDisabled = true
-  opts.noLoop = false
-  delete opts.afterGenerate
-  
-  opts.draw = function () {
-    clear()
-    // Hex width/height
-    const hexW = cellSize
-    const hexH = sqrt(3) * hexW/2
-    const w = hexW * 3/4 * 2
-    const h = hexH
+  // opts.draw = function () {
+  //   clear()
+  //   // Hex width/height
+  //   const hexW = cellSize
+  //   const hexH = sqrt(3) * hexW/2
+  //   const w = hexW * 3/4 * 2
+  //   const h = hexH
     
-    stroke(0)
-    strokeWeight(Layers.glass.store.strokeWeight * 1.2)
-    push()
-    translate(width/2, height/2)
-    cells.forEach((cell, n) => {
-      noFill()
-      polygon(cell[0]*w, cell[1]*h, cellSize, 6)
-    })
-    pop()
-  }
+  //   stroke(0)
+  //   strokeWeight(Layers.glass.store.strokeWeight * 1.2)
+  //   push()
+  //   translate(width/2-hexW/8, height/2-hexH/20)
+
+  //   cells.forEach((cell, n) => {
+  //     noFill()
+  //     polygon(cell[0]*w, cell[1]*h, cellSize, 6)
+  //   })
+  //   pop()
+  // }
   
-  const lead = new Layer(opts)
-  lead.canvas.elt.style.zIndex = 2
+  // const lead = new Layer(opts)
+  new Layer({
+    id: 'lead',
+    // noLoop: true,
+    
+    menu: {
+      colorOffset: {min: 0, max: 360, default: defaultColorOffset, onChange},
+      colorRange: {
+        min: 0,
+        max: 360,
+        default: defaultColorRange,
+        onChange,
+      },
+      strokeWeight: {min: 1, max: minSize * .025},
+    },
+    
+    store: {
+      cells: []
+    },
+    
+    setup () {$cells = []},
+    
+    draw () {
+      // Size fo the draw area
+      const size = min(width, height, 400)
+      let scale
+      if (width > height) {
+        scale = height / size
+      } else {
+        scale = width / size
+      }
+      // The 1.3 is a truly magical number to deal with scaling from glass filter
+      let cellSize = min(minSize/16, 400/12) * 1.3
+      cellSize *= scale
+
+      // Hex width/height
+      const hexW = cellSize
+      const hexH = sqrt(3) * hexW/2
+      const w = hexW * 3/4 * 2
+      const h = hexH
+      
+      // Draw hexes
+      clear()
+      noStroke()
+      push()
+ 
+      if (width > height) {
+        scale = height / size
+      } else {
+        scale = width / size
+      }
+
+      let offsetX = (width - size * scale) / 2
+      let offsetY = (height - size * scale) / 2
+
+      // Magical numbers to deal with scaling from glass filter
+      translate(w*3, h*5.27)
+      translate(offsetX, offsetY)
+
+      // Position within the filters space (we'll scale after)
+      // @see Layers.filter
+      cells.forEach((cell, n) => {
+        strokeWeight($strokeWeight)
+        stroke(0)
+        fill(255, .01)
+        polygon(cell[0]*w, cell[1]*h, cellSize, 6)
+      })
+      // background(255)
+      pop()
+    }
+  })
+  
+  Layers.lead.canvas.elt.style.zIndex = 2
 })
 }
