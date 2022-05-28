@@ -1,7 +1,7 @@
 # Midifungi - A layer-based p5.js framework with live editing and MIDI support 🎹🍄
 
 :::warning 📅 Coming soon
-Midifungi is an experimental framework and still in development. The goal is to announce quietly in Discords by June 1st 2022 🌈
+Midifungi is an experimental framework and still in development. The goal is to announce quietly in Discords in June 2022 🌈
 :::
 
 <!-- <Midifungi :layers="['@midifungi/001/lilies', '@midifungi/001/ripples']" height=600 /> -->

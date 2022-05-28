@@ -27,7 +27,10 @@ Layers.generate(() => {
       window.finger = create2DArray(createRadialCanvas(14,14));
       
       if (!$waterModel) {
-        $waterModel = new window.WaterModel(width, height, {
+        // Cap size at 400
+        const size = min(width, height, 400)
+        
+        $waterModel = new window.WaterModel(size, size, {
           resolution: 1,
           interpolate: true,
           damping: 0.985,
@@ -36,7 +39,7 @@ Layers.generate(() => {
           maxFps: 0,
         })
         
-        $waterCanvas = new window.WaterCanvas(width, height, 'sketch-002', $waterModel, {
+        $waterCanvas = new window.WaterCanvas(size, size, 'sketch-002', $waterModel, {
           backgroundImageUrl: Layers.glass.canvas.elt,
           lightRefraction: 20,
           lightReflection: 0.5,
@@ -45,7 +48,7 @@ Layers.generate(() => {
         
         // Create a bunch of touch points
         for (let i = 0; i < minSize / 10; i++) {
-          $waterModel.touchWater(random(width), random(height), 1.5, window.finger)
+          $waterModel.touchWater(random(size), random(size), 1.5, window.finger)
         }
         
         $waterModel.setMaxFps(30)
@@ -55,17 +58,31 @@ Layers.generate(() => {
       $canvas = $waterCanvas
     },
     
-    draw () {
+    draw (offscreen) {
       // Stop looping
-      if (!this.store.model.evolving) return
+      if (!this.store.model?.evolving) return
       if ($frames++ > 90) {
         this.store.model.evolving = false
       }
-      
-      drawingContext.globalCompositeOperation = 'source-over'
-      this.canvas.drawingContext.drawImage($canvas.canvas, 0, 0)
-      drawingContext.globalCompositeOperation = 'destination-in'
-      image(Layers.glass.canvas, 0, 0)
+
+      offscreen.push()
+      offscreen.drawingContext.globalCompositeOperation = 'source-over'
+      offscreen.drawingContext.drawImage($canvas.canvas, 0, 0)
+      offscreen.drawingContext.globalCompositeOperation = 'destination-in'
+      offscreen.image(Layers.glass.canvas, 0, 0)
+      offscreen.pop()
+
+      // Size fo the draw area
+      const size = min(width, height, 400)
+      let ratio
+      if (width > height) {
+        ratio = height / size
+      } else {
+        ratio = width / size
+      }
+
+      clear()
+      image(offscreen, 0, 0, width*ratio, height*ratio)
     }
   })
 })

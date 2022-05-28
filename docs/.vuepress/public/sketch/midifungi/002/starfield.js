@@ -1,15 +1,20 @@
 export default function () {
 /*
-"Billions and Billions"
----
+"Billions and Billions 🌠"
+
 Twinkle twinkling
 Up above a world so high
 Leaving past behind
 ---
-Sketched for @sableRaph's Weekly Creative Coding Challenge: https://openprocessing.org/curation/78544
+ABOUT: This sketch uses Watercanvas.js, a surface water simulator from 2010, in a
+frozen state to recreate a stained glass texture
+---
 Devlog: https://midifungi.notion.site/Stained-Glass-0e8c133187c14f50bca886f5d2808656
+---
+Sketched for @sableRaph's Weekly Creative Coding Challenge: https://openprocessing.org/curation/78544
+---
 Made with Midifungi.js
-*/  
+*/
 
 
 
@@ -18,11 +23,12 @@ Made with Midifungi.js
  * @see https://youtu.be/17WoOqgXsRM
  * @see https://editor.p5js.org/codingtrain/sketches/1wLHIck3T
  */
- const Star = class {
+const Star = class {
   constructor () {
     this.x = random(-width, width)
     this.y = random(-height, height)
     this.z = random(width)
+    this.life = 0
     this.lastZ = this.z
   }
 
@@ -33,23 +39,26 @@ Made with Midifungi.js
       this.y = random(-height/2, height/2)
       this.z = random(width, width*1.2)
       this.lastZ = this.z
+      this.life = 0
     }
   }
 
   draw () {
     noStroke()
-
     const sx = map(this.x / this.z, 0, 1, 0, width)
     const sy = map(this.y / this.z, 0, 1, 0, height)
-    const r = map(this.z, 0, width, 16, 0)
-    fill(255)
+    const r = map(this.z, 0, width, Layers.starfield.store.size, 0)
+
+    // Fade in
+    this.life += Layers.starfield.store.speed/50 * .1
+    fill(255, min(1, this.life))
     ellipse(sx, sy, r, r)
 
     const px = map(this.x / this.lastZ, 0, 1, 0, width)
     const py = map(this.y / this.lastZ, 0, 1, 0, height)
     this.lastZ = this.z
 
-    stroke(255)
+    stroke(255, min(1, this.life))
     line(px, py, sx, sy)
   }
 }
@@ -62,8 +71,10 @@ Layers.generate(() => {
     id: 'starfield',
 
     menu: {
-      numStars: {min: 100, max: 2000, step: 1, onChange () {this.setup()}},
-      speed: {min: 0, max: 50}
+      numStars: {min: 100, max: 2000, onChange () {this.setup()}},
+      size: {max: minSize*.03},
+      variability: {max: 1},
+      speed: {max: 50},
     },
     
     store: {

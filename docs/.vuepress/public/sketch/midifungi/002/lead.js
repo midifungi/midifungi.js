@@ -3,7 +3,8 @@ export default function () {
 * This layer adds the black wireframe that holds the glass together
 */
 Layers.generate(() => {
-  const cellSize = minSize * .07
+  // The 1.3 is a truly magical number to deal with scaling from glass filter
+  const cellSize = min(minSize/16, 400/12) * 1.3
   // Position of cells
   // @see https://www.redblobgames.com/grids/hexagons/#size-and-spacing
   const cells = [

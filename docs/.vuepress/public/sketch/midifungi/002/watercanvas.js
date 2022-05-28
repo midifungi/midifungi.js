@@ -1,4 +1,8 @@
 export default function () {
+// ⚠️ This file has been modified from the original 2010 script
+// to accept canvases in addition to images
+////////////////////////////////////////////////////////////////////////////////
+
 /*
  * Water Canvas by Almer Thie (http://code.almeros.com).
  * Description: A realtime water ripple effect on an HTML5 canvas. 
@@ -65,8 +69,11 @@ window.WaterCanvas = function(width, height, documentElement, waterModel, props)
 	this.ctxHelp = this.canvasHelp.getContext('2d');  	
 
 	this.setSize(width, height);
-    this.documentElement.appendChild(this.canvas);  
-	
+	if (this.documentElement) {
+		this.documentElement.appendChild(this.canvas)
+	} else {
+		document.body.appendChild(this.canvas)
+	}	
 	
 
 	

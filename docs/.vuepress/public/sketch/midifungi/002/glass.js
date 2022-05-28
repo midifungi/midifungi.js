@@ -6,7 +6,9 @@ let defaultColorRange = 10
 let defaultColorOffset = Layers.default.colors[2][0]
 
 Layers.generate(() => {
-  const cellSize = minSize/14
+  // @fixme minSize not working properly
+  const cellSize = min(width, height, 400) / 16 * 1.3
+
   // Position of cells
   // @see https://www.redblobgames.com/grids/hexagons/#size-and-spacing
   const cells = [
@@ -31,7 +33,7 @@ Layers.generate(() => {
     Layers.filter.store.frames = 90
     Layers.filter.throttledDraw()
     Layers.filter.store.canvas.drawNextFrame()
-  }, 50, {trailing: true})
+  }, 100, {trailing: true})
   
   new Layer({
     id: 'glass',
@@ -81,11 +83,17 @@ Layers.generate(() => {
       clear()
       noStroke()
       push()
-      translate(width/2, height/2)
+      
+      // Magical numbers to deal with scaling from glass filter
+      translate(w*3, h*5.27)
+
+      // Position within the filters space (we'll scale after)
+      // @see Layers.filter
       cells.forEach((cell, n) => {
         fill($cells[n].fill)
         polygon(cell[0]*w, cell[1]*h, cellSize, 6)
       })
+      // background(255)
       pop()
     }
   })
