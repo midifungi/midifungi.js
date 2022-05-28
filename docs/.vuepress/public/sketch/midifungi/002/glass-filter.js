@@ -27,8 +27,8 @@ Layers.generate(() => {
       window.finger = create2DArray(createRadialCanvas(14,14));
       
       if (!$waterModel) {
-        // Cap size at 400
-        const size = min(width, height, 400)
+        // Cap size at 300
+        const size = min(width, height, 300)
         
         $waterModel = new window.WaterModel(size, size, {
           resolution: 1,
@@ -73,7 +73,7 @@ Layers.generate(() => {
       offscreen.pop()
 
       // Size fo the draw area
-      const size = min(width, height, 400)
+      const size = min(width, height, 300)
       let scale
       if (width > height) {
         scale = height / size

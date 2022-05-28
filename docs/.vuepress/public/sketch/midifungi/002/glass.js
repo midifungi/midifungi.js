@@ -7,7 +7,7 @@ let defaultColorOffset = Layers.default.colors[2][0]
 
 Layers.generate(() => {
   // 1.3 is a magic number
-  const cellSize = min(minSize/16, 400/12) * 1.3
+  const cellSize = min(minSize/16, 300/12) * 1.3
 
   // Position of cells
   // @see https://www.redblobgames.com/grids/hexagons/#size-and-spacing
@@ -94,7 +94,6 @@ Layers.generate(() => {
         fill($cells[n].fill)
         polygon(cell[0]*w, cell[1]*h, ceil(cellSize), 6)
       })
-      // background(255)
       pop()
     }
   })

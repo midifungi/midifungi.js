@@ -197,7 +197,9 @@ export default window.Layers = {
     resizeCanvas(xx - x, yy - y)
     pixelDensity(smallestPixelDensity)
     Layers.all.forEach(layer => {
-      image(layer.canvas, layer.x, layer.y)
+      if (layer.canvas.elt.style.visibility.toLowerCase() !== 'hidden' && !layer.disabled) {
+        image(layer.canvas, layer.x, layer.y)
+      }
     })
     saveCanvas(`layers-${date.getFullYear()}${date.getMonth()}${date.getDate()}`, format)
   },

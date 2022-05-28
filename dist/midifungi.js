@@ -4,7 +4,7 @@
  * https://twitter.com/midifungi
  * https://github.com/midifungi/midifungi
  * ---
- * @version 0.0.11
+ * @version 0.0.12
  * @license "Apache 2.0"
  * ---
  * This file was bundled with Rollup
@@ -21465,7 +21465,7 @@
       methods: {},
 
       // About
-      version: '0.0.11',
+      version: '0.0.12',
       curId: 0,
 
       // Menus
@@ -21622,7 +21622,9 @@
         resizeCanvas(xx - x, yy - y);
         pixelDensity(smallestPixelDensity);
         Layers.all.forEach(layer => {
-          image(layer.canvas, layer.x, layer.y);
+          if (layer.canvas.elt.style.visibility.toLowerCase() !== 'hidden' && !layer.disabled) {
+            image(layer.canvas, layer.x, layer.y);
+          }
         });
         saveCanvas(`layers-${date.getFullYear()}${date.getMonth()}${date.getDate()}`, format);
       },
@@ -25733,7 +25735,7 @@
      * Midifungi 🎹🍄
      * A p5js library that helps you organize your code into layers
      * ---
-     * @version 0.0.11
+     * @version 0.0.12
      * @license "Apache 2.0" with the addendum that you cannot use this or its output for NFTs without permission
      */
 

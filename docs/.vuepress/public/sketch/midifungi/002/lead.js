@@ -9,16 +9,18 @@ Layers.generate(() => {
   // Common between value
   const onChange = throttle(function (ev) {
     if (ev.presetKey === 'colorRange') {
-      Layers.glass.menu.colorRange.default = ev.value
+      Layers.lead.menu.colorRange.default = ev.value
     } else if (ev.presetKey === 'colorOffset') {
-      Layers.glass.menu.colorOffset.default = ev.value
+      Layers.lead.menu.colorOffset.default = ev.value
     }
-    
-    this.setup()
-    this.throttledDraw()
+
+    // Update glass layer
+    Layers.glass.store[ev.presetKey] = ev.value
+    Layers.glass.setup()
+    Layers.glass.throttledDraw()
 
     // Repaint the filter for one frame
-    Layers.filter.store.canvas.setBackground(this.canvas.elt)
+    Layers.filter.store.canvas.setBackground(Layers.glass.canvas.elt)
     Layers.filter.store.model.evolving = true
     Layers.filter.store.frames = 90
     Layers.filter.throttledDraw()
@@ -32,30 +34,10 @@ Layers.generate(() => {
     [0, -4], [1, -3], [2, -2], [2, 0], [2, 2], [1, 3], [0, 4], [-1, 3], [-2, 2], [-2, 0], [-2, -2], [-1, -3],
   ]
   
-  // opts.draw = function () {
-  //   clear()
-  //   // Hex width/height
-  //   const hexW = cellSize
-  //   const hexH = sqrt(3) * hexW/2
-  //   const w = hexW * 3/4 * 2
-  //   const h = hexH
-    
-  //   stroke(0)
-  //   strokeWeight(Layers.glass.store.strokeWeight * 1.2)
-  //   push()
-  //   translate(width/2-hexW/8, height/2-hexH/20)
-
-  //   cells.forEach((cell, n) => {
-  //     noFill()
-  //     polygon(cell[0]*w, cell[1]*h, cellSize, 6)
-  //   })
-  //   pop()
-  // }
-  
   // const lead = new Layer(opts)
   new Layer({
     id: 'lead',
-    // noLoop: true,
+    noLoop: true,
     
     menu: {
       colorOffset: {min: 0, max: 360, default: defaultColorOffset, onChange},
@@ -76,7 +58,7 @@ Layers.generate(() => {
     
     draw () {
       // Size fo the draw area
-      const size = min(width, height, 400)
+      const size = min(width, height, 300)
       let scale
       if (width > height) {
         scale = height / size
@@ -84,7 +66,7 @@ Layers.generate(() => {
         scale = width / size
       }
       // The 1.3 is a truly magical number to deal with scaling from glass filter
-      let cellSize = min(minSize/16, 400/12) * 1.3
+      let cellSize = min(minSize/16, 300/12) * 1.3
       cellSize *= scale
 
       // Hex width/height
@@ -93,11 +75,6 @@ Layers.generate(() => {
       const w = hexW * 3/4 * 2
       const h = hexH
       
-      // Draw hexes
-      clear()
-      noStroke()
-      push()
- 
       if (width > height) {
         scale = height / size
       } else {
@@ -107,6 +84,11 @@ Layers.generate(() => {
       let offsetX = (width - size * scale) / 2
       let offsetY = (height - size * scale) / 2
 
+      // Draw hexes
+      clear()
+      noStroke()
+      push()
+      
       // Magical numbers to deal with scaling from glass filter
       translate(w*3, h*5.27)
       translate(offsetX, offsetY)
@@ -119,7 +101,6 @@ Layers.generate(() => {
         fill(255, .01)
         polygon(cell[0]*w, cell[1]*h, cellSize, 6)
       })
-      // background(255)
       pop()
     }
   })
