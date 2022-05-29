@@ -184,3 +184,8 @@ export {
   Layers,
   Layer
 }
+
+export default {
+  Layers,
+  Layer
+}

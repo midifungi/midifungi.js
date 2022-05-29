@@ -25,14 +25,24 @@ Midifungi is [p5.js](https://p5js.org/reference/) framework designed around the 
 ```
 
 ### Or import from NPM
+#### Install dependencies
 ```bash
 npm i p5
 npm i midifungi
 ```
+
+#### Option 1
 ```js
 import p5 from 'p5'
 import {Layers, Layer} from 'midifungi'
-window.p5 = p5 // @fixme
+new Layer()
+```
+
+#### Option 2
+```js
+import p5 from 'p5'
+import midifungi from 'midifungi'
+new midifungi.Layer()
 ```
 
 ## Getting Started
