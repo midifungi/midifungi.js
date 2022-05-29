@@ -2,7 +2,7 @@ import contextMenu from './context-menu.js'
 import p5Overrides from '../p5-overrides.js'
 import midiMenu from './midi-menu.js'
 
-class Layer {
+export default class Layer {
   constructor (opts = {}) {
     // Methods
     this.showContextMenu = contextMenu.showContextMenu
@@ -11,15 +11,15 @@ class Layer {
     this.connectMIDI = midiMenu.connectMIDI
     
     // Default dimensions: parent size or fullscreen
-    let w = Layers.target?.clientWidth || window.width
-    let h = Layers.target?.clientHeight || window.height
+    let w = Layers.target?.clientWidth || globalThis.width
+    let h = Layers.target?.clientHeight || globalThis.height
 
     // Last moved target
     this._hasMovedTarget = null
     this.requestAnimationFrameID = null
     
     // Defaults
-    this.opts = window.defaultsDeep(opts, {
+    this.opts = globalThis.defaultsDeep(opts, {
       id: Layers.curId,
       disabled: false,
       menuDisabled: false,
@@ -257,9 +257,9 @@ class Layer {
     })
 
     // Manual overrides
-    window.loadPixels = () => {
+    globalThis.loadPixels = () => {
       this.canvas.loadPixels()
-      window.pixels = this.canvas.pixels
+      globalThis.pixels = this.canvas.pixels
     }
 
     // Add this.$ variables
@@ -290,7 +290,7 @@ class Layer {
    * Free memory and delete reference from Layers
    */
   dispose () {
-    window.cancelAnimationFrame(this.requestAnimationFrameID)
+    globalThis.cancelAnimationFrame(this.requestAnimationFrameID)
     this.requestAnimationFrameID = null
     this.onDispose && this.onDispose()
     this.canvas.remove()
@@ -361,4 +361,3 @@ class Layer {
     }
   }
 }
-window.Layer = Layer

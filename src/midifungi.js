@@ -6,18 +6,11 @@
  * @license "Apache 2.0" with the addendum that you cannot use this or its output for NFTs without permission
  */
 
-// Dependencies
-import '../node_modules/tweakpane/dist/tweakpane.js'
-import '../node_modules/@tweakpane/plugin-essentials/dist/tweakpane-plugin-essentials.js'
-
 // Midifungi
 import Layers from './layers/Layers.js'
+import Layer from './layer/Layer.js'
 import './helpers.js'
-import './layer/Layer.js'
 import p5Overrides from './p5-overrides.js'
-
-// // UI
-import './tweakpane.theme.js'
 
 // These are being added from somewhere but I can't pin point it yet
 let _set, _get
@@ -26,23 +19,27 @@ let _set, _get
  * Run Layers.generate callbacks
  */
 const onSetup = function () {
-  if (!window.p5) {
+  if (!globalThis.p5) {
     setTimeout(onSetup, 1)
     return
   }
 
-  window.p5.disableFriendlyErrors = true
+  // Exports
+  globalThis.Layers = Layers
+  globalThis.Layer = Layer
+
+  globalThis.p5.disableFriendlyErrors = true
   Layers.init()
 
   // Restore funky _get, _set
   if (_get) {
-    window.get = _get
+    globalThis.get = _get
   }
   if (_set) {
-    window.set = _set
+    globalThis.set = _set
   }
 
-  window.params = Object.assign({
+  globalThis.params = Object.assign({
     fps: 30,
     seed: null,
     skipnoise: 0,
@@ -50,11 +47,11 @@ const onSetup = function () {
     // Width of canvas, centered
     width: 0,
     height: 0,
-  }, window.getURLParams())
+  }, globalThis.getURLParams())
 
   // ccapture
   if (+params.record) {
-    window.capturer = new CCapture({
+    globalThis.capturer = new CCapture({
       format: 'webm',
       framerate: +params.fps,
       verbose: true,
@@ -69,7 +66,7 @@ const onSetup = function () {
   // let h = +params.height || min(windowWidth, windowHeight)
   let w = +params.width || windowWidth
   let h = +params.height ||windowHeight
-  window.windowRatio = min(w, h) / max(w, h)
+  globalThis.windowRatio = min(w, h) / max(w, h)
 
   noLoop()
   createCanvas(w, h)
@@ -79,7 +76,7 @@ const onSetup = function () {
   /**
    * Handle keypressed across multiple files
    */
-  window.windowResized = window.throttle(function () {
+  globalThis.windowResized = globalThis.throttle(function () {
     let w = +params.width || windowWidth
     let h = +params.height || windowHeight
 
@@ -88,13 +85,13 @@ const onSetup = function () {
   }, 1000/60, {trailing: true})
 
   // Seed
-  randomSeed(window._seed)
-  noiseSeed(window._seed)
+  randomSeed(globalThis._seed)
+  noiseSeed(globalThis._seed)
   reseed()
 
   // Global helpers
-  window.minSize = min(width, height)
-  window.maxSize = max(width, height)
+  globalThis.minSize = min(width, height)
+  globalThis.maxSize = max(width, height)
 
   // Backup default states before any p5 overrides
   p5Overrides.forEach(key => {
@@ -110,26 +107,26 @@ const onSetup = function () {
  * Onready
  */
 function onReady () {
-  if (window.setup) {
-    const _setup = window.setup
-    window.setup = function () {
+  if (globalThis.setup) {
+    const _setup = globalThis.setup
+    globalThis.setup = function () {
       _setup()
       onSetup()
     }
   } else {
-    window.setup = onSetup
+    globalThis.setup = onSetup
   }
 
   /**
    * Run boilerplate code
    */
-  window.generateLayers = function (refresh) {
+  globalThis.generateLayers = function (refresh) {
     if (refresh) {
       Layers.dispose()
       reseed()
     } else {
-      randomSeed(window._seed)
-      noiseSeed(window._seed)
+      randomSeed(globalThis._seed)
+      noiseSeed(globalThis._seed)
     }
   
     // Remove all layers and apply some basic setup
@@ -145,40 +142,45 @@ function onReady () {
    * Reseeds seeds
    * @params {Int} seed (optional) Defaults to fxrand()
    */
-  window.reseed = function (s) {
+  globalThis.reseed = function (s) {
     if (typeof fxrand === 'function') {
-      window._seed = s || window.params.seed || floor(fxrand() * 9999999)
+      globalThis._seed = s || globalThis.params.seed || floor(fxrand() * 9999999)
     } else {
-      window._seed = s || window.params.seed || floor(random(9999999))
+      globalThis._seed = s || globalThis.params.seed || floor(random(9999999))
     }
-    randomSeed(window._seed)
-    noiseSeed(window._seed)
+    randomSeed(globalThis._seed)
+    noiseSeed(globalThis._seed)
   }
 
   /**
    * Recenter
    */
-  window.recenter = function () {
+  globalThis.recenter = function () {
     _renderer.position(windowWidth / 2 - width / 2, windowHeight / 2 - height / 2, 'fixed')
   }
 }
 
-if (window.p5) {
-  window.p5.disableFriendlyErrors = true
-  if (window.get) {
-    _get = window.get
-    delete window.get
+if (globalThis.p5) {
+  globalThis.p5.disableFriendlyErrors = true
+  if (globalThis.get) {
+    _get = globalThis.get
+    delete globalThis.get
   }
-  if (window.set) {
-    _set = window.set
-    delete window.set
+  if (globalThis.set) {
+    _set = globalThis.set
+    delete globalThis.set
   }
 }
 
-if (/complete|interactive|loaded/.test(document.readyState)) {
-  onReady()
-} else {
-  document.addEventListener('DOMContentLoaded', onReady)
+if (typeof document !== 'undefined') {
+  if (/complete|interactive|loaded/.test(document.readyState)) {
+    onReady()
+  } else {
+    document.addEventListener('DOMContentLoaded', onReady)
+  }
 }
 
-export default Layers
+export {
+  Layers,
+  Layer
+}

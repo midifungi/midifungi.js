@@ -4,14 +4,14 @@ import set from '../node_modules/lodash-es/set.js'
 import get from '../node_modules/lodash-es/get.js'
 import throttle from '../node_modules/lodash-es/throttle.js'
 
-window.cloneDeep = cloneDeep
-window.defaultsDeep = defaultsDeep
-window.set = set
-window.get = get
-window.throttle = throttle
+globalThis.cloneDeep = cloneDeep
+globalThis.defaultsDeep = defaultsDeep
+globalThis.set = set
+globalThis.get = get
+globalThis.throttle = throttle
 
 // @see https://github.com/jamestalmage/normalize-range/blob/master/index.js
-window.wrap = function (value, min, max) {
+globalThis.wrap = function (value, min, max) {
   var maxLessMin = max - min;
   return ((value - min) % maxLessMin + maxLessMin) % maxLessMin + min;
 }
@@ -21,7 +21,7 @@ window.wrap = function (value, min, max) {
  * @param {*} seconds 
  * @returns 
  */
-window.getProgress = function (seconds = 7) {
+globalThis.getProgress = function (seconds = 7) {
   const period = +params.fps * seconds / 2
   return (frameCount % period) / period
 } 
@@ -33,7 +33,7 @@ window.getProgress = function (seconds = 7) {
  * @param {*} offset The number to start stepping from
  * @returns 
  */
-window.stepRound = function (number, increment, offset) {
+globalThis.stepRound = function (number, increment, offset) {
   return Math.ceil((number - offset) / increment ) * increment + offset;
 }
 
@@ -41,7 +41,7 @@ window.stepRound = function (number, increment, offset) {
  * Polygons
  * @see https://p5js.org/examples/form-regular-polygon.html
  */
-window.polygon = function (x, y, radius, npoints, canv) {
+globalThis.polygon = function (x, y, radius, npoints, canv) {
   if (!canv) canv = window
   
   const angle = TWO_PI / npoints

@@ -1,3 +1,10 @@
+import * as Tweakpane from 'tweakpane'
+import * as EssentialsPlugin from '@tweakpane/plugin-essentials'
+import '../tweakpane.theme.js'
+
+// Globals
+globalThis.Tweakpane = Tweakpane
+
 /**
  * Shows the context menu for the Moar
  */
@@ -12,7 +19,7 @@ export default {
 
     if (!this.$menu){
       this.$menu = new Tweakpane.Pane()
-      this.$menu.registerPlugin(TweakpaneEssentialsPlugin)
+      this.$menu.registerPlugin(EssentialsPlugin)
       this.$menu.$folder = {}
       Layers.openMenus.push(this)
 
@@ -177,7 +184,7 @@ export default {
     $handle.addEventListener('mouseup', (ev) => {
       if (this._hasDraggedMenu){
         this._hasDraggedMenu = false
-        window.$handle = $handle
+        globalThis.$handle = $handle
         $handle.dispatchEvent(new MouseEvent('mouseup'))
         return
       }
@@ -198,13 +205,13 @@ export default {
     // Move the menu to the mouse position
     const bounds = this.$menu.containerElem_.getBoundingClientRect()
     this.$menu.containerElem_.style.position = 'fixed'
-    if (ev.x + bounds.width > width + window.innerWidth) {
-      this.$menu.containerElem_.style.left = (width + window.innerWidth - bounds.width) + 'px'
+    if (ev.x + bounds.width > width + globalThis.innerWidth) {
+      this.$menu.containerElem_.style.left = (width + globalThis.innerWidth - bounds.width) + 'px'
     } else {
       this.$menu.containerElem_.style.left = ev.x + 'px'
     }
-    if (ev.y + bounds.height > height + window.innerHeight) {
-      this.$menu.containerElem_.style.top = (height + window.innerHeight - bounds.height) + 'px'
+    if (ev.y + bounds.height > height + globalThis.innerHeight) {
+      this.$menu.containerElem_.style.top = (height + globalThis.innerHeight - bounds.height) + 'px'
     } else {
       this.$menu.containerElem_.style.top = ev.y + 'px'
     }

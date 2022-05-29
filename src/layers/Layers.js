@@ -11,7 +11,7 @@ let _throttledFilter = function (layer) {
 }
 
 // Default settings
-export default window.Layers = {
+export default globalThis.Layers = {
   noLoop: false,
   hasInit: false,
 
@@ -72,8 +72,8 @@ export default window.Layers = {
     // Event listeners
     this.listeners.boundClick = this.listeners.click.bind(this)
     this.listeners.boundContextmenu = this.listeners.contextmenu.bind(this)
-    window.addEventListener('click', this.listeners.boundClick)
-    window.addEventListener('contextmenu', this.listeners.boundContextmenu)
+    addEventListener('click', this.listeners.boundClick)
+    addEventListener('contextmenu', this.listeners.boundContextmenu)
   },
 
   /**
