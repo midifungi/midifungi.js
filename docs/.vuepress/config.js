@@ -2,6 +2,8 @@ const { viteBundler } = require('@vuepress/bundler-vite')
 const { path } = require('@vuepress/utils')
 const { registerComponentsPlugin } = require('@vuepress/plugin-register-components')
 const { defaultTheme } = require('@vuepress/theme-default')
+const { themeDataPlugin } = require('@vuepress/plugin-theme-data')
+const pkg = require('../../package.json')
 
 module.exports = {
   title: 'Midifungi 🎹🍄',
@@ -12,13 +14,16 @@ module.exports = {
   ],
 
   plugins: [
-    [
-      registerComponentsPlugin({
-        components: {
-          Midifungi: path.resolve(__dirname, './components/Midifungi.vue')
-        }
-      }),
-    ],
+    registerComponentsPlugin({
+      components: {
+        Midifungi: path.resolve(__dirname, './components/Midifungi.vue')
+      }
+    }),
+    themeDataPlugin({
+      themeData: {
+        pkgVersion: pkg.version,
+      }
+    })
   ],
 
   bundler: viteBundler({

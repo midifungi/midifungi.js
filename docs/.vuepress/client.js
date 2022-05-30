@@ -2,7 +2,7 @@ import {defineClientConfig} from '@vuepress/client'
 import midifungi from '@lib/midifungi'
 
 export default defineClientConfig({
-  async enhance () {
+  async enhance ({}) {
     if (!__VUEPRESS_SSR__) {
       window.Layers = midifungi.Layers
       window.Layer = midifungi.Layer
