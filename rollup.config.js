@@ -1,5 +1,5 @@
 import replace from '@rollup/plugin-replace'
-import externalGlobals from "rollup-plugin-external-globals"
+// import externalGlobals from "rollup-plugin-external-globals"
 import pkg from './package.json'
 
 export default {
@@ -31,10 +31,10 @@ export default {
       }
     }),
 
-    externalGlobals({
-      'tweakpane': 'Tweakpane',
-      '@tweakpane/plugin-essentials': 'EssentialsPlugin',
-    })
+    // externalGlobals({
+    //   'tweakpane': 'Tweakpane',
+    //   '@tweakpane/plugin-essentials': 'EssentialsPlugin',
+    // })
   ],
-  external: ['tweakpane', '@tweakpane/plugin-essentials'],
+  // external: ['tweakpane', '@tweakpane/plugin-essentials'],
 }

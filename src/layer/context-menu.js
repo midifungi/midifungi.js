@@ -1,5 +1,3 @@
-import '../../node_modules/tweakpane/dist/tweakpane.js'
-import '../../node_modules/@tweakpane/plugin-essentials/dist/tweakpane-plugin-essentials.js'
 import '../styles.js'
 
 /**
