@@ -8,6 +8,7 @@ let $waterCanvas
 Layers.generate(() => {
   new Layer({
     id: 'filter',
+		
     menuDisabled: true,
     
     store: {
@@ -45,6 +46,7 @@ Layers.generate(() => {
           lightReflection: 0.5,
         })
         $waterCanvas.canvas.style.vibility = 'hidden'
+        $waterCanvas.canvas.style.opacity = 0
         
         // Create a bunch of touch points
         for (let i = 0; i < minSize / 10; i++) {

@@ -1,22 +1,22 @@
 export default function () {
 /**
-* This Layer draws the hexagon tiles
+* This Layer draws the hexagon tiles for Watercanvas
 */
 let defaultColorRange = 10
 let defaultColorOffset = Layers.default.colors[2][0]
 
 Layers.generate(() => {
-  // 1.3 is a magic number
+  // 1.3 is a magical number 🧙‍♂️
   const cellSize = min(minSize/16, 300/12) * 1.3
 
-  // Position of cells
+  // Position of hexes
   // @see https://www.redblobgames.com/grids/hexagons/#size-and-spacing
   const cells = [
     [0, -2], [1, -1], [1, 1], [0, 2], [-1, 1], [-1, -1],
     [0, -4], [1, -3], [2, -2], [2, 0], [2, 2], [1, 3], [0, 4], [-1, 3], [-2, 2], [-2, 0], [-2, -2], [-1, -3],
   ]
   
-  // Common between value
+  // When menu changes, we also need to update the Canvas layer
   const onChange = throttle(function (ev) {
     if (ev.presetKey === 'colorRange') {
       Layers.glass.menu.colorRange.default = ev.value
@@ -35,17 +35,20 @@ Layers.generate(() => {
     Layers.filter.store.canvas.drawNextFrame()
   }, 100, {trailing: true})
   
+	/**
+	 * Create the glass
+	 */
   new Layer({
     id: 'glass',
     noLoop: true,
     menuDisabled: true,
     
     menu: {
-      colorOffset: {min: 0, max: 360, default: defaultColorOffset, onChange},
+      colorOffset: {min: 0, max: 360, /*default: defaultColorOffset,*/ onChange},
       colorRange: {
         min: 0,
         max: 360,
-        default: defaultColorRange,
+        // default: defaultColorRange,
         onChange,
       },
       strokeWeight: {min: 1, max: minSize * .025},

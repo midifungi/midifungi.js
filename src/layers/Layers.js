@@ -38,6 +38,11 @@ export default globalThis.Layers = {
   all: [],
   store: {},
   methods: {},
+  
+  // Visualize in 3D
+  areLayersExploded: {
+    'Visualize layers in 3D': false
+  },
 
   // About
   version: 'NPM_PACKAGE_VERSION',
@@ -68,6 +73,12 @@ export default globalThis.Layers = {
     if (JSON.parse(localStorage.getItem('shouldConnectMIDI'))) {
       this.connectMIDI()
     }
+
+    // Explode layers
+    this.areLayersExploded['Visualize layers in 3D'] = JSON.parse(localStorage.getItem('explodeLayers')) || false
+    setTimeout(() => {
+      this.explodeLayers(this.areLayersExploded['Visualize layers in 3D'], false)
+    }, 0)
     
     // Event listeners
     this.listeners.boundClick = this.listeners.click.bind(this)
@@ -383,5 +394,23 @@ export default globalThis.Layers = {
       Layers[this.curBindingLayer.id].showContextMenu(Layers[this.curBindingLayer.id]._showContextMenuEvent)
       this.curBindingLayer = null
     }, 0)
+  },
+
+  /**
+   * Explodes the layers perspective into 3D with CSS
+   */
+  explodeLayers (shouldExplode, shouldSave = true) {
+    shouldSave && localStorage.setItem('explodeLayers', shouldExplode)
+
+    Layers.all.forEach(layer => {
+      this.toggleExplodeClassForLayerTarget(layer, shouldExplode)      
+    })
+  },
+  toggleExplodeClassForLayerTarget (layer, shouldExplode) {
+    if (shouldExplode) {
+      layer.canvas.elt.parentElement.classList.add('explode')
+    } else {
+      layer.canvas.elt.parentElement.classList.remove('explode')
+    }
   }
 }

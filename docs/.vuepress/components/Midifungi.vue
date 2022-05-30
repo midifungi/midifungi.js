@@ -1,5 +1,5 @@
 <template>
-  <div class="layers-wrap" :style="{height: wrapHeight}" ref="target"></div>
+  <div class="midifungi-layers-wrap" :style="{height: wrapHeight}" ref="target"></div>
 </template>
 
 <script>

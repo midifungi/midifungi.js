@@ -40,11 +40,11 @@ Layers.generate(() => {
     noLoop: true,
     
     menu: {
-      colorOffset: {min: 0, max: 360, default: defaultColorOffset, onChange},
+      colorOffset: {min: 0, max: 360, /*default: defaultColorOffset,*/ onChange},
       colorRange: {
         min: 0,
         max: 360,
-        default: defaultColorRange,
+        // default: defaultColorRange,
         onChange,
       },
       strokeWeight: {min: 1, max: minSize * .025},
@@ -107,4 +107,5 @@ Layers.generate(() => {
   
   Layers.lead.canvas.elt.style.zIndex = 2
 })
+
 }

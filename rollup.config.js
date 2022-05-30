@@ -5,7 +5,7 @@ export default {
   input: 'src/rollup.js',
   context: 'window',
   output: {
-    name: 'Moar',
+    name: 'midifungi',
     file: 'dist/midifungi.js',
     format: 'umd',
     banner: `/**
@@ -29,5 +29,13 @@ export default {
         'isConcave && !canDecomp': 'false',
       }
     })
-  ]
+  ],
+
+  external: ['tweakpane', '@tweakpane/plugin-essentials'],
+  // output: {
+  //   globals: {
+  //     'tweakpane': 'Tweakpane',
+  //     '@tweakpane/plugin-essentials': 'EssentialsPlugin',
+  //   }
+  // }
 }

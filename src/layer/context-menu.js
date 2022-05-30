@@ -1,6 +1,6 @@
 import * as Tweakpane from 'tweakpane'
 import * as EssentialsPlugin from '@tweakpane/plugin-essentials'
-import '../tweakpane.theme.js'
+import '../styles.js'
 
 // Globals
 globalThis.Tweakpane = Tweakpane
@@ -117,6 +117,7 @@ export default {
         expanded: false
       })
 
+      // Generate toggles
       const layerVisibility = {}
       const layers = [...Layers.all]
       layers.reverse().forEach(layer => {
@@ -125,6 +126,13 @@ export default {
           .on('change', () => {
             layer.toggle()
           })
+      })
+
+      // Explode button
+      layerToggle.addSeparator()
+      layerToggle.addInput(Layers.areLayersExploded, 'Visualize layers in 3D')
+      .on('change', (ev) => {
+        Layers.explodeLayers(ev.value)
       })
 
       // MIDI

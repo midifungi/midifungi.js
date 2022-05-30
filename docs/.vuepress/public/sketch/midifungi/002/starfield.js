@@ -1,29 +1,29 @@
+// Published at https://openprocessing.org/sketch/1586690
 export default function () {
+
 /*
 "Billions and Billions 🌠"
 
-Twinkle twinkling
+Twinkle twinkle-ing
 Up above a world so high
 Leaving past behind
 ---
 ABOUT: This sketch uses Watercanvas.js, a surface water simulator from 2010, in a
 frozen state to recreate a stained glass texture
 ---
-Devlog: https://midifungi.notion.site/Stained-Glass-0e8c133187c14f50bca886f5d2808656
+DEVLOG: https://midifungi.notion.site/Stained-Glass-0e8c133187c14f50bca886f5d2808656
 ---
 Sketched for @sableRaph's Weekly Creative Coding Challenge: https://openprocessing.org/curation/78544
 ---
 Made with Midifungi.js
 */
 
-
-
 /**
  * Star class adapted from Code Train:
  * @see https://youtu.be/17WoOqgXsRM
  * @see https://editor.p5js.org/codingtrain/sketches/1wLHIck3T
  */
-const Star = class {
+ const Star = class {
   constructor () {
     this.x = random(-width, width)
     this.y = random(-height, height)
@@ -66,17 +66,21 @@ const Star = class {
 /**
  * Starfield layer
  */
-Layers.generate(() => {
+ Layers.generate(() => {
   new Layer({
     id: 'starfield',
 
+		// These automatically convert into sliders
+		// You can also bind with MIDI through right click!
     menu: {
       numStars: {min: 100, max: 2000, onChange () {this.setup()}},
       size: {max: minSize*.03},
-      variability: {max: 1},
       speed: {max: 50},
     },
     
+		// Non menu variables
+		// Access with $stars within draw(), setup()
+		// or with this.store.stars everywhere else
     store: {
       stars: []
     },
@@ -88,6 +92,8 @@ Layers.generate(() => {
       }
     },
 
+		// Each layer has own canvas
+		// but p5 methods magically point to correct canvas so no need for canvas.background()
     draw () {
       background(0)
       push()
@@ -100,4 +106,6 @@ Layers.generate(() => {
     }
   })
 })
+
+
 }

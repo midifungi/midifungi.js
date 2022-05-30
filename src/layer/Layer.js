@@ -157,6 +157,11 @@ export default class Layer {
     this.canvas.elt.style.left = `${this.x}px`
     this.canvas.elt.style.top = `${this.y}px`
 
+    // Explode with delay so that it gets animated
+    setTimeout(() => {
+      Layers.toggleExplodeClassForLayerTarget(this, Layers.areLayersExploded['Visualize layers in 3D'])
+    }, 0)
+
     this.canvas.colorMode(...this.colorMode)
     this.offscreen.colorMode(...this.colorMode)
     this.canvas.clear()

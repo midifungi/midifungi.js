@@ -4,7 +4,7 @@
  * https://twitter.com/midifungi
  * https://github.com/midifungi/midifungi
  * ---
- * @version 0.0.13
+ * @version 0.0.14
  * @license "Apache 2.0"
  * ---
  * This file was bundled with Rollup
@@ -10789,9 +10789,14 @@
     all: [],
     store: {},
     methods: {},
+    
+    // Visualize in 3D
+    areLayersExploded: {
+      'Visualize layers in 3D': false
+    },
 
     // About
-    version: '0.0.13',
+    version: '0.0.14',
     curId: 0,
 
     // Menus
@@ -10819,6 +10824,12 @@
       if (JSON.parse(localStorage.getItem('shouldConnectMIDI'))) {
         this.connectMIDI();
       }
+
+      // Explode layers
+      this.areLayersExploded['Visualize layers in 3D'] = JSON.parse(localStorage.getItem('explodeLayers')) || false;
+      setTimeout(() => {
+        this.explodeLayers(this.areLayersExploded['Visualize layers in 3D'], false);
+      }, 0);
       
       // Event listeners
       this.listeners.boundClick = this.listeners.click.bind(this);
@@ -11134,12 +11145,31 @@
         Layers[this.curBindingLayer.id].showContextMenu(Layers[this.curBindingLayer.id]._showContextMenuEvent);
         this.curBindingLayer = null;
       }, 0);
+    },
+
+    /**
+     * Explodes the layers perspective into 3D with CSS
+     */
+    explodeLayers (shouldExplode, shouldSave = true) {
+      shouldSave && localStorage.setItem('explodeLayers', shouldExplode);
+
+      Layers.all.forEach(layer => {
+        this.toggleExplodeClassForLayerTarget(layer, shouldExplode);      
+      });
+    },
+    toggleExplodeClassForLayerTarget (layer, shouldExplode) {
+      if (shouldExplode) {
+        layer.canvas.elt.parentElement.classList.add('explode');
+      } else {
+        layer.canvas.elt.parentElement.classList.remove('explode');
+      }
     }
   };
 
   /**
    * Inject Shades of Purple Tweakpane styles
    */
+  // @fixme Use a better way to inject styles
   if (typeof document !== 'undefined') {
     const style = document.createElement('style');
     style.innerHTML = `
@@ -11179,6 +11209,76 @@
   .tp-fldv .tp-brkv {
     max-height: 300px;
     overflow-y: auto !important;
+  }
+
+
+
+  canvas.midifungi-layer {
+    transition: transform 1s ease, margin-top 1s ease;
+  }
+  .midifungi-layers-wrap.explode canvas.midifungi-layer {
+    transform-style: preserve-3d;
+    transform: rotateX(45deg) rotateY(-15deg) rotate(45deg);
+  }
+  .midifungi-layers-wrap.explode canvas.midifungi-layer:nth-child(1) {
+    margin-top: 20px;
+  }
+  .midifungi-layers-wrap.explode canvas.midifungi-layer:nth-child(2) {
+    margin-top: 0px;
+  }
+  .midifungi-layers-wrap.explode canvas.midifungi-layer:nth-child(3) {
+    margin-top: -20px;
+  }
+  .midifungi-layers-wrap.explode canvas.midifungi-layer:nth-child(4) {
+    margin-top: -40px;
+  }
+  .midifungi-layers-wrap.explode canvas.midifungi-layer:nth-child(5) {
+    margin-top: -60px;
+  }
+  .midifungi-layers-wrap.explode canvas.midifungi-layer:nth-child(6) {
+    margin-top: -80px;
+  }
+  .midifungi-layers-wrap.explode canvas.midifungi-layer:nth-child(7) {
+    margin-top: -100px;
+  }
+  .midifungi-layers-wrap.explode canvas.midifungi-layer:nth-child(8) {
+    margin-top: -120px;
+  }
+  .midifungi-layers-wrap.explode canvas.midifungi-layer:nth-child(9) {
+    margin-top: -140px;
+  }
+  .midifungi-layers-wrap.explode canvas.midifungi-layer:nth-child(10) {
+    margin-top: -160px;
+  }
+  .midifungi-layers-wrap.explode canvas.midifungi-layer:nth-child(11) {
+    margin-top: -180px;
+  }
+  .midifungi-layers-wrap.explode canvas.midifungi-layer:nth-child(12) {
+    margin-top: -200px;
+  }
+  .midifungi-layers-wrap.explode canvas.midifungi-layer:nth-child(13) {
+    margin-top: -220px;
+  }
+  .midifungi-layers-wrap.explode canvas.midifungi-layer:nth-child(14) {
+    margin-top: -240px;
+  }
+  .midifungi-layers-wrap.explode canvas.midifungi-layer:nth-child(15) {
+    margin-top: -260px;
+  }
+  .midifungi-layers-wrap.explode canvas.midifungi-layer:nth-child(16) {
+    margin-top: -280px;
+  }
+  .midifungi-layers-wrap.explode canvas.midifungi-layer:nth-child(17) {
+    margin-top: -300px;
+  }
+  .midifungi-layers-wrap.explode canvas.midifungi-layer:nth-child(18) {
+    margin-top: -320px;
+  }
+  .midifungi-layers-wrap.explode canvas.midifungi-layer:nth-child(19) {
+    margin-top: -340px;
+  }
+  .midifungi-layers-wrap.explode canvas.midifungi-layer:nth-child(20) {
+    margin-top: -360px;
   }
   `;
     document.head.appendChild(style);
@@ -11299,6 +11399,7 @@
           expanded: false
         });
 
+        // Generate toggles
         const layerVisibility = {};
         const layers = [...Layers.all];
         layers.reverse().forEach(layer => {
@@ -11307,6 +11408,13 @@
             .on('change', () => {
               layer.toggle();
             });
+        });
+
+        // Explode button
+        layerToggle.addSeparator();
+        layerToggle.addInput(Layers.areLayersExploded, 'Visualize layers in 3D')
+        .on('change', (ev) => {
+          Layers.explodeLayers(ev.value);
         });
 
         // MIDI
@@ -11648,6 +11756,11 @@
       this.canvas.elt.style.display = 'block';
       this.canvas.elt.style.left = `${this.x}px`;
       this.canvas.elt.style.top = `${this.y}px`;
+
+      // Explode with delay so that it gets animated
+      setTimeout(() => {
+        Layers.toggleExplodeClassForLayerTarget(this, Layers.areLayersExploded['Visualize layers in 3D']);
+      }, 0);
 
       this.canvas.colorMode(...this.colorMode);
       this.offscreen.colorMode(...this.colorMode);
@@ -15065,7 +15178,7 @@
    * Midifungi 🎹🍄
    * A p5js library that helps you organize your code into layers
    * ---
-   * @version 0.0.13
+   * @version 0.0.14
    * @license "Apache 2.0" with the addendum that you cannot use this or its output for NFTs without permission
    */
 
