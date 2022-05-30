@@ -156,6 +156,7 @@ export default class Layer {
     this.canvas.elt.style.display = 'block'
     this.canvas.elt.style.left = `${this.x}px`
     this.canvas.elt.style.top = `${this.y}px`
+    this.canvas.elt.parentElement.classList.add('midifungi-layers-wrap')
 
     // Explode with delay so that it gets animated
     setTimeout(() => {

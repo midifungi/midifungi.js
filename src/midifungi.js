@@ -160,6 +160,7 @@ function onReady () {
   }
 }
 
+// Without this p5 will trigger warnings about .get and .set being used
 if (globalThis.p5) {
   globalThis.p5.disableFriendlyErrors = true
   if (globalThis.get) {

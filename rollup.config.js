@@ -1,4 +1,5 @@
 import replace from '@rollup/plugin-replace'
+import externalGlobals from "rollup-plugin-external-globals"
 import pkg from './package.json'
 
 export default {
@@ -28,14 +29,12 @@ export default {
         // @FIXME This is to remove the annoying warning about poly-decomp
         'isConcave && !canDecomp': 'false',
       }
+    }),
+
+    externalGlobals({
+      'tweakpane': 'Tweakpane',
+      '@tweakpane/plugin-essentials': 'EssentialsPlugin',
     })
   ],
-
   external: ['tweakpane', '@tweakpane/plugin-essentials'],
-  // output: {
-  //   globals: {
-  //     'tweakpane': 'Tweakpane',
-  //     '@tweakpane/plugin-essentials': 'EssentialsPlugin',
-  //   }
-  // }
 }

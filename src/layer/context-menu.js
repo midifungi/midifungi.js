@@ -1,9 +1,6 @@
-import * as Tweakpane from 'tweakpane'
-import * as EssentialsPlugin from '@tweakpane/plugin-essentials'
+import '../../node_modules/tweakpane/dist/tweakpane.js'
+import '../../node_modules/@tweakpane/plugin-essentials/dist/tweakpane-plugin-essentials.js'
 import '../styles.js'
-
-// Globals
-globalThis.Tweakpane = Tweakpane
 
 /**
  * Shows the context menu for the Moar
@@ -18,8 +15,8 @@ export default {
     this._hasDraggedMenu = false
 
     if (!this.$menu){
-      this.$menu = new Tweakpane.Pane()
-      this.$menu.registerPlugin(EssentialsPlugin)
+      this.$menu = new globalThis.Tweakpane.Pane()
+      this.$menu.registerPlugin(globalThis.TweakpaneEssentialsPlugin)
       this.$menu.$folder = {}
       Layers.openMenus.push(this)
 
