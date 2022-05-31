@@ -1,7 +1,7 @@
-const { viteBundler } = require('@vuepress/bundler-vite')
-const { path } = require('@vuepress/utils')
-const { registerComponentsPlugin } = require('@vuepress/plugin-register-components')
-const { themeDataPlugin } = require('@vuepress/plugin-theme-data')
+const {viteBundler} = require('@vuepress/bundler-vite')
+const {path} = require('@vuepress/utils')
+const {registerComponentsPlugin} = require('@vuepress/plugin-register-components')
+const {themeDataPlugin} = require('@vuepress/plugin-theme-data')
 const pkg = require('../../package.json')
 
 module.exports = {
@@ -13,6 +13,7 @@ module.exports = {
   ],
 
   plugins: [
+    // @see https://snippetors.github.io/plugins/vuepress-plugin-tabs.html
     registerComponentsPlugin({
       components: {
         Midifungi: path.resolve(__dirname, './components/Midifungi.vue')

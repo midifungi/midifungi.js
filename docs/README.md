@@ -16,42 +16,47 @@ Midifungi is [p5.js](https://p5js.org/reference/) framework designed around the 
 
 ## Installing midifungi
 
-### Include from CDN
+:::: code-group
+::: code-group-item CDN
 ```html:no-v-pre
 <!-- First add p5.js -->
 <script src="https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/p5.js"></script>
 <!-- Then add midifungi.js -->
 <script src="https://unpkg.com/midifungi@{{$theme.pkgVersion}}/dist/midifungi.js"></script>
 ```
-
-### Or import from NPM
-#### Install dependencies
+:::
+::: code-group-item NPM
 ```bash
 npm i p5
 npm i midifungi
 ```
 
 #### Option 1
+
 ```js
-import p5 from 'p5'
+import 'p5'
 import {Layers, Layer} from 'midifungi'
+
 new Layer()
 ```
 
 #### Option 2
 ```js
-import p5 from 'p5'
+import 'p5'
 import midifungi from 'midifungi'
+
 new midifungi.Layer()
 ```
+:::
+::::
 
 ## Getting Started
 
-### The first layer
+Let's start by creating a quick generative sketch that demonstrates every feature of Midifungi.js. For maximum control and composition, it's best to isolate each feature of your sketch in their own layers as we'll soon see!
 
-<!-- :::tip By the way, you can still do things the old way!
-In fact, you can add it to existing sketches just for the [MIDI mapping system](/midi) with zero modifcation to your existing code...but here we'll explore new ways to sketch 🧑‍🎨
-::: -->
+### The background layer
+
+<!-- <Example /> -->
 
 <!-- 
 <div style="height: 300px">
@@ -65,3 +70,10 @@ In fact, you can add it to existing sketches just for the [MIDI mapping system](
 <div style="height: 400px">
   <example001x2 />
 </div> -->
+
+
+---
+
+::: tip 📅 COMING SOON
+This project is a work in progress, more will be here soon!
+:::
