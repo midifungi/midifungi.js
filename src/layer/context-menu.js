@@ -39,6 +39,7 @@ export default {
             }
           }
 
+          // Actually add the setting
           switch (menu.type) {
             case 'slider':
               general.addInput(this.store, key, {
@@ -52,7 +53,16 @@ export default {
               .on('click', ev => {
                 maybeBindControlToLayer()
               })
-            break              
+            break
+
+            case 'list':
+              // Due to a bug with Tweakpane we need to set initial value to number/string
+              // @see https://github.com/cocopon/tweakpane/issues/376
+              const origVal = this.store[key]
+              this.store[key] = 0
+              general.addInput(this.store, key, {options: menu.options})
+              this.store[key] = origVal
+            break
           }
         })
       }
@@ -228,34 +238,66 @@ export default {
     if (!this.menu) return
 
     Object.keys(this.menu).forEach(key => {
-      const menu = this.menu[key]
+      let menu = this.menu[key]
 
-      // Sliders
-      if (menu.type === 'slider' || typeof menu === 'object') {
-        Object.assign(menu, {
-          min: menu.min || 0,
-          max: menu.max || 1,
-          type: 'slider',
-        })
-        if (!menu.onChange) {
-          menu.onChange = function () {
-            this.noLoop && this.draw()
-          }
-        }
-        
-        if (menu.step) {
-          menu.step = menu.step
-        } else if (menu.max > 1) {
-          menu.step = 1
-        } else {
-          menu.step = 0.001
-        }
-
-        // Add the item to the store if it doesn't exist
-        if (!(key in this.store)) {
-          this.store[key] = ('default' in menu) ? menu.default : stepRound(random(menu.min, menu.max), menu.step, menu.min)
+      // Convert arrays
+      if (Array.isArray(menu)) {
+        const opts = [...menu]
+        menu = {
+          type: 'list',
+          options: opts
         }
       }
+      // Convert list into objects
+      if (menu?.type === 'list' && Array.isArray(menu.options)) {
+        const opts = {}
+        menu.options.forEach((item, key) => {
+          opts[key] = item
+        })
+        menu.options = opts
+      }
+
+      // Objects without a type
+      if (typeof menu === 'object' && !menu.type) {
+        menu.type = 'slider'
+      }
+
+      switch (menu.type) {
+        case 'slider':
+          Object.assign(menu, {
+            min: menu.min || 0,
+            max: menu.max || 1,
+            type: 'slider',
+          })
+          if (!menu.onChange) {
+            menu.onChange = function () {
+              this.noLoop && this.draw()
+            }
+          }
+          
+          if (menu.step) {
+            menu.step = menu.step
+          } else if (menu.max > 1) {
+            menu.step = 1
+          } else {
+            menu.step = 0.001
+          }
+    
+          // Add the item to the store if it doesn't exist
+          if (!(key in this.store)) {
+            this.store[key] = ('default' in menu) ? menu.default : stepRound(random(menu.min, menu.max), menu.step, menu.min)
+          }
+        break
+
+        case 'list':
+          // Add item to store if it doesn't exist
+          if (!(key in this.store)) {
+            this.store[key] = ('default' in menu) ? menu.options[menu.default] : menu.options[~~random(Object.keys(menu.options).length)]
+          }
+        break
+      }
+
+      this.menu[key] = menu
     })
   }
 }

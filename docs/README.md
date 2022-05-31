@@ -1,4 +1,4 @@
-# Midifungi - A layer-based p5.js framework with live editing and MIDI support 🎹🍄
+# Midifungi - A layer-based p5.js framework with live editing and MIDI support 🎛️🎹
 
 :::warning 📅 Coming soon
 Midifungi is an experimental framework and still in development. The goal is to announce quietly in Discords in June 2022 🌈
@@ -56,7 +56,7 @@ Let's start by creating a quick generative sketch that demonstrates every featur
 
 ### The background layer
 
-<!-- <Example /> -->
+<Example id="example-001" :layers="['001/bg']" />
 
 <!-- 
 <div style="height: 300px">

@@ -1,4 +1,4 @@
-# Midifungi 🎹🍄 - A layer-based p5.js framework with live editing and MIDI support
+# Midifungi 🎛️🎹 - A layer-based p5.js framework with live editing and MIDI support
 
 # Quickstart
 
@@ -16,3 +16,7 @@
 # Sketch List
 001 - Sillily Pads
 002 - Billions and Billions
+
+
+# Readme todo
+[ ] How to add new sketches

@@ -16,7 +16,8 @@ module.exports = {
     // @see https://snippetors.github.io/plugins/vuepress-plugin-tabs.html
     registerComponentsPlugin({
       components: {
-        Midifungi: path.resolve(__dirname, './components/Midifungi.vue')
+        Midifungi: path.resolve(__dirname, './components/Midifungi.vue'),
+        Example: path.resolve(__dirname, './components/Example.vue'),
       }
     }),
     themeDataPlugin({
