@@ -5,7 +5,7 @@ const {themeDataPlugin} = require('@vuepress/plugin-theme-data')
 const pkg = require('../../package.json')
 
 module.exports = {
-  title: 'Midifungi 🎹🍄',
+  title: 'Midifungi 🎛️🎹',
   description: 'A layer-based p5.js framework with live editing and MIDI support',
 
   head: [
@@ -93,6 +93,8 @@ module.exports = {
     viteOptions: {
       resolve: {
         alias: {
+          '@examples': path.resolve(__dirname, './public/exampl'),
+          '@sketches': path.resolve(__dirname, './public/sketch'),
           '@lib': path.resolve(__dirname, '../../src'),
         }
       }

@@ -14,6 +14,8 @@ Midifungi is [p5.js](https://p5js.org/reference/) framework designed around the 
 - a no-code, customizable MIDI mapping system
 - and a lot more!
 
+
+
 ## Installing midifungi
 
 :::: code-group
@@ -30,6 +32,7 @@ Midifungi is [p5.js](https://p5js.org/reference/) framework designed around the 
 npm i p5
 npm i midifungi
 ```
+
 
 #### Option 1
 
@@ -50,27 +53,47 @@ new midifungi.Layer()
 :::
 ::::
 
+
+
 ## Getting Started
 
-Let's start by creating a quick generative sketch that demonstrates every feature of Midifungi.js. For maximum control and composition, it's best to isolate each feature of your sketch in their own layers as we'll soon see!
+Let's create a quick generative sketch that demonstrates some of the main feature of Midifungi.js. The drawing methods are still all like p5, but instead of drawing into a single canvas we'll be drawing into multiple canvases stacked on top of each other.
 
-### The background layer
 
-<Example id="example-001" :layers="['001/bg']" />
 
-<!-- 
-<div style="height: 300px">
-  <example001 />
-</div>
+### The draw loop
 
-@[code{2-28}](./.vuepress/components/example/001-simple-layer/bg.js)
+In p5.js the action usually starts from within a single `setup()` and `draw()`, but with Midifungi.js every layer has their own `setup()` and `draw()`. When you create a new layer, a new canvas is created and when these methods are called all p5.js methods draw into that canvas automatically.
 
-### Stacking layers
+Let's start with a simple black canvas:
 
-<div style="height: 400px">
-  <example001x2 />
-</div> -->
+@[code{2-6}](./.vuepress/public/example/001/bg-1.js)
+<Example id="example-001-1" :layers="['001/bg-1']" />
 
+
+
+### Live editing
+
+Let's spice things up by selecting a random color from a palette. `Layers.default.colors` contains a palette based on [Shades of Purple VSCode theme](https://marketplace.visualstudio.com/items?itemName=ahmadawais.shades-of-purple), which we'll pass into the layers `opts.menu`. This right-click menu system helps you explore variations within your sketch without coding, and you can even be mapped these to MIDI devices!
+
+You can access these variables within the `setup()` and `draw()` by prefixing the property with a `$`. Try right-clicking (or tap and hold on mobile) to activate the menu:
+
+@[code{2-9}](./.vuepress/public/example/001/bg-2.js)
+<Example id="example-001-2" :layers="['001/bg-2']" />
+
+### Stacking Layers
+
+Now let's introduce a few new layers to demonstrate how stacking works. First, let's add a circle whose size we can adjust. We'll give it an `id` so that we can easily reference it from other layers with `Layers[id]`.
+
+Notice how you can now right-click on either the background or the circle to edit their specefic features:
+
+@[code{2-12}](./.vuepress/public/example/001/bg-3.js)
+<Example id="example-001-3" :layers="['001/bg-2', '001/bg-3']" />
+
+Ok! Now let's add yet another layer on top. We'll use it to place an emoji and scale it to match the size of the circle. Each layer exposes their editable variables in `Layer[id].store[prop]`, and **not** in `Layer[id].menu[prop]` (which is what holds the actual menu config). So to get the circle's size, we would do `Layer.circle.store.size`:
+
+@[code{2-14}](./.vuepress/public/example/001/bg-4.js)
+<Example id="example-001-3" :layers="['001/bg-2', '001/bg-3', '001/bg-4']" />
 
 ---
 
