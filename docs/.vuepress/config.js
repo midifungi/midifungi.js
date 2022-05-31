@@ -24,6 +24,13 @@ module.exports = {
       themeData: {
         pkgVersion: pkg.version,
         repo: 'midifungi/midifungi',
+        locales: {
+          '/': {
+            editLinkText: 'Edit this page on GitHub',
+            lastUpdatedText: 'Last updated',
+            contributorsText: 'Contributors',
+          }
+        },
         sidebar: [
           {
             text: '🏎️ Quick Start',
@@ -100,4 +107,5 @@ module.exports = {
       }
     },
   }),
+  
 }

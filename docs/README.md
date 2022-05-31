@@ -104,10 +104,12 @@ Notice how you can now right-click on either the background or the circle to edi
 
 Ok! Now let's add yet another layer on top. We'll use it to place an emoji and scale it to match the size of the circle. Each layer exposes their editable variables in `Layer[id].store[prop]`, and **not** in `Layer[id].menu[prop]` (which is what holds the actual menu config). So to get the circle's size, we would do `Layer.circle.store.size`:
 
-@[code{2-14}](./.vuepress/public/example/001/bg-4.js)
+@[code{2-22}](./.vuepress/public/example/001/bg-4.js)
 <Example id="example-001-4" :layers="['001/bg-2', '001/bg-3', '001/bg-4']" />
 
 ---
+
+# Mapping variables to MIDI
 
 ::: tip 📅 COMING SOON
 This project is a work in progress, more will be here soon!
