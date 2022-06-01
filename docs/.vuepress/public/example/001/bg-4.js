@@ -2,7 +2,7 @@ export default function () {
 new Layer({
   menu: {
     emoji: ['🧘', '🧘‍♀️', '🧘‍♂️'],
-    depth: {min: 3, max: 8}
+    depth: {min: 1, max: 15}
   },
   setup () {
     textAlign(CENTER, CENTER)

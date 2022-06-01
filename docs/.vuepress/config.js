@@ -69,6 +69,10 @@ module.exports = {
                 text: '002 - Billions and Billions',
                 link: '/sketches/midifungi/002.html'
               },
+              {
+                text: '003 - Meditations',
+                link: '/sketches/midifungi/003.html'
+              },
             ]
           },
           {

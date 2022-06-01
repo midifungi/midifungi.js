@@ -30,6 +30,7 @@ export default class Layer {
       noLoop: false,
       // 0 for system default
       pixelDensity: 0,
+      frameCount: 0,
 
       // Dimensions
       width: w,
@@ -175,6 +176,9 @@ export default class Layer {
     this.beforeGenerate && this.beforeGenerate()
     this.restoreGlobalContext()
 
+    // Misc
+    this.frameCount = 0
+    
     // Setup
     if (this.setup && !this._hasSetContextOnSetup) {
       this._hasSetContextOnSetup = true
@@ -236,8 +240,10 @@ export default class Layer {
 
       // Draw
       this.useGlobalContext()
+      globalThis.frameCount = this.frameCount
       this.opts.draw && this.opts.draw.call(this, this.offscreen)
       this.restoreGlobalContext()
+      this.frameCount++
   
       this._lastX = this.x
       this._lastY = this.y
