@@ -16,8 +16,8 @@ new Layer({
       textSize(size * .8 - i * size * .05)
       text($emoji, width/2, height/2)
     }
-    textSize(size * .1)
-    text('👁️', width/2, height/2)
+    textSize(size * .25 + size * sin(frameCount/this.fps) * .1)
+    text('💖', width/2, height/2)
   }
 })
 }

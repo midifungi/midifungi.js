@@ -1,11 +1,15 @@
 # Midifungi - A layer-based p5.js framework with live editing and MIDI support 🎛️🎹
 
-:::warning 📅 Coming soon
-Midifungi is an experimental framework and still in development. The goal is to announce quietly in Discords in June 2022 🌈
+:::warning 📅 Announcing Mid June 2022
+Midifungi is the result of asking "what if the library itself is the medium?". This project is a fantasy monorepo that contains Midifungi.js, this site and documentation, my daily art gallery, and technical blog all in one package.
+
+It's more of a creative expression than an [open sourced project](https://github.com/midifungi/midifungi) that should be taken seriously. Eventually I may sell some of the examples as NFTs so that I can continue to explore this project 🌈
 :::
 
 <!-- <Midifungi :layers="['@midifungi/001/lilies', '@midifungi/001/ripples']" height=600 /> -->
-<Midifungi id="sketch-002" :layers="['@midifungi/002/starfield', '@midifungi/002/glass', '@midifungi/002/watercanvas', '@midifungi/002/glass-filter', '@midifungi/002/lead']" />
+<!-- <Midifungi id="sketch-002" :layers="['@midifungi/002/starfield', '@midifungi/002/glass', '@midifungi/002/watercanvas', '@midifungi/002/glass-filter', '@midifungi/002/lead']" /> -->
+<Midifungi id="sketch-003" height=600 :layers="['@midifungi/003/bg', '@midifungi/003/shapes', '@midifungi/003/checker', '@midifungi/003/self', '@midifungi/003/squid']" />
+
 
 Midifungi is [p5.js](https://p5js.org/reference/) framework designed around the idea of creative coding in "layers of code" instead of "lines of code". You still sketch in a similar way, but instead of writing code into a single `draw()` you layer code across multiple draw loops each containing:
 - their own canvas and offscreen buffer

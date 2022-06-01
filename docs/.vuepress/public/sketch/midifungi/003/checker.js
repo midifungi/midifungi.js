@@ -10,7 +10,7 @@ new Layer({
     let h = height / 20
     let size = min(w, h)
 
-    for (let n = 0; n < 6; n++) {
+    for (let n = 0; n < 5; n++) {
       for (let y = 0; y < height + h * 2; y += h) {
         switched = !switched
         for (let x = 0; x < 2; x++) {
