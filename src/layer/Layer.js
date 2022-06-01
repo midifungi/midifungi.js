@@ -11,8 +11,8 @@ export default class Layer {
     this.connectMIDI = midiMenu.connectMIDI
     
     // Default dimensions: parent size or fullscreen
-    let w = Layers.target?.clientWidth || globalThis.width
-    let h = Layers.target?.clientHeight || globalThis.height
+    let w = Layers.target?.clientWidth || opts.target?.clientWidth || globalThis.width
+    let h = Layers.target?.clientHeight || opts.target?.clientWidth || globalThis.height
 
     // Last moved target
     this._hasMovedTarget = null
@@ -25,6 +25,8 @@ export default class Layer {
       menuDisabled: false,
       type: 'layer',
       target: Layers.target || null,
+      renderer: P2D,
+      offscreenRenderer: opts.offscreenRenderer || P2D,
       
       fps: 30,
       noLoop: false,
@@ -120,6 +122,8 @@ export default class Layer {
     }
     if (!this.fps) this.fps = this.opts.fps
     if (!this.target) this.target = this.opts.target
+    if (!this.renderer) this.renderer = this.opts.renderer
+    if (!this.offscreenRenderer) this.offscreenRenderer = this.opts.offscreenRenderer
 
     // Menu
     this.menu = cloneDeep(this.opts.menu)
@@ -128,10 +132,10 @@ export default class Layer {
 
     // Canvas
     if (!this.canvas) {
-      this.canvas = createGraphics(this.width, this.height) // Main layer
+      this.canvas = createGraphics(this.width, this.height, this.renderer) // Main layer
     }
     if (!this.offscreen) {
-      this.offscreen = createGraphics(this.width, this.height) // Buffer for individual things
+      this.offscreen = createGraphics(this.width, this.height, this.offscreenRenderer) // Buffer for individual things
     }
     if (this.pixelDensity) {
       this.canvas.pixelDensity(this.pixelDensity)
