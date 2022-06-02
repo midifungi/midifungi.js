@@ -266,6 +266,7 @@ export default class Layer {
     if (Layers._globalContextLayer === this.id) return
     Layers._globalContextLayer = this.id
 
+    // Save the current context
     this._context = {}
     this._storeContext = {}
     p5Overrides.forEach(key => {
@@ -278,6 +279,10 @@ export default class Layer {
       this.canvas.loadPixels()
       globalThis.pixels = this.canvas.pixels
     }
+
+    // Helpers
+    globalThis.minSize = min(this.canvas.width, this.canvas.height)
+    globalThis.maxSize = max(this.canvas.width, this.canvas.height)
 
     // Add this.$ variables
     Object.keys(this.store).forEach(key => {

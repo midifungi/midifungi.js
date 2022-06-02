@@ -99,6 +99,9 @@ export default globalThis.Layers = {
     this.listeners.boundContextmenu = this.listeners.contextmenu.bind(this)
     addEventListener('click', this.listeners.boundClick)
     addEventListener('contextmenu', this.listeners.boundContextmenu)
+
+    // Generate layers
+    Layers.generateCallbacks && Layers.generateCallbacks.forEach(callback => callback())
   },
 
   /**
@@ -424,7 +427,8 @@ export default globalThis.Layers = {
     console.log('pre')
   },
 
-  p5OnDraw () {
+  //
+  _onP5Draw () {
     console.log('draw')
   }
 }
