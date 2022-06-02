@@ -1,7 +1,7 @@
 # Midifungi - A layer-based p5.js framework with live editing and MIDI support 🎛️🎹
 
 :::warning 📅 Announcing Mid June 2022
-Midifungi is the result of asking "what if the library itself is the medium?". This project is a fantasy monorepo that contains Midifungi.js, this site and documentation, my daily art gallery, and technical blog all in one package.
+Midifungi is the result of asking "what if the library itself is the medium?". This project is a fantasy framework and monorepo that contains Midifungi.js, this site and documentation, my daily art gallery, and technical blog all in one package.
 
 It's more of a creative expression than an [open sourced project](https://github.com/midifungi/midifungi) that should be taken seriously. Eventually I may sell some of the examples as NFTs so that I can continue to explore this project 🌈
 :::

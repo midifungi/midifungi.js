@@ -4,7 +4,7 @@
  * https://twitter.com/midifungi
  * https://github.com/midifungi/midifungi
  * ---
- * @version 0.0.18
+ * @version 0.0.20
  * @license "Apache 2.0"
  * ---
  * This file was bundled with Rollup
@@ -10774,7 +10774,7 @@
     },
 
     // About
-    version: '0.0.18',
+    version: '0.0.20',
     curId: 0,
 
     // Menus
@@ -11628,8 +11628,8 @@
       this.connectMIDI = midiMenu.connectMIDI;
       
       // Default dimensions: parent size or fullscreen
-      let w = Layers.target?.clientWidth || globalThis.width;
-      let h = Layers.target?.clientHeight || globalThis.height;
+      let w = Layers.target?.clientWidth || opts.target?.clientWidth || globalThis.width;
+      let h = Layers.target?.clientHeight || opts.target?.clientWidth || globalThis.height;
 
       // Last moved target
       this._hasMovedTarget = null;
@@ -11642,11 +11642,14 @@
         menuDisabled: false,
         type: 'layer',
         target: Layers.target || null,
+        renderer: P2D,
+        offscreenRenderer: opts.offscreenRenderer || P2D,
         
         fps: 30,
         noLoop: false,
         // 0 for system default
         pixelDensity: 0,
+        frameCount: 0,
 
         // Dimensions
         width: w,
@@ -11736,6 +11739,8 @@
       }
       if (!this.fps) this.fps = this.opts.fps;
       if (!this.target) this.target = this.opts.target;
+      if (!this.renderer) this.renderer = this.opts.renderer;
+      if (!this.offscreenRenderer) this.offscreenRenderer = this.opts.offscreenRenderer;
 
       // Menu
       this.menu = cloneDeep(this.opts.menu);
@@ -11744,10 +11749,10 @@
 
       // Canvas
       if (!this.canvas) {
-        this.canvas = createGraphics(this.width, this.height); // Main layer
+        this.canvas = createGraphics(this.width, this.height, this.renderer); // Main layer
       }
       if (!this.offscreen) {
-        this.offscreen = createGraphics(this.width, this.height); // Buffer for individual things
+        this.offscreen = createGraphics(this.width, this.height, this.offscreenRenderer); // Buffer for individual things
       }
       if (this.pixelDensity) {
         this.canvas.pixelDensity(this.pixelDensity);
@@ -11792,6 +11797,9 @@
       this.beforeGenerate && this.beforeGenerate();
       this.restoreGlobalContext();
 
+      // Misc
+      this.frameCount = 0;
+      
       // Setup
       if (this.setup && !this._hasSetContextOnSetup) {
         this._hasSetContextOnSetup = true;
@@ -11853,8 +11861,10 @@
 
         // Draw
         this.useGlobalContext();
+        globalThis.frameCount = this.frameCount;
         this.opts.draw && this.opts.draw.call(this, this.offscreen);
         this.restoreGlobalContext();
+        this.frameCount++;
     
         this._lastX = this.x;
         this._lastY = this.y;
@@ -15196,7 +15206,7 @@
    * Midifungi 🎹🍄
    * A p5js library that helps you organize your code into layers
    * ---
-   * @version 0.0.18
+   * @version 0.0.20
    * @license "Apache 2.0" with the addendum that you cannot use this or its output for NFTs without permission
    */
 
