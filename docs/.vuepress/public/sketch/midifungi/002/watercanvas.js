@@ -84,7 +84,7 @@ window.WaterCanvas = function(width, height, documentElement, waterModel, props)
 		this.prevMs = 0;
 			
 		var self = this; 
-		setInterval(function(){
+		this.findFPSInterval = setInterval(function(){
 			self.findFps();
 		}, 1000);
 	}
@@ -269,11 +269,9 @@ WaterCanvas.prototype.drawNextFrame = function(){
 	
 	
 	// Make the browser call this function at a new render frame
-	var self = this; // For referencing 'this' in internal eventListeners
-	requestAnimFrame( function(){
-		self.drawNextFrame()
-	}, this.canvas );
-			
+	this.animFrame = requestAnimationFrame(() => {
+		this.drawNextFrame()
+	})
 }
 
 /**
@@ -778,17 +776,4 @@ window.create2DArray = function (canvas){
 	return pointerArray;			
 }
 
-// requestAnimFrame (NB: NOT requestAnimationFrame) will be used, 
-// so make sure it's available. Credits @mrdoob
-// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-window.requestAnimFrame = (function(){
-  return  window.requestAnimationFrame       || 
-		  window.webkitRequestAnimationFrame || 
-		  window.mozRequestAnimationFrame    || 
-		  window.oRequestAnimationFrame      || 
-		  window.msRequestAnimationFrame     || 
-		  function(/* function */ callback, /* DOMElement */ element){
-				window.setTimeout(callback, 1000 / 60);
-		  };
-})();
 }

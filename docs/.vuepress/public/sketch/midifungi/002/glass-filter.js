@@ -17,6 +17,8 @@ new Layer({
   },
   
   onDispose () {
+    cancelAnimationFrame(this.store.canvas.animFrame)
+    clearInterval(this.store.canvas.findFPSInterval)
     this.store.model = null
     this.store.canvas = null
   },

@@ -69,8 +69,11 @@ export default class Layer {
     
     // Store references
     Layers.curId++
+    if (Layers[this.id]) {
+      opts.id = this.id = this.id.toString() + '-' + Layers.curId
+    }
     Layers[this.id] = this
-    Layers.all.push(this)
+    Layers.all.push(Layers[this.id])
 
     // Methods
     Object.keys(this.opts.methods).forEach(key => {

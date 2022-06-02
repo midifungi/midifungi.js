@@ -118,7 +118,10 @@ export default globalThis.Layers = {
    * Free memory
    */
   dispose () {
-    this.all.forEach(layer => layer.dispose())
+    const all = [...Layers.all]
+    all.forEach((layer, key) => {
+      layer.dispose()
+    })
     Layers.all = []
   },
 
