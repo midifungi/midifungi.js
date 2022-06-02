@@ -15,6 +15,9 @@ export default globalThis.Layers = {
   noLoop: false,
   hasInit: false,
 
+  // The default _renderer from createCanvas
+  _renderer: null,
+
   // MIDI
   midiConnected: false,
   isBindingMIDI: false,
@@ -22,6 +25,17 @@ export default globalThis.Layers = {
   curBindingControl: null,
   curBindingProp: null,
   midi: {},
+
+  // Recording
+  numFramesRecorded: 0,
+  record: {
+    format: 'mp4',
+    numFrames: 300,
+    bitrate: 5000,
+    quality: .7,
+    width: 0,
+    height: 0
+  },
   
   // The original renderer/canvas context before any layers
   _context: {},
@@ -94,23 +108,6 @@ export default globalThis.Layers = {
   generate (callback) {
     this.generateCallbacks.push(callback)
     this.hasInit && callback()
-  },
-
-  /**
-   * Call the draw method
-   * @param {Function} beforeDraw (Optional) A callback that runs just before each layer is drawn
-   */
-  draw: function (beforeDraw) {
-    Layers.all.forEach(layer => {
-      if (frameCount === 1 || (!layer.noLoop && !Layers.noLoop)) {
-        switch (layer.type) {
-          case 'filter':
-            this.mergeLayers(layer)
-          break
-        }
-        layer.draw(beforeDraw)
-      }
-    })
   },
 
   /**
@@ -412,5 +409,22 @@ export default globalThis.Layers = {
     } else {
       layer.canvas.elt.parentElement.classList.remove('explode')
     }
+  },
+
+  /**
+   * Start recording
+   */
+  startRecording () {
+    console.log(Layers.record)
+    // const capture = globalThis.P5Capture.getInstance()
+    // capture.start(Layers.record)
+  },
+
+  p5OnPre () {
+    console.log('pre')
+  },
+
+  p5OnDraw () {
+    console.log('draw')
   }
 }

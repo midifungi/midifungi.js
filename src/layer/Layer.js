@@ -233,8 +233,9 @@ export default class Layer {
 
   /**
    * Draw loop
+   * @param skipLoop Set to true to skip the loop (like when recording)
    */
-  draw () {
+  draw (skipLoop) {
     if (!this.disabled) {
       // Update position
       if (!this._lastX !== this.x || !this._lastY !== this.y) {
@@ -371,7 +372,7 @@ export default class Layer {
     menu: {
       regenerate: ev => {
         this.generate(true)
-        this.draw()
+        this.noLoop && this.draw(true)
         this.showContextMenu(this._showContextMenuEvent)
       }
     }

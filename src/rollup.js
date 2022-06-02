@@ -6,3 +6,4 @@ import './midifungi.js'
 // Instead we'll include only on build
 import '../node_modules/tweakpane/dist/tweakpane.js'
 import '../node_modules/@tweakpane/plugin-essentials/dist/tweakpane-plugin-essentials.js'
+import '../node_modules/p5.capture/dist/p5.capture.umd.js'

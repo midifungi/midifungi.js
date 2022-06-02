@@ -39,6 +39,7 @@ const onSetup = function () {
     globalThis.set = _set
   }
 
+  // @fixme delete this
   globalThis.params = Object.assign({
     fps: 30,
     seed: null,
@@ -50,17 +51,17 @@ const onSetup = function () {
   }, globalThis.getURLParams())
 
   // ccapture
-  if (+params.record) {
-    globalThis.capturer = new CCapture({
-      format: 'webm',
-      framerate: +params.fps,
-      verbose: true,
-      display: true,
-      timeLimit: +params.recordTime
-    })
+  // if (+params.record) {
+  //   globalThis.capturer = new CCapture({
+  //     format: 'webm',
+  //     framerate: +params.fps,
+  //     verbose: true,
+  //     display: true,
+  //     timeLimit: +params.recordTime
+  //   })
 
-    !params.record && params.fps && frameRate(params.fps)
-  }
+  //   !params.record && params.fps && frameRate(params.fps)
+  // }
 
   // let w = +params.width || min(windowWidth, windowHeight)
   // let h = +params.height || min(windowWidth, windowHeight)
@@ -68,8 +69,7 @@ const onSetup = function () {
   let h = +params.height ||windowHeight
   globalThis.windowRatio = min(w, h) / max(w, h)
 
-  noLoop()
-  createCanvas(w, h)
+  Layers._renderer = createCanvas(w, h)
   recenter()
   canvas.style.display = 'none'
 
@@ -106,7 +106,9 @@ const onSetup = function () {
 /**
  * Onready
  */
+// @fixme: use plugin API: p5.prototype.registerMethod("init", method)
 function onReady () {
+  // Setup
   if (globalThis.setup) {
     const _setup = globalThis.setup
     globalThis.setup = function () {
@@ -115,6 +117,17 @@ function onReady () {
     }
   } else {
     globalThis.setup = onSetup
+  }
+
+  // Draw
+  if (globalThis.draw) {
+    const _draw = globalThis.draw
+    globalThis.draw = function () {
+      _draw()
+      Layers.p5OnDraw()
+    }
+  } else {
+    globalThis.draw = Layers.p5OnDraw
   }
 
   /**

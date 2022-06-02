@@ -163,6 +163,36 @@ export default {
         }
       })
 
+      // Record video
+      const record = this.$menu.$folder.record = this.$menu.addFolder({
+        title: '🎥 Record video/GIF',
+        expanded: false
+      })
+      record.addInput(Layers.record, 'format', {
+        options: {
+          WebM: 'webm',
+          GIF: 'gif',
+          MP4: 'mp4',
+          PNG: 'png',
+          JPG: 'jpg',
+          WebP: 'webp' 
+        }
+      })
+      record.addInput(Layers.record, 'numFrames')
+      record.addInput(Layers.record, 'bitrate', {
+        label: 'bitrade (mp4)'
+      })
+      record.addInput(Layers.record, 'quality', {min: 0, max: 1, step: .05})
+
+      Layers.record.width = this.width
+      Layers.record.height = this.height
+      record.addInput(Layers.record, 'width')
+      record.addInput(Layers.record, 'height')
+      
+      record.addButton({title: 'Record'}).on('click', () => {
+        Layers.startRecording()
+      })
+
       // Update filter layers above this layer
       // Persist data to localstorage
       this.$menu.on('change', () => {
