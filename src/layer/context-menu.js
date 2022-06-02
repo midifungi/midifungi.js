@@ -28,6 +28,7 @@ export default {
       if (this.menu) {
         Object.keys(this.menu).forEach(key => {
           const menu = this.menu[key]
+
           const maybeBindControlToLayer = () => {
             // Check if currently binding
             if (Layers.isBindingMIDI && !Layers.curBindingProp) {
@@ -43,9 +44,9 @@ export default {
           switch (menu.type) {
             case 'slider':
               general.addInput(this.store, key, {
-                min: menu.min,
-                max: menu.max,
-                step: menu.step
+                min: typeof menu.min === 'function' ? menu.min() : menu.min,
+                max: typeof menu.max === 'function' ? menu.max() : menu.max,
+                step: typeof menu.step === 'function' ? menu.step() : menu.step,
               }).on('change', ev => {
                 menu.onChange.call(this, ev)
                 maybeBindControlToLayer()
@@ -85,18 +86,13 @@ export default {
         switch (ev.index[0]) {
           // Regenerate all layers
           case 0:
-            // Regenerate Layers.generate() callbacks
-            document.dispatchEvent(new CustomEvent('layers-regenerate-all', {detail: this}))
-            Layers.dispose()
-            Layers.generateCallbacks && Layers.generateCallbacks.forEach(callback => callback())
-            
-            // Show context on topmost non-filter, non-hidden layer
-            Layers.all.reverse().find(layer => layer.type !== 'filter' && !layer.disabled).showContextMenu(this._showContextMenuEvent)
-            Layers.all.reverse()
+            Layers.all.forEach(layer => {
+              layer.listeners.menu.regenerate.call(layer, ev)
+            })
+            Layers.updateFilters()
           break
           // Regenerate layer
           case 1:
-            document.dispatchEvent(new CustomEvent('layers-regenerate', {detail: this}))
             this.listeners.menu.regenerate.call(this, ev)
             Layers.updateFilters(this)
           break
@@ -315,7 +311,10 @@ export default {
     
           // Add the item to the store if it doesn't exist
           if (!(key in this.store)) {
-            this.store[key] = ('default' in menu) ? menu.default : stepRound(random(menu.min, menu.max), menu.step, menu.min)
+            const min = typeof menu.min === 'function' ? menu.min() : menu.min
+            const max = typeof menu.max === 'function' ? menu.max() : menu.max
+            const step = typeof menu.step === 'function' ? menu.step() : menu.step
+            this.store[key] = ('default' in menu) ? menu.default : stepRound(random(min, max), step, min)
           }
         break
 

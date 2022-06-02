@@ -19,11 +19,11 @@ Made with Midifungi.js
 */
 
 /**
- * Star class adapted from Code Train:
- * @see https://youtu.be/17WoOqgXsRM
- * @see https://editor.p5js.org/codingtrain/sketches/1wLHIck3T
- */
- const Star = class {
+* Star class adapted from Code Train:
+* @see https://youtu.be/17WoOqgXsRM
+* @see https://editor.p5js.org/codingtrain/sketches/1wLHIck3T
+*/
+const Star = class {
   constructor () {
     this.x = random(-width, width)
     this.y = random(-height, height)
@@ -31,7 +31,7 @@ Made with Midifungi.js
     this.life = 0
     this.lastZ = this.z
   }
-
+  
   update () {
     this.z -= Layers.starfield.store.speed
     if (this.z < 1) {
@@ -42,70 +42,66 @@ Made with Midifungi.js
       this.life = 0
     }
   }
-
+  
   draw () {
     noStroke()
     const sx = map(this.x / this.z, 0, 1, 0, width)
     const sy = map(this.y / this.z, 0, 1, 0, height)
     const r = map(this.z, 0, width, Layers.starfield.store.size, 0)
-
+    
     // Fade in
     this.life += Layers.starfield.store.speed/50 * .1
     fill(255, min(1, this.life))
     ellipse(sx, sy, r, r)
-
+    
     const px = map(this.x / this.lastZ, 0, 1, 0, width)
     const py = map(this.y / this.lastZ, 0, 1, 0, height)
     this.lastZ = this.z
-
+    
     stroke(255, min(1, this.life))
     line(px, py, sx, sy)
   }
 }
 
 /**
- * Starfield layer
- */
- Layers.generate(() => {
-  new Layer({
-    id: 'starfield',
-
-		// These automatically convert into sliders
-		// You can also bind with MIDI through right click!
-    menu: {
-      numStars: {min: 100, max: 2000, onChange () {this.setup()}},
-      size: {max: minSize*.03},
-      speed: {max: 50},
-    },
-    
-		// Non menu variables
-		// Access with $stars within draw(), setup()
-		// or with this.store.stars everywhere else
-    store: {
-      stars: []
-    },
-
-    setup () {
-      $stars = []
-      for (let i = 0; i < $numStars; i++) {
-        $stars.push(new Star())
-      }
-    },
-
-		// Each layer has own canvas
-		// but p5 methods magically point to correct canvas so no need for canvas.background()
-    draw () {
-      background(0)
-      push()
-      translate(width/2, height/2)
-      $stars.forEach((star, n) => {
-        star.update()
-        star.draw()
-      })
-      pop()
+* Starfield layer
+*/
+new Layer({
+  id: 'starfield',
+  
+  // These automatically convert into sliders
+  // You can also bind with MIDI through right click!
+  menu: {
+    numStars: {min: 100, max: 2000, onChange () {this.setup()}},
+    size: {max: () => minSize*.03},
+    speed: {max: 50},
+  },
+  
+  // Non menu variables
+  // Access with $stars within draw(), setup()
+  // or with this.store.stars everywhere else
+  store: {
+    stars: []
+  },
+  
+  setup () {
+    $stars = []
+    for (let i = 0; i < $numStars; i++) {
+      $stars.push(new Star())
     }
-  })
+  },
+  
+  // Each layer has own canvas
+  // but p5 methods magically point to correct canvas so no need for canvas.background()
+  draw () {
+    background(0)
+    push()
+    translate(width/2, height/2)
+    $stars.forEach((star, n) => {
+      star.update()
+      star.draw()
+    })
+    pop()
+  }
 })
-
-
 }

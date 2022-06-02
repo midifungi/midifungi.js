@@ -19,7 +19,7 @@ export default class Layer {
     this.requestAnimationFrameID = null
     
     // Defaults
-    this.opts = globalThis.defaultsDeep(opts, {
+    this.opts = globalThis.defaults(opts, {
       id: Layers.curId,
       disabled: false,
       menuDisabled: false,
@@ -125,11 +125,6 @@ export default class Layer {
     if (!this.renderer) this.renderer = this.opts.renderer
     if (!this.offscreenRenderer) this.offscreenRenderer = this.opts.offscreenRenderer
 
-    // Menu
-    this.menu = cloneDeep(this.opts.menu)
-    this.store = cloneDeep(this.opts.store)
-    this.parseMenu()
-
     // Canvas
     if (!this.canvas) {
       this.canvas = createGraphics(this.width, this.height, this.renderer) // Main layer
@@ -143,7 +138,14 @@ export default class Layer {
     }
     this.canvas.elt.classList.add('midifungi-layer', `midifungi-layer-${this.id}`)
     this.offscreen.elt.classList.add('midifungi-offscreen', `midifungi-layer-${this.id}`)
+    globalThis.minSize = min(this.width, this.height)
+    globalThis.maxSize = max(this.width, this.height)
 
+    // Menu
+    this.menu = globalThis.clone(this.opts.menu)
+    this.store = globalThis.clone(this.opts.store)
+    this.parseMenu()
+    
     // Setup the target to receive the canvases
     if (this.target && !this._hasMovedTarget) {
       this._hasMovedTarget = true
@@ -378,7 +380,8 @@ export default class Layer {
       regenerate: ev => {
         this.generate(true)
         this.noLoop && this.draw(true)
-        this.showContextMenu(this._showContextMenuEvent)
+        this._showContextMenuEvent && this.showContextMenu(this._showContextMenuEvent)
+        this._showContextMenuEvent = null
       }
     }
   }
