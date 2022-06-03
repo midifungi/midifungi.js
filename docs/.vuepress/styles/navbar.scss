@@ -3,8 +3,23 @@ html {
   .navbar .links {
     background: $panelBg
   }
-  .navbar .site-name {
-    color: $link;
+  .navbar {
+    [aria-label="GitHub"] {
+      display: inline-block;
+      width: 35px;
+      height: 35px;
+      background: url('/branding/github.png') no-repeat;
+      background-size: 35px 35px;
+      color: transparent;
+      top: -6px;
+      position: relative;
+
+      > span {display: none;}
+    }
+
+    .site-name {
+      color: $link;
+    }
   }
 
   .search-box input {
@@ -25,6 +40,10 @@ html {
       span:last-child {
         display: none
       }
+    }
+
+    .can-hide {
+      display: block
     }
 
     [href="/"].router-link-active {

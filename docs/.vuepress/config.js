@@ -2,6 +2,7 @@ const {viteBundler} = require('@vuepress/bundler-vite')
 const {path} = require('@vuepress/utils')
 const {registerComponentsPlugin} = require('@vuepress/plugin-register-components')
 const {themeDataPlugin} = require('@vuepress/plugin-theme-data')
+// const {searchPlugin} = require('@vuepress/plugin-search')
 const pkg = require('../../package.json')
 
 module.exports = {
@@ -20,6 +21,16 @@ module.exports = {
         Example: path.resolve(__dirname, './components/Example.vue'),
       }
     }),
+
+    // @see https://v2.vuepress.vuejs.org/reference/plugin/search.html#issearchable
+    // searchPlugin({
+    //   locales: {
+    //     '/': {
+    //       placeholder: 'Search'
+    //     }
+    //   }
+    // }),
+
     themeDataPlugin({
       themeData: {
         logo: '/midifungi-title.png',

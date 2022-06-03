@@ -179,6 +179,11 @@ html {
     padding-top: 70px;
     border-right-width: 1px;
     border-right: 1px solid #eaecef;
+    padding-bottom: 10px;
+
+    .navbar-items {
+      display: none;
+    }
   }
 }
 
