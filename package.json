@@ -1,6 +1,6 @@
 {
   "name": "midifungi",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "description": "A layer-based p5.js framework with live editing and MIDI support",
   "main": "dist/midifungi.js",
   "scripts": {
@@ -8,8 +8,7 @@
     "build": "npm run build:lib && npm run build:docs",
     "build:lib": "rollup --config rollup.config.js",
     "build:docs": "vuepress build docs",
-    "server": "npx http-server",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npx http-server docs/.vuepress/dist",
     "postinstall": "node ./postinstall.js"
   },
   "repository": {

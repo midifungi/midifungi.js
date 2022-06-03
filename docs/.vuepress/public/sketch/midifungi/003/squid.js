@@ -15,7 +15,7 @@ Layers.create(() => {
     id: 'squid',
 
     menu: {
-      emoji: Emojis.tag.nature
+      emoji: Emojis.tag.people
     },
 
     store: {

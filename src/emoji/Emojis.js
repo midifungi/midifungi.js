@@ -1,4 +1,5 @@
-import {gemoji} from 'gemoji'
+import {gemoji} from '../../node_modules/gemoji/index.js'
+
 export default {
   list: gemoji,
   get all () {
