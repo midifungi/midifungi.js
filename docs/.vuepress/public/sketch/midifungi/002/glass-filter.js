@@ -49,6 +49,8 @@ Layers.create(() => {
         })
         $waterCanvas.canvas.style.vibility = 'hidden'
         $waterCanvas.canvas.style.opacity = 0
+        $waterCanvas.canvas.style.pointerEvents = 'none'
+        $waterCanvas.canvas.style.position = 'absolute'
       }
 
       // Create a bunch of touch points

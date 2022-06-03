@@ -3,8 +3,23 @@ html {
   .navbar .links {
     background: $panelBg
   }
-  .navbar .site-name {
-    color: $link;
+  .navbar {
+    [aria-label="GitHub"] {
+      display: inline-block;
+      width: 35px;
+      height: 35px;
+      background: url('/branding/github.png') no-repeat;
+      background-size: 35px 35px;
+      color: transparent;
+      top: -6px;
+      position: relative;
+
+      > span {display: none;}
+    }
+
+    .site-name {
+      color: $link;
+    }
   }
 
   .search-box input {
@@ -27,12 +42,16 @@ html {
       }
     }
 
-    .home-link.router-link-active {
-      background: url('/favicon.png') no-repeat;
+    .can-hide {
+      display: block
+    }
+
+    [href="/"].router-link-active {
+      background: url('/midifungi-m.png') no-repeat;
       background-position: top left;
-      background-size: 35px 35px;
+      background-size: 55px 35px;
       display: inline-block;
-      width: 100px;
+      width: 55px;
       height: 35px;
 
       img {

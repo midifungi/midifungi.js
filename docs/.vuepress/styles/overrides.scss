@@ -29,6 +29,19 @@ html {
     &:not(:disabled):active {
       padding: 1em
     }
+
+    &.code-group__nav-tab {
+      background: #444;
+      
+      &:not(:disabled):active {
+        padding: 5px !important;
+      }
+
+      &:not(:disabled).code-group__nav-tab-active {
+        box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+        background: #222;
+      }
+    }
   }
 
   // Dropdowns
@@ -82,10 +95,28 @@ html {
     opacity: 0.45
   }
 
+  // Notifications
+  .custom-container {
+    box-shadow: var(--border-window-outer), var(--border-window-inner);
+    border-left: 0 !important;
+  }
+
   // 98.css
   fieldset {
     legend {
       font-weight: bold
     }
+  }
+
+  .code-group__nav {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  .code-group__nav-tab {
+    font-weight: normal !important;
+  }
+  .code-group__nav-tab-active {
+    border-bottom: none;
+    background: var(--surface) !important;
   }
 }

@@ -108,6 +108,7 @@ export default globalThis.Layers = {
     this.listeners.boundContextmenu = this.listeners.contextmenu.bind(this)
     addEventListener('click', this.listeners.boundClick)
     addEventListener('contextmenu', this.listeners.boundContextmenu)
+    addEventListener('resize', this.listeners.windowResize)
 
     // Run callbacks
     this.onCreateCallbacks.forEach(cb => cb())
@@ -262,6 +263,13 @@ export default globalThis.Layers = {
         }
       }
     },
+
+    /**
+     * Resizes all canvas
+     */
+    windowResize: throttle (function () {
+      Layers.trigger('resize')
+    }, 100, {leading: true})
   },
 
   /**
@@ -423,7 +431,9 @@ export default globalThis.Layers = {
    * Trigger an event on layers
    */
   trigger (ev) {
-    console.log('trigger', ev)
+    Layers.all.forEach(layer => {
+      layer.trigger(ev)
+    })
   },
   
   /**

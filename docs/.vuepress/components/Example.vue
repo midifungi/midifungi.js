@@ -1,5 +1,7 @@
 <template>
-  <div class="midifungi-layers-wrap" :style="{height: wrapHeight}" ref="target"></div>
+  <div class="midifungi-layers-wrap-outer">
+    <div class="midifungi-layers-wrap midifungi-example" :style="{height: wrapHeight}" ref="target"></div>
+  </div>
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 {
   "name": "midifungi",
-  "version": "0.0.24",
+  "version": "0.0.25",
   "description": "A layer-based p5.js framework with live editing and MIDI support",
   "main": "dist/midifungi.js",
   "scripts": {
@@ -33,6 +33,7 @@
   "devDependencies": {
     "@rollup/plugin-replace": "^3.0.1",
     "@vuepress/plugin-register-components": "^2.0.0-beta.45",
+    "@vuepress/plugin-search": "^2.0.0-beta.46",
     "@vuepress/plugin-theme-data": "^2.0.0-beta.45",
     "cpx": "^1.5.0",
     "p5": "^1.4.1",

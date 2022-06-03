@@ -24,6 +24,10 @@ html {
           width: 100%;
         }
       }
+
+      .midifungi-layers-wrap {
+        height: 100% !important
+      }
     }
   }
 }
@@ -78,6 +82,10 @@ html {
     }
     button[aria-label='Restore'] {
       display: inline-block;
+    }
+
+    .midifungi-layers-wrap-outer {
+      height: calc(100% - 8px) !important;
     }
   }
 }

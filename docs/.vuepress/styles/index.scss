@@ -17,6 +17,45 @@
 .midifungi-layers-wrap {
   height: 100%;
 }
+.midifungi-layers-wrap-outer {
+  box-shadow: var(--border-field);
+  padding: 2px !important;
+}
+
+html {
+  .code-group__nav {
+    background: transparent;
+    padding-left: 0;
+    .code-group__ul {
+      margin-bottom: var(--element-spacing);
+    }
+    .code-group__li {
+      margin-right: var(--element-spacing)
+    }
+  
+    .code-group__nav-tab {
+      background: var(--surface);
+      color: #222;
+    }
+  }
+}
+.code-group-item > [class^="language-"] {
+  box-shadow: var(--border-field);
+}
+.page > div > [class^="language-"] {
+  box-shadow: var(--border-field);
+  padding: 2px !important;
+
+  .code-group__nav {
+    margin-top: 0;
+  }
+}
+.page > div > [class^="language-"] {
+  margin-bottom: calc(var(--element-spacing) * 2);
+}
+html .theme-default-content pre, .theme-default-content pre[class*=language-] {
+  margin-bottom: 0
+}
 
 .next-element-is-changelog + table {
   width: 100%;
