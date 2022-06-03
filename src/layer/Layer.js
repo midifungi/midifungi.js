@@ -244,6 +244,33 @@ export default class Layer {
     if (this.disabled) this.show()
     else this.hide()
   }
+  
+  /**
+   * Trigger an event
+   */
+  trigger (evName) {
+    switch (evName) {
+      case 'resize':
+        this.resize()
+      break
+    }
+  }
+
+  /**
+   * Resize the canvas
+   */
+  resize () {
+    const $target = this.target || document.body
+    const width = $target.clientWidth
+    const height = $target.clientHeight
+    this.width = width
+    this.height = height
+    this.canvas.resizeCanvas(width, height)
+    this.offscreen.resizeCanvas(width, height)
+
+    this.generate(true)
+    this.noLoop && this.draw()
+  }
 
   /**
    * Draw loop
@@ -380,8 +407,8 @@ export default class Layer {
    * @returns 
    */
   getProgress (seconds = 4) {
-    const period = +params.fps * seconds / 2
-    return (frameCount % period) / period
+    const period = +this.fps * seconds / 2
+    return (this.frameCount % period) / period
   }
 
   /**

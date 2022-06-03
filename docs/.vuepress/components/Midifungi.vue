@@ -5,7 +5,6 @@
     <div class="title-bar-controls" v-if="hasTitlebarControls"><button v-if="minimize" aria-label="Minimize" @click="onMinimize"></button><button v-if="maximize || minimize" aria-label="Restore" @click="onRestore"></button><button aria-label="Maximize" @click="onMaximize"></button></div>
   </div>
   <div class="window-body">
-    <slot></slot>
     <div class="midifungi-layers-wrap" :style="{height: wrapHeight}" ref="target"></div>
   </div>
 </div>
