@@ -14,12 +14,11 @@ Layers.create(() => {
   new Layer({
     id: 'squid',
 
-    // menu: {
-    //   emoji: ['🧘', '🏋️']//['🧘‍♂️', '🧘‍♀️', '🧘']
-    // },
+    menu: {
+      emoji: Emojis.tag.nature
+    },
 
     store: {
-      emoji: '😎',
       eyeHeight: random(1),
       tracers: []
     },

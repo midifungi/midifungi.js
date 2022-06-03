@@ -1,59 +1,89 @@
-button {
-  display: inline-block;
-  font-size: 1.2rem;
-  color: #fff;
-  background-color: $accentColor;
-  padding: .8rem 1.6rem;
-  border-radius: 4px;
-  transition: background-color .1s ease;
-  box-sizing: border-box;
-  border-color: lighten($accentColor, 10%);
-  border-bottom: 1px solid darken($accentColor, 10%);
-  cursor: pointer;
-
-  &[disabled] {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  &:hover {
-    background: lighten($accentColor, 10%);
-    border-color: lighten($accentColor, 20%);
-    border-bottom-color: $accentColor;
-  }
-
-  &:active {
-    background: darken($accentColor, 10%);
-    border-color: $accentColor;
-    border-bottom-color: darken($accentColor, 20%);
-  }
-
-  &.negative {
-    background-color: $blockRed;
-    border-color: lighten($blockRed, 10%);
-    border-bottom-color: darken($blockRed, 10%);
-
-    &:hover {
-      background: lighten($blockRed, 10%);
-      border-color: lighten($blockRed, 20%);
-      border-bottom-color: $blockRed;
+html {
+  .window {
+    .title-bar {
+      button {
+        margin-left: 3px;
+        &:active {
+          padding: 0 !important;
+        }
+        &:hover {
+          background-color: silver !important;
+        }
+      }
     }
 
-    &:active {
-      background: darken($blockRed, 10%);
-      border-color: $blockRed;
-      border-bottom-color: darken($blockRed, 20%);
+    &.maximized {
+      .window-body section {
+        overflow: auto;
+        width: 740px;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 100%;
+
+        img {
+          width: 100%;
+        }
+      }
     }
   }
 }
 
-html {
-  header.navbar button {
-    padding: .4rem .8rem;
-    font-size: .8rem;
+.window-component {
+  margin-top: .5em;
+  flex-direction: column;
+  display: flex;
 
-    &:active {
-      padding: .4rem .8rem;
+  &.mb-0 {
+    margin-bottom: 0 !important;
+  }
+
+  &.handsfree-show-when-started {
+    display: none;
+  }
+
+  button[aria-label='Restore'] {
+    display: none;
+  }
+
+  .window-body {
+    overflow: hidden;
+    flex: auto;
+  }
+
+  &.minimized {
+    .window-body {
+      display: none !important;
     }
+
+    button[aria-label='Minimize'] {
+      display: none;
+    }
+    button[aria-label='Restore'] {
+      display: inline-block;
+    }
+  }
+  
+  &.maximized {
+    position: fixed;
+    top: 56px;
+    margin-top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    height: calc(100vh - 61px) !important;
+
+    button[aria-label='Maximize'] {
+      display: none;
+    }
+    button[aria-label='Restore'] {
+      display: inline-block;
+    }
+  }
+}
+
+.handsfree-started {
+  .window-component.handsfree-show-when-started {
+    display: flex;
   }
 }

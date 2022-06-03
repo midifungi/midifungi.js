@@ -40,4 +40,10 @@ html, body {
       margin-top: 1em
     }
   }
+
+  pre {
+    &.wrap {
+      white-space: pre-wrap;
+    }
+  }
 }

@@ -70,7 +70,7 @@ module.exports = {
                 link: '/sketches/midifungi/002.html'
               },
               {
-                text: '003 - Meditations',
+                text: '003 - Spirit Emojis',
                 link: '/sketches/midifungi/003.html'
               },
             ]

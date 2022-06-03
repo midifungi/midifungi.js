@@ -1,5 +1,15 @@
 <template>
-  <div class="midifungi-layers-wrap" :style="{height: wrapHeight}" ref="target"></div>
+<div class="window window-component mb-md" ref="window">
+  <div class="title-bar" v-if="hasTitlebar">
+    <div class="title-bar-text" v-if="title">{{title}}</div>
+    <div class="title-bar-controls" v-if="hasTitlebarControls"><button v-if="minimize" aria-label="Minimize" @click="onMinimize"></button><button v-if="maximize || minimize" aria-label="Restore" @click="onRestore"></button><button aria-label="Maximize" @click="onMaximize"></button></div>
+  </div>
+  <div class="window-body">
+    <slot></slot>
+    <div class="midifungi-layers-wrap" :style="{height: wrapHeight}" ref="target"></div>
+  </div>
+</div>
+
 </template>
 
 <script>
@@ -9,6 +19,9 @@ export default {
     // Prefix with @username/001/path to load /sketch/midifungi/001/path.js
     'layers',
     'height',
+    'title',
+    'maximize',
+    'minimize'
   ],
 
   /**
@@ -17,12 +30,20 @@ export default {
    */
   data() {
     return {
+      isMinimized: false,
+      isMaximized: false,
       loadedLayers: Array(this.layers.length).fill(null),
       numLoadedLayers: 0,
     }
   },
 
   computed: {
+    hasTitlebar () {
+      return this.hasTitlebarControls || this.title
+    },
+    hasTitlebarControls () {
+      return this.maximize || this.minimize
+    },
     wrapHeight () {return (this.height || 450) + 'px'}
   },
 
@@ -82,7 +103,33 @@ export default {
           sketch.default()
         })
       }
-    }
+    },
+
+    /**
+     * Handle window resize
+     */
+    onMinimize () {
+      this.$refs.window.classList.add('minimized')
+      this.$refs.window.classList.remove('maximized')
+      this.isMinimized = true
+      this.isMaximized = false
+      Layers.trigger('resize')
+    },
+
+    onMaximize () {
+      this.$refs.window.classList.add('maximized')
+      this.$refs.window.classList.remove('minimized')
+      this.isMinimized = false
+      this.isMaximized = true
+      Layers.trigger('resize')
+    },
+    
+    onRestore () {
+      this.$refs.window.classList.remove('maximized', 'minimized')
+      this.isMinimized = false
+      this.isMaximized = false      
+      Layers.trigger('resize')
+    },
   }
 }
 </script>

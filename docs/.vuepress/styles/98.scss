@@ -49,7 +49,7 @@ html textarea,
 html select,
 html option,
 html ul.tree-view,
-html .sidebar > ul.sidebar-links,
+html .sidebar > ul.sidebar-items,
 html .window,
 html .title-bar {
   -webkit-font-smoothing: none;
@@ -432,8 +432,8 @@ html a:focus {
 }
 html .tree-view.tree-view,
 html .sidebar > ul.tree-view,
-html .tree-view.sidebar-links,
-html .sidebar > ul.sidebar-links {
+html .tree-view.sidebar-items,
+html .sidebar > ul.sidebar-items {
   display: block;
   background: var(--button-highlight);
   box-shadow: var(--border-field);
@@ -442,42 +442,42 @@ html .sidebar > ul.sidebar-links {
 }
 html .tree-view.tree-view li,
 html .sidebar > ul.tree-view li,
-html .tree-view.sidebar-links li,
-html .sidebar > ul.sidebar-links li {
+html .tree-view.sidebar-items li,
+html .sidebar > ul.sidebar-items li {
   list-style-type: none;
 }
 html .tree-view.tree-view a,
 html .sidebar > ul.tree-view a,
-html .tree-view.sidebar-links a,
-html .sidebar > ul.sidebar-links a {
+html .tree-view.sidebar-items a,
+html .sidebar > ul.sidebar-items a {
   text-decoration: none;
   color: #000;
 }
 html .tree-view.tree-view a.active,
 html .sidebar > ul.tree-view a.active,
-html .tree-view.sidebar-links a.active,
-html .sidebar > ul.sidebar-links a.active {
+html .tree-view.sidebar-items a.active,
+html .sidebar > ul.sidebar-items a.active {
   background-color: var(--dialog-blue);
   color: var(--button-highlight);
 }
 html .tree-view.tree-view ul,
 html .sidebar > ul.tree-view ul,
-html .tree-view.sidebar-links ul,
-html .sidebar > ul.sidebar-links ul {
+html .tree-view.sidebar-items ul,
+html .sidebar > ul.sidebar-items ul {
   margin-left: 16px;
   padding-left: 16px;
   border-left: 1px dotted #808080;
 }
 html .tree-view.tree-view ul > li,
 html .sidebar > ul.tree-view ul > li,
-html .tree-view.sidebar-links ul > li,
-html .sidebar > ul.sidebar-links ul > li {
+html .tree-view.sidebar-items ul > li,
+html .sidebar > ul.sidebar-items ul > li {
   position: relative;
 }
 html .tree-view.tree-view ul > li::before,
 html .sidebar > ul.tree-view ul > li::before,
-html .tree-view.sidebar-links ul > li::before,
-html .sidebar > ul.sidebar-links ul > li::before {
+html .tree-view.sidebar-items ul > li::before,
+html .sidebar > ul.sidebar-items ul > li::before {
   content: "";
   display: block;
   position: absolute;
@@ -488,8 +488,8 @@ html .sidebar > ul.sidebar-links ul > li::before {
 }
 html .tree-view.tree-view ul > li:last-child::after,
 html .sidebar > ul.tree-view ul > li:last-child::after,
-html .tree-view.sidebar-links ul > li:last-child::after,
-html .sidebar > ul.sidebar-links ul > li:last-child::after {
+html .tree-view.sidebar-items ul > li:last-child::after,
+html .sidebar > ul.sidebar-items ul > li:last-child::after {
   content: "";
   display: block;
   position: absolute;
@@ -501,22 +501,22 @@ html .sidebar > ul.sidebar-links ul > li:last-child::after {
 }
 html .tree-view.tree-view ul details > summary:before,
 html .sidebar > ul.tree-view ul details > summary:before,
-html .tree-view.sidebar-links ul details > summary:before,
-html .sidebar > ul.sidebar-links ul details > summary:before {
+html .tree-view.sidebar-items ul details > summary:before,
+html .sidebar > ul.sidebar-items ul details > summary:before {
   margin-left: -22px;
   position: relative;
   z-index: 1;
 }
 html .tree-view.tree-view details,
 html .sidebar > ul.tree-view details,
-html .tree-view.sidebar-links details,
-html .sidebar > ul.sidebar-links details {
+html .tree-view.sidebar-items details,
+html .sidebar > ul.sidebar-items details {
   margin-top: 0;
 }
 html .tree-view.tree-view details > summary:before,
 html .sidebar > ul.tree-view details > summary:before,
-html .tree-view.sidebar-links details > summary:before,
-html .sidebar > ul.sidebar-links details > summary:before {
+html .tree-view.sidebar-items details > summary:before,
+html .sidebar > ul.sidebar-items details > summary:before {
   text-align: center;
   display: block;
   float: left;
@@ -531,20 +531,20 @@ html .sidebar > ul.sidebar-links details > summary:before {
 }
 html .tree-view.tree-view details[open] summary,
 html .sidebar > ul.tree-view details[open] summary,
-html .tree-view.sidebar-links details[open] summary,
-html .sidebar > ul.sidebar-links details[open] summary {
+html .tree-view.sidebar-items details[open] summary,
+html .sidebar > ul.sidebar-items details[open] summary {
   margin-bottom: 0;
 }
 html .tree-view.tree-view details[open] > summary:before,
 html .sidebar > ul.tree-view details[open] > summary:before,
-html .tree-view.sidebar-links details[open] > summary:before,
-html .sidebar > ul.sidebar-links details[open] > summary:before {
+html .tree-view.sidebar-items details[open] > summary:before,
+html .sidebar > ul.sidebar-items details[open] > summary:before {
   content: "-";
 }
 html ul.tree-view ul,
-html .sidebar > ul.sidebar-links ul,
+html .sidebar > ul.sidebar-items ul,
 html ul.tree-view li,
-html .sidebar > ul.sidebar-links li {
+html .sidebar > ul.sidebar-items li {
   margin-top: 3px;
 }
 html pre {

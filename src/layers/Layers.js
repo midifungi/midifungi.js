@@ -348,7 +348,7 @@ export default globalThis.Layers = {
   /**
    * Bind the control to the layers property
    */
-   maybeBindControlToLayer () {
+  maybeBindControlToLayer () {
     if (this.curBindingControl && this.curBindingProp) {
       this.bindControlToLayer()
     }
@@ -420,8 +420,16 @@ export default globalThis.Layers = {
   },
 
   /**
+   * Trigger an event on layers
+   */
+  trigger (ev) {
+    console.log('trigger', ev)
+  },
+  
+  /**
    * Start recording
    */
+  // @todo
   startRecording () {
     console.log(Layers.record)
     // const capture = globalThis.P5Capture.getInstance()

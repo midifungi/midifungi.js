@@ -7,6 +7,7 @@
  */
 
 // Midifungi
+import Emojis from './emoji/Emojis'
 import './helpers.js'
 import Layers from './layers/Layers.js'
 import Layer from './layer/Layer.js'
@@ -15,6 +16,7 @@ import p5Overrides from './p5-overrides.js'
 // Global exports
 globalThis.Layers = Layers
 globalThis.Layer = Layer
+globalThis.Emojis = Emojis
 
 /**
  * Initialize Midifungi

@@ -8,23 +8,24 @@ html {
     height: 100%;
     padding-bottom: 68px;
 
-    > .sidebar-links {
+    > .sidebar-items {
       width: auto;
       overflow: auto;
       flex: 1 1 auto;
     }
 
-    .nav-links { 
+    .nav-items { 
       display: none;
     }
   }
 
-  a.sidebar-link.active,
+  a.sidebar-item,
+  a.sidebar-item.active,
   .sidebar-heading.clickable.active {
-    border-left-color: transparent;
+    border-left-color: transparent !important;
   }
 
-  a.sidebar-link.active + ul .sidebar-link.active {
+  a.sidebar-item.active + ul .sidebar-item.active {
     background: none;
     color: $color;
     font-weight: 700;
@@ -50,23 +51,23 @@ html {
     color: $color;
   }
 
-  .sidebar > .sidebar-links > li > a.sidebar-link,
+  .sidebar > .sidebar-items > li > a.sidebar-item,
   .sidebar-heading {
     font-weight: normal;
     font-size: 1em;
   }
     
-  .sidebar-links.sidebar-group-items {
+  .sidebar-items.sidebar-group-items {
     overflow: visible;
   }
 
-  a.sidebar-link,
+  a.sidebar-item,
   .sidebar-heading,
-  .sidebar-group a.sidebar-link {
+  .sidebar-group a.sidebar-item {
     padding-left: .5em;
   }
 
-  .sidebar > .sidebar-links > li:not(:first-child) {
+  .sidebar > .sidebar-items > li:not(:first-child) {
     margin-top: 0;
   }
 
