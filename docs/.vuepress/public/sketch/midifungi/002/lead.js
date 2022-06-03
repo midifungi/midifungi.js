@@ -1,8 +1,8 @@
 export default function () {
-/**
-* This layer adds the black wireframe that holds the glass together
-*/
-Layers.generate(() => {
+Layers.create(() => {
+  /**
+  * This layer adds the black wireframe that holds the glass together
+  */
   let defaultColorRange = 10
   let defaultColorOffset = Layers.default.colors[2][0]
 
@@ -26,14 +26,14 @@ Layers.generate(() => {
     Layers.filter.throttledDraw()
     Layers.filter.store.canvas.drawNextFrame()
   }, 100, {trailing: true})
-  
+
   // Position of cells
   // @see https://www.redblobgames.com/grids/hexagons/#size-and-spacing
   const cells = [
     [0, -2], [1, -1], [1, 1], [0, 2], [-1, 1], [-1, -1],
     [0, -4], [1, -3], [2, -2], [2, 0], [2, 2], [1, 3], [0, 4], [-1, 3], [-2, 2], [-2, 0], [-2, -2], [-1, -3],
   ]
-  
+
   // const lead = new Layer(opts)
   new Layer({
     id: 'lead',
@@ -47,17 +47,20 @@ Layers.generate(() => {
         // default: defaultColorRange,
         onChange,
       },
-      strokeWeight: {min: 1, max: minSize * .025},
+      strokeWeight: {min: 1, max: () => minSize * .025},
     },
     
     store: {
       cells: []
     },
     
-    setup () {$cells = []},
+    setup () {
+      $cells = []
+      canvas.style.zIndex = 2
+    },
     
     draw () {
-      // Size fo the draw area
+      // Size of the draw area
       const size = min(width, height, 300)
       let scale
       if (width > height) {
@@ -104,8 +107,5 @@ Layers.generate(() => {
       pop()
     }
   })
-  
-  Layers.lead.canvas.elt.style.zIndex = 2
 })
-
 }

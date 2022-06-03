@@ -15,6 +15,9 @@ export default globalThis.Layers = {
   noLoop: false,
   hasInit: false,
 
+  // The default _renderer from createCanvas
+  _renderer: null,
+
   // MIDI
   midiConnected: false,
   isBindingMIDI: false,
@@ -22,6 +25,17 @@ export default globalThis.Layers = {
   curBindingControl: null,
   curBindingProp: null,
   midi: {},
+
+  // Recording
+  numFramesRecorded: 0,
+  record: {
+    format: 'mp4',
+    numFrames: 300,
+    bitrate: 5000,
+    quality: .7,
+    width: 0,
+    height: 0
+  },
   
   // The original renderer/canvas context before any layers
   _context: {},
@@ -58,6 +72,15 @@ export default globalThis.Layers = {
   },
 
   /**
+   * Adds the callback to the list of callbcks to be called on Generate All
+   */
+  onCreateCallbacks: [],
+  create (cb) {
+    this.onCreateCallbacks.push(cb)
+    this.hasInit && cb()
+  },
+  
+  /**
    * Bind listeners like clicking and right clicking
    */
   init () {
@@ -85,32 +108,9 @@ export default globalThis.Layers = {
     this.listeners.boundContextmenu = this.listeners.contextmenu.bind(this)
     addEventListener('click', this.listeners.boundClick)
     addEventListener('contextmenu', this.listeners.boundContextmenu)
-  },
 
-  /**
-   * A list of functions to call whenever generateLayers() is called
-   */
-  generateCallbacks: [],
-  generate (callback) {
-    this.generateCallbacks.push(callback)
-    this.hasInit && callback()
-  },
-
-  /**
-   * Call the draw method
-   * @param {Function} beforeDraw (Optional) A callback that runs just before each layer is drawn
-   */
-  draw: function (beforeDraw) {
-    Layers.all.forEach(layer => {
-      if (frameCount === 1 || (!layer.noLoop && !Layers.noLoop)) {
-        switch (layer.type) {
-          case 'filter':
-            this.mergeLayers(layer)
-          break
-        }
-        layer.draw(beforeDraw)
-      }
-    })
+    // Run callbacks
+    this.onCreateCallbacks.forEach(cb => cb())
   },
 
   /**
@@ -120,17 +120,22 @@ export default globalThis.Layers = {
     // Determine the index within Layers.all
     let idx = Layers.all.findIndex(l => l.id === layer.id)
     // Loop through all layers below it and merge their canvases
-    layer.canvas.clear()
+    layer.offscreen.clear()
     for (let i = 0; i < idx+1; i++) {
-      !Layers.all[i].disabled && layer.canvas.image(Layers.all[i].canvas, 0, 0)
+      !Layers.all[i].disabled && layer.offscreen.image(Layers.all[i].canvas, 0, 0)
     }
+    layer.offscreen.image(canvas, 0, 0)
+    layer.image(layer.offscreen, 0, 0)
   },
 
   /**
    * Free memory
    */
   dispose () {
-    this.all.forEach(layer => layer.dispose())
+    const all = [...Layers.all]
+    all.forEach((layer, key) => {
+      layer.dispose()
+    })
     Layers.all = []
   },
 
@@ -412,5 +417,19 @@ export default globalThis.Layers = {
     } else {
       layer.canvas.elt.parentElement.classList.remove('explode')
     }
+  },
+
+  /**
+   * Start recording
+   */
+  startRecording () {
+    console.log(Layers.record)
+    // const capture = globalThis.P5Capture.getInstance()
+    // capture.start(Layers.record)
+  },
+
+  //
+  _onP5Draw () {
+    // console.log('draw')
   }
 }

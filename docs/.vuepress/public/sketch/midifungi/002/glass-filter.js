@@ -1,14 +1,14 @@
 export default function () {
-/**
-* This layer applies Watercanvas.js to the canvas
-*/
-let $waterModel
-let $waterCanvas
+Layers.create(() => {
+  /**
+  * This layer applies Watercanvas.js to the canvas
+  */
+  let $waterModel
+  let $waterCanvas
 
-Layers.generate(() => {
   new Layer({
     id: 'filter',
-		
+    
     menuDisabled: true,
     
     store: {
@@ -18,6 +18,8 @@ Layers.generate(() => {
     },
     
     onDispose () {
+      cancelAnimationFrame(this.store.canvas.animFrame)
+      clearInterval(this.store.canvas.findFPSInterval)
       this.store.model = null
       this.store.canvas = null
     },
@@ -27,9 +29,9 @@ Layers.generate(() => {
       window.raindrop = create2DArray(createRadialCanvas(4,4));
       window.finger = create2DArray(createRadialCanvas(14,14));
       
+      // Cap size at 300
+      const size = min(width, height, 300)
       if (!$waterModel) {
-        // Cap size at 300
-        const size = min(width, height, 300)
         
         $waterModel = new window.WaterModel(size, size, {
           resolution: 1,
@@ -47,17 +49,16 @@ Layers.generate(() => {
         })
         $waterCanvas.canvas.style.vibility = 'hidden'
         $waterCanvas.canvas.style.opacity = 0
-        
-        // Create a bunch of touch points
-        for (let i = 0; i < minSize / 10; i++) {
-          $waterModel.touchWater(random(size), random(size), 1.5, window.finger)
-        }
-        
-        $waterModel.setMaxFps(30)
       }
-      
+
+      // Create a bunch of touch points
+      for (let i = 0; i < minSize / 10; i++) {
+        $waterModel.touchWater(random(size), random(size), 1.5, window.finger)
+      }
+      $waterModel.setMaxFps(30)
       $model = $waterModel
       $canvas = $waterCanvas
+      $model.evolving = true
     },
     
     draw (offscreen) {

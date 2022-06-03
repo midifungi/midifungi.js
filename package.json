@@ -1,6 +1,6 @@
 {
   "name": "midifungi",
-  "version": "0.0.20",
+  "version": "0.0.23",
   "description": "A layer-based p5.js framework with live editing and MIDI support",
   "main": "dist/midifungi.js",
   "scripts": {
@@ -24,8 +24,8 @@
   "homepage": "https://github.com/midifungi/midifungi#readme",
   "dependencies": {
     "@tweakpane/plugin-essentials": "^0.1.4",
-    "ccapture.js": "^1.1.0",
     "lodash-es": "^4.17.21",
+    "p5.capture": "^1.2.0",
     "tweakpane": "^3.0.8",
     "webmidi": "^3.0.20"
   },

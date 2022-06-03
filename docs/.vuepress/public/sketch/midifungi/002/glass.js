@@ -1,11 +1,11 @@
 export default function () {
-/**
-* This Layer draws the hexagon tiles for Watercanvas
-*/
-let defaultColorRange = 10
-let defaultColorOffset = Layers.default.colors[2][0]
+Layers.create(() => {
+  /**
+  * This Layer draws the hexagon tiles for Watercanvas
+  */
+  let defaultColorRange = 10
+  let defaultColorOffset = Layers.default.colors[2][0]
 
-Layers.generate(() => {
   // 1.3 is a magical number 🧙‍♂️
   const cellSize = min(minSize/16, 300/12) * 1.3
 
@@ -15,7 +15,7 @@ Layers.generate(() => {
     [0, -2], [1, -1], [1, 1], [0, 2], [-1, 1], [-1, -1],
     [0, -4], [1, -3], [2, -2], [2, 0], [2, 2], [1, 3], [0, 4], [-1, 3], [-2, 2], [-2, 0], [-2, -2], [-1, -3],
   ]
-  
+
   // When menu changes, we also need to update the Canvas layer
   const onChange = throttle(function (ev) {
     if (ev.presetKey === 'colorRange') {
@@ -34,10 +34,10 @@ Layers.generate(() => {
     Layers.filter.throttledDraw()
     Layers.filter.store.canvas.drawNextFrame()
   }, 100, {trailing: true})
-  
-	/**
-	 * Create the glass
-	 */
+
+  /**
+   * Create the glass
+   */
   new Layer({
     id: 'glass',
     noLoop: true,

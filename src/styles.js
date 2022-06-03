@@ -112,6 +112,11 @@ if (typeof document !== 'undefined') {
   .midifungi-layers-wrap.explode canvas.midifungi-layer:nth-child(20) {
     margin-top: -360px;
   }
+
+
+
+  /* p5.catpure */
+  .p5c-container {display: none !important}
   `
   document.head.appendChild(style)
 }

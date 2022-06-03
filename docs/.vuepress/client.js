@@ -18,6 +18,8 @@ export default defineClientConfig({
       if (typeof mod.default === 'function') {
         window.p5 = mod.default
       }
+      
+      import ('../../node_modules/p5.capture/dist/p5.capture.umd.js')
     }
   }
 })

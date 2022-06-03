@@ -4,6 +4,18 @@ import midiMenu from './midi-menu.js'
 
 export default class Layer {
   constructor (opts = {}) {
+    this.maybeInit(opts)
+  }
+
+  // Wait until p5 is ready
+  maybeInit (opts) {
+    if (typeof globalThis.P2D === 'undefined') {
+      setTimeout(() => this.maybeInit(opts), 0)
+    } else {
+      this.init(opts)
+    }
+  }
+  init (opts) {
     // Methods
     this.showContextMenu = contextMenu.showContextMenu
     this.parseMenu = contextMenu.parseMenu
@@ -19,7 +31,7 @@ export default class Layer {
     this.requestAnimationFrameID = null
     
     // Defaults
-    this.opts = globalThis.defaultsDeep(opts, {
+    this.opts = globalThis.defaults(opts, {
       id: Layers.curId,
       disabled: false,
       menuDisabled: false,
@@ -69,8 +81,11 @@ export default class Layer {
     
     // Store references
     Layers.curId++
+    if (Layers[this.id]) {
+      opts.id = this.id = this.id.toString() + '-' + Layers.curId
+    }
     Layers[this.id] = this
-    Layers.all.push(this)
+    Layers.all.push(Layers[this.id])
 
     // Methods
     Object.keys(this.opts.methods).forEach(key => {
@@ -125,11 +140,6 @@ export default class Layer {
     if (!this.renderer) this.renderer = this.opts.renderer
     if (!this.offscreenRenderer) this.offscreenRenderer = this.opts.offscreenRenderer
 
-    // Menu
-    this.menu = cloneDeep(this.opts.menu)
-    this.store = cloneDeep(this.opts.store)
-    this.parseMenu()
-
     // Canvas
     if (!this.canvas) {
       this.canvas = createGraphics(this.width, this.height, this.renderer) // Main layer
@@ -143,7 +153,14 @@ export default class Layer {
     }
     this.canvas.elt.classList.add('midifungi-layer', `midifungi-layer-${this.id}`)
     this.offscreen.elt.classList.add('midifungi-offscreen', `midifungi-layer-${this.id}`)
+    globalThis.minSize = min(this.width, this.height)
+    globalThis.maxSize = max(this.width, this.height)
 
+    // Menu
+    this.menu = globalThis.clone(this.opts.menu)
+    this.store = globalThis.clone(this.opts.store)
+    this.parseMenu()
+    
     // Setup the target to receive the canvases
     if (this.target && !this._hasMovedTarget) {
       this._hasMovedTarget = true
@@ -207,9 +224,6 @@ export default class Layer {
   callSetup () {
     // Call the setup
     this.setup && this.setup.call(this, this.offscreen)
-
-    // Call the Layers setup hook
-    Layers.setup && Layers.setup.call(this, this.offscreen)
   }
 
   /**
@@ -233,8 +247,9 @@ export default class Layer {
 
   /**
    * Draw loop
+   * @param skipLoop Set to true to skip the loop (like when recording)
    */
-  draw () {
+  draw (skipLoop) {
     if (!this.disabled) {
       // Update position
       if (!this._lastX !== this.x || !this._lastY !== this.y) {
@@ -265,6 +280,7 @@ export default class Layer {
     if (Layers._globalContextLayer === this.id) return
     Layers._globalContextLayer = this.id
 
+    // Save the current context
     this._context = {}
     this._storeContext = {}
     p5Overrides.forEach(key => {
@@ -277,6 +293,10 @@ export default class Layer {
       this.canvas.loadPixels()
       globalThis.pixels = this.canvas.pixels
     }
+
+    // Helpers
+    globalThis.minSize = min(this.canvas.width, this.canvas.height)
+    globalThis.maxSize = max(this.canvas.width, this.canvas.height)
 
     // Add this.$ variables
     Object.keys(this.store).forEach(key => {
@@ -371,8 +391,9 @@ export default class Layer {
     menu: {
       regenerate: ev => {
         this.generate(true)
-        this.draw()
-        this.showContextMenu(this._showContextMenuEvent)
+        this.noLoop && this.draw(true)
+        this._showContextMenuEvent && this.showContextMenu(this._showContextMenuEvent)
+        this._showContextMenuEvent = null
       }
     }
   }

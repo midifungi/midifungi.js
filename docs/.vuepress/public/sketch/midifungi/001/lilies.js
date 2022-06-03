@@ -1,9 +1,9 @@
 export default function () {
 // Devlog: https://midifungi.notion.site/Lily-Pads-6d00ef1fc4484fd08a2a986fde9ba98c
-Layers.generate(() => {
-  // Number of points per lily pad
+// Number of points per lily pad
+Layers.create(() => {
   const lilyDetail = 60
-  
+
   new Layer({
     id: 'lilies',
     noLoop: true,
@@ -72,7 +72,7 @@ Layers.generate(() => {
       $pads.forEach(pad => {
         fill(pad.color)
         stroke(pad.stroke)
-  
+
         strokeWeight(pad.strokeWeight)
         push()
         translate(pad.x, pad.y)

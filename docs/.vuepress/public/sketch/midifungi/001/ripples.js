@@ -1,5 +1,5 @@
 export default function () {
-Layers.generate(() => {
+Layers.create(() => {
   new Layer({
     id: 'ripples',
     noLoop: true,

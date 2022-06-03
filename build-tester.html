@@ -8,15 +8,39 @@
   <title>Document</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"></script>
   <script src="./dist/midifungi.js"></script>
+  <style>
+    html, body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
 </head>
 <body>
   <script>
-    Layers.generate(() => {
+    Layers.create(() => {
       new Layer({
+        menu: {
+          bg: Layers.default.colors
+        },
         draw () {
-          background(0)
+          background($bg)
         }
       })
+    })
+
+    new Layer({
+      menu: {
+        bg: Layers.default.colors
+      },
+      draw () {
+        rectMode(CENTER)
+        fill($bg)
+        stroke(255)
+        strokeWeight(4)
+        rect(width/2, height/2, 100, 100)
+      }
     })
   </script>
 </body>
