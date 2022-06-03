@@ -27,12 +27,12 @@ html {
       }
     }
 
-    .home-link.router-link-active {
-      background: url('/favicon.png') no-repeat;
+    [href="/"].router-link-active {
+      background: url('/midifungi-m.png') no-repeat;
       background-position: top left;
-      background-size: 35px 35px;
+      background-size: 55px 35px;
       display: inline-block;
-      width: 100px;
+      width: 55px;
       height: 35px;
 
       img {

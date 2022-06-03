@@ -22,6 +22,8 @@ module.exports = {
     }),
     themeDataPlugin({
       themeData: {
+        logo: '/midifungi-title.png',
+        
         pkgVersion: pkg.version,
         repo: 'midifungi/midifungi',
         locales: {

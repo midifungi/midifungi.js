@@ -3,9 +3,9 @@
   <div class="title-bar" v-if="hasTitlebar">
     <div class="title-bar-text" v-if="title">{{title}}</div>
     <div class="title-bar-controls" v-if="hasTitlebarControls">
+      <button v-if="help" aria-label="Help" @click="onHelp"></button>
       <button v-if="minimize" aria-label="Minimize" @click="onMinimize"></button>
       <button v-if="maximize || minimize" aria-label="Restore" @click="onRestore"></button>
-      <button v-if="help" aria-label="Help" @click="onHelp"></button>
       <button aria-label="Maximize" @click="onMaximize"></button>
     </div>
   </div>
