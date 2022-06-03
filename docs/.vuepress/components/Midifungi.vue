@@ -2,7 +2,12 @@
 <div class="window window-component mb-md" ref="window">
   <div class="title-bar" v-if="hasTitlebar">
     <div class="title-bar-text" v-if="title">{{title}}</div>
-    <div class="title-bar-controls" v-if="hasTitlebarControls"><button v-if="minimize" aria-label="Minimize" @click="onMinimize"></button><button v-if="maximize || minimize" aria-label="Restore" @click="onRestore"></button><button aria-label="Maximize" @click="onMaximize"></button></div>
+    <div class="title-bar-controls" v-if="hasTitlebarControls">
+      <button v-if="minimize" aria-label="Minimize" @click="onMinimize"></button>
+      <button v-if="maximize || minimize" aria-label="Restore" @click="onRestore"></button>
+      <button v-if="help" aria-label="Help" @click="onHelp"></button>
+      <button aria-label="Maximize" @click="onMaximize"></button>
+    </div>
   </div>
   <div class="window-body">
     <div class="midifungi-layers-wrap" :style="{height: wrapHeight}" ref="target"></div>
@@ -13,15 +18,19 @@
 
 <script>
 export default {
-  props: [
-    // List of paths to sketch scripts to load
-    // Prefix with @username/001/path to load /sketch/midifungi/001/path.js
-    'layers',
-    'height',
-    'title',
-    'maximize',
-    'minimize'
-  ],
+  // List of paths to sketch scripts to load
+  // Prefix with @username/001/path to load /sketch/midifungi/001/path.js
+  props: {
+    layers: Object,
+    height: [Number, String],
+    title: String,
+    maximize: {
+      type: Boolean,
+      default: true
+    },
+    minimize: Boolean,
+    help: String
+  },
 
   /**
    * Create an empty array to hold the layer modules
@@ -129,6 +138,36 @@ export default {
       this.isMaximized = false      
       Layers.trigger('resize')
     },
+
+    onHelp (ev) {
+      // Unfortunately we have to split this out with vite
+      // @see https://github.com/vitejs/vite/issues/4945#issuecomment-951770052
+      let page = ''
+      let helpLink = this.help
+      if (this.help[0] === '@') {
+        helpLink = this.help.substr(1)
+        page = `/sketches/`
+      }
+
+      const splitName = helpLink.split('/')
+      if (splitName.length === 1) {
+        page += `${splitName[0]}.html`
+      } else if (splitName.length === 2) {
+        page += `${splitName[0]}/${splitName[1]}.html`
+      } else if (splitName.length === 3) {
+        page += `${splitName[0]}/${splitName[1]}/${splitName[2]}.html`
+      } else if (splitName.length === 4) {
+        page += `${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}.html`
+      } else if (splitName.length === 5) {
+        page += `${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}.html`
+      } else if (splitName.length === 6) {
+        page += `${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}/${splitName[5]}.html`
+      } else if (splitName.length === 7) {
+        page += `${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}/${splitName[5]}/${splitName[6]}.html`
+      }
+
+      this.$router.push(page)
+    }
   }
 }
 </script>
