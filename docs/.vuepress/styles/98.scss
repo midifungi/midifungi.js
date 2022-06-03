@@ -547,7 +547,7 @@ html ul.tree-view li,
 html .sidebar > ul.sidebar-items li {
   margin-top: 3px;
 }
-html pre {
+html pre:not([class^="language-"]) {
   display: block;
   background: var(--button-highlight);
   box-shadow: var(--border-field);

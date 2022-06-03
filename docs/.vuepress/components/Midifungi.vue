@@ -10,7 +10,9 @@
     </div>
   </div>
   <div class="window-body">
-    <div class="midifungi-layers-wrap" :style="{height: wrapHeight}" ref="target"></div>
+    <div class="midifungi-layers-wrap-outer">
+      <div class="midifungi-layers-wrap" :style="{height: wrapHeight}" ref="target"></div>
+    </div>
   </div>
 </div>
 
