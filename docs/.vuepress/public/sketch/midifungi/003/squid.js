@@ -1,58 +1,61 @@
 export default function () {
-// Size of emoji
-const size = minSize * .2
+Layers.create(() => {
 
-// Represents the tracer
-const Tracer = class {
-  constructor () {
-    this.size = size
-  }
-}
+  // Size of emoji
+  const size = minSize * .2
 
-new Layer({
-  id: 'squid',
-
-  menu: {
-    emoji: ['🧘‍♂️', '🧘‍♀️', '🧘']
-  },
-
-  store: {
-    tracers: []
-  },
-
-  setup () {
-    textAlign(CENTER, CENTER)
-    drawingContext.shadowBlur = 5
-    drawingContext.shadowColor = '#000'
-  },
-  
-  draw () {
-    clear()
-    this.x = -width/3.5
-    
-    // Create a new tracer
-    if (frameCount%10 === 0) {
-      $tracers.unshift(new Tracer())
+  // Represents the tracer
+  const Tracer = class {
+    constructor () {
+      this.size = size
     }
+  }
 
-    // Main emoji
-    textSize(size)
-    text($emoji, width/2, height/2)
+  new Layer({
+    id: 'squid',
 
-    // Tracers
-    $tracers.forEach((tracer, n) => {
-      tracer.size -= size * .01
-      textSize(tracer.size)
+    menu: {
+      emoji: ['🧘‍♂️', '🧘‍♀️', '🧘']
+    },
+
+    store: {
+      tracers: []
+    },
+
+    setup () {
+      textAlign(CENTER, CENTER)
+      drawingContext.shadowBlur = 5
+      drawingContext.shadowColor = '#000'
+    },
+    
+    draw () {
+      clear()
+      this.x = -width/3.5
+      
+      // Create a new tracer
+      if (frameCount%10 === 0) {
+        $tracers.unshift(new Tracer())
+      }
+
+      // Main emoji
+      textSize(size)
       text($emoji, width/2, height/2)
 
-      if (tracer.size < minSize * .001) {
-        $tracers.splice(n, 1)
-      }
-    })
+      // Tracers
+      $tracers.forEach((tracer, n) => {
+        tracer.size -= size * .01
+        textSize(tracer.size)
+        text($emoji, width/2, height/2)
 
-    textSize(size * .2)// + size * sin(frameCount/this.fps) * .1)
-    text('👁️👁️', width/2, height/2)
-  }
+        if (tracer.size < minSize * .001) {
+          $tracers.splice(n, 1)
+        }
+      })
+
+      textSize(size * .2)// + size * sin(frameCount/this.fps) * .1)
+      text('👁️👁️', width/2, height/2)
+    }
+  })
 })
 }
 

@@ -4,7 +4,7 @@
  * https://twitter.com/midifungi
  * https://github.com/midifungi/midifungi
  * ---
- * @version 0.0.22
+ * @version 0.0.23
  * @license "Apache 2.0"
  * ---
  * This file was bundled with Rollup
@@ -13625,7 +13625,7 @@
     },
 
     // About
-    version: '0.0.22',
+    version: '0.0.23',
     curId: 0,
 
     // Menus
@@ -13637,6 +13637,15 @@
       globalSettings: null
     },
 
+    /**
+     * Adds the callback to the list of callbcks to be called on Generate All
+     */
+    onCreateCallbacks: [],
+    create (cb) {
+      this.onCreateCallbacks.push(cb);
+      this.hasInit && cb();
+    },
+    
     /**
      * Bind listeners like clicking and right clicking
      */
@@ -13665,6 +13674,9 @@
       this.listeners.boundContextmenu = this.listeners.contextmenu.bind(this);
       addEventListener('click', this.listeners.boundClick);
       addEventListener('contextmenu', this.listeners.boundContextmenu);
+
+      // Run callbacks
+      this.onCreateCallbacks.forEach(cb => cb());
     },
 
     /**
@@ -14499,6 +14511,18 @@
 
   class Layer {
     constructor (opts = {}) {
+      this.maybeInit(opts);
+    }
+
+    // Wait until p5 is ready
+    maybeInit (opts) {
+      if (typeof globalThis.P2D === 'undefined') {
+        setTimeout(() => this.maybeInit(opts), 0);
+      } else {
+        this.init(opts);
+      }
+    }
+    init (opts) {
       // Methods
       this.showContextMenu = contextMenu.showContextMenu;
       this.parseMenu = contextMenu.parseMenu;
@@ -14886,7 +14910,7 @@
    * Midifungi 🎹🍄
    * A p5js library that helps you organize your code into layers
    * ---
-   * @version 0.0.22
+   * @version 0.0.23
    * @license "Apache 2.0" with the addendum that you cannot use this or its output for NFTs without permission
    */
 
@@ -14938,8 +14962,10 @@
     globalThis.p5.disableFriendlyErrors = true;
 
     // Create main canvas for 
-    Layers$1._renderer = createCanvas(1, 1);
+    Layers$1._renderer = createCanvas(windowWidth, windowHeight);
     canvas.style.display = 'none';
+    globalThis.minSize = min(width, height);
+    globalThis.maxSize = max(width, height);
 
     // Backup default states before any p5 overrides
     p5Overrides.forEach(key => {

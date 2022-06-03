@@ -36,4 +36,4 @@ b
 
 # `createCanvas()`
 
-Midifungi already creates a 1x1 main canvas, although it's only ever really used when downloading screenshots. Instead, every layer gets a canvas sized to its containers element (or fullscreen if unspecified).
+Midifungi already creates a fullscreen main canvas, although it's only ever really used when downloading screenshots. Instead, every layer gets a canvas sized to its containers element (or fullscreen if unspecified).

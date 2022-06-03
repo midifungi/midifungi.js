@@ -60,8 +60,10 @@ const onSetup = function () {
   globalThis.p5.disableFriendlyErrors = true
 
   // Create main canvas for 
-  Layers._renderer = createCanvas(1, 1)
+  Layers._renderer = createCanvas(windowWidth, windowHeight)
   canvas.style.display = 'none'
+  globalThis.minSize = min(width, height)
+  globalThis.maxSize = max(width, height)
 
   // Backup default states before any p5 overrides
   p5Overrides.forEach(key => {

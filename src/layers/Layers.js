@@ -72,6 +72,15 @@ export default globalThis.Layers = {
   },
 
   /**
+   * Adds the callback to the list of callbcks to be called on Generate All
+   */
+  onCreateCallbacks: [],
+  create (cb) {
+    this.onCreateCallbacks.push(cb)
+    this.hasInit && cb()
+  },
+  
+  /**
    * Bind listeners like clicking and right clicking
    */
   init () {
@@ -99,6 +108,9 @@ export default globalThis.Layers = {
     this.listeners.boundContextmenu = this.listeners.contextmenu.bind(this)
     addEventListener('click', this.listeners.boundClick)
     addEventListener('contextmenu', this.listeners.boundContextmenu)
+
+    // Run callbacks
+    this.onCreateCallbacks.forEach(cb => cb())
   },
 
   /**

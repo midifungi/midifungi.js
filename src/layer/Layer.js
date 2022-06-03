@@ -4,6 +4,18 @@ import midiMenu from './midi-menu.js'
 
 export default class Layer {
   constructor (opts = {}) {
+    this.maybeInit(opts)
+  }
+
+  // Wait until p5 is ready
+  maybeInit (opts) {
+    if (typeof globalThis.P2D === 'undefined') {
+      setTimeout(() => this.maybeInit(opts), 0)
+    } else {
+      this.init(opts)
+    }
+  }
+  init (opts) {
     // Methods
     this.showContextMenu = contextMenu.showContextMenu
     this.parseMenu = contextMenu.parseMenu
