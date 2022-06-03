@@ -95,6 +95,12 @@ html {
     opacity: 0.45
   }
 
+  // Notifications
+  .custom-container {
+    box-shadow: var(--border-window-outer), var(--border-window-inner);
+    border-left: 0 !important;
+  }
+
   // 98.css
   fieldset {
     legend {
