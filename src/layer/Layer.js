@@ -212,9 +212,6 @@ export default class Layer {
   callSetup () {
     // Call the setup
     this.setup && this.setup.call(this, this.offscreen)
-
-    // Call the Layers setup hook
-    Layers.setup && Layers.setup.call(this, this.offscreen)
   }
 
   /**

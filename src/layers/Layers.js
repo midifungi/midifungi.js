@@ -108,10 +108,12 @@ export default globalThis.Layers = {
     // Determine the index within Layers.all
     let idx = Layers.all.findIndex(l => l.id === layer.id)
     // Loop through all layers below it and merge their canvases
-    layer.canvas.clear()
+    layer.offscreen.clear()
     for (let i = 0; i < idx+1; i++) {
-      !Layers.all[i].disabled && layer.canvas.image(Layers.all[i].canvas, 0, 0)
+      !Layers.all[i].disabled && layer.offscreen.image(Layers.all[i].canvas, 0, 0)
     }
+    layer.offscreen.image(canvas, 0, 0)
+    layer.image(layer.offscreen, 0, 0)
   },
 
   /**

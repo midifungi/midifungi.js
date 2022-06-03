@@ -12,6 +12,9 @@ import Layers from './layers/Layers.js'
 import Layer from './layer/Layer.js'
 import p5Overrides from './p5-overrides.js'
 
+// Global exports
+globalThis.Layers = Layers
+globalThis.Layer = Layer
 
 /**
  * Initialize Midifungi
@@ -54,9 +57,6 @@ const onSetup = function () {
     return
   }
 
-  // Global exports
-  globalThis.Layers = Layers
-  globalThis.Layer = Layer
   globalThis.p5.disableFriendlyErrors = true
 
   // Create main canvas for 
