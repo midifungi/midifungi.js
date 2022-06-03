@@ -4,7 +4,7 @@
  * https://twitter.com/midifungi
  * https://github.com/midifungi/midifungi
  * ---
- * @version 0.0.24
+ * @version 0.0.25
  * @license "Apache 2.0"
  * ---
  * This file was bundled with Rollup
@@ -26369,7 +26369,7 @@
     },
 
     // About
-    version: '0.0.24',
+    version: '0.0.25',
     curId: 0,
 
     // Menus
@@ -26418,6 +26418,7 @@
       this.listeners.boundContextmenu = this.listeners.contextmenu.bind(this);
       addEventListener('click', this.listeners.boundClick);
       addEventListener('contextmenu', this.listeners.boundContextmenu);
+      addEventListener('resize', this.listeners.windowResize);
 
       // Run callbacks
       this.onCreateCallbacks.forEach(cb => cb());
@@ -26572,6 +26573,13 @@
           }
         }
       },
+
+      /**
+       * Resizes all canvas
+       */
+      windowResize: throttle (function () {
+        Layers.trigger('resize');
+      }, 100, {leading: true})
     },
 
     /**
@@ -26733,7 +26741,9 @@
      * Trigger an event on layers
      */
     trigger (ev) {
-      console.log('trigger', ev);
+      Layers.all.forEach(layer => {
+        layer.trigger(ev);
+      });
     },
     
     /**
@@ -27503,6 +27513,33 @@
       if (this.disabled) this.show();
       else this.hide();
     }
+    
+    /**
+     * Trigger an event
+     */
+    trigger (evName) {
+      switch (evName) {
+        case 'resize':
+          this.resize();
+        break
+      }
+    }
+
+    /**
+     * Resize the canvas
+     */
+    resize () {
+      const $target = this.target || document.body;
+      const width = $target.clientWidth;
+      const height = $target.clientHeight;
+      this.width = width;
+      this.height = height;
+      this.canvas.resizeCanvas(width, height);
+      this.offscreen.resizeCanvas(width, height);
+
+      this.generate(true);
+      this.noLoop && this.draw();
+    }
 
     /**
      * Draw loop
@@ -27639,8 +27676,8 @@
      * @returns 
      */
     getProgress (seconds = 4) {
-      const period = +params.fps * seconds / 2;
-      return (frameCount % period) / period
+      const period = +this.fps * seconds / 2;
+      return (this.frameCount % period) / period
     }
 
     /**
@@ -27662,7 +27699,7 @@
    * Midifungi 🎹🍄
    * A p5js library that helps you organize your code into layers
    * ---
-   * @version 0.0.24
+   * @version 0.0.25
    * @license "Apache 2.0" with the addendum that you cannot use this or its output for NFTs without permission
    */
 
