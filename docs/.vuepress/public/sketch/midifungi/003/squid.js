@@ -15,10 +15,11 @@ Layers.create(() => {
     id: 'squid',
 
     menu: {
-      emoji: ['🧘‍♂️', '🧘‍♀️', '🧘']
+      emoji: Emojis.tag.people
     },
 
     store: {
+      eyeHeight: random(1),
       tracers: []
     },
 
@@ -53,7 +54,7 @@ Layers.create(() => {
       })
 
       textSize(size * .2)// + size * sin(frameCount/this.fps) * .1)
-      text('👁️👁️', width/2, height/2)
+      text('👁️👁️', width/2, height/2 - $eyeHeight)
     }
   })
 })
