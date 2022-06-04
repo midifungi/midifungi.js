@@ -75,7 +75,7 @@ module.exports = {
             collapsible: true,
             children: [
               {
-                text: '001 - Sillily pads',
+                text: '001 - Lily Pads',
                 link: '/sketches/midifungi/001.html'
               },
               {
