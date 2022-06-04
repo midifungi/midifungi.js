@@ -7,9 +7,12 @@ Midifungi is the result of asking "what if the library itself is the medium?". T
 It's more of a creative expression than an [open sourced project](https://github.com/midifungi/midifungi) that should be taken seriously. Eventually I may sell some of the examples as NFTs so that I can continue to explore this project 🌈
 :::
 
-<Midifungi title="Midifungi - Sketch 003 - Spirit Emojis" id="sketch-003" height=600 :layers="['@midifungi/003/bg', '@midifungi/003/shapes', '@midifungi/003/checker', '@midifungi/003/self', '@midifungi/003/squid']" help='@midifungi/003' />
+<Midifungi title="Chewie Choo" height=300 :layers="['@midifungi/002/starfield', '@midifungi/004/starfield-clone', '@midifungi/004/train', '@midifungi/004/crowd']" />
 
 <div class="row">
+  <div class="col-6">
+    <Midifungi title="Spirit Emojis" id="sketch-003" height=300 :layers="['@midifungi/003/bg', '@midifungi/003/shapes', '@midifungi/003/checker', '@midifungi/003/self', '@midifungi/003/squid']" />
+  </div>
   <div class="col-6">
     <Midifungi title="002 - Billions and Billions" id="sketch-002" :layers="['@midifungi/002/starfield', '@midifungi/002/glass', '@midifungi/002/watercanvas', '@midifungi/002/glass-filter', '@midifungi/002/lead']" height=300 help="@midifungi/002" />
   </div>

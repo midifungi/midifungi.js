@@ -46,6 +46,9 @@ export default class Layer {
       pixelDensity: 0,
       frameCount: 0,
 
+      // Dependencies
+      waitFor: null,
+
       // Dimensions
       width: w,
       height: h,
@@ -114,6 +117,7 @@ export default class Layer {
    * Sets up or restores the layer to its default state
    */
   generate (callSetup) {
+    // @fixme clean this up
     // Aliases
     if (!this.id) this.id = this.opts.id
     if (!this.canvas) this.canvas = this.opts.canvas
@@ -139,6 +143,7 @@ export default class Layer {
     if (!this.target) this.target = this.opts.target
     if (!this.renderer) this.renderer = this.opts.renderer
     if (!this.offscreenRenderer) this.offscreenRenderer = this.opts.offscreenRenderer
+    if (!this.waitFor) this.waitFor = this.opts.waitFor
 
     // Canvas
     if (!this.canvas) {

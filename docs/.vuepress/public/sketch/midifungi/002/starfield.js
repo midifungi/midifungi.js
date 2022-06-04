@@ -73,9 +73,9 @@ Layers.create(() => {
     // These automatically convert into sliders
     // You can also bind with MIDI through right click!
     menu: {
-      numStars: {min: 400, max: 2000, onChange () {this.setup()}},
+      numStars: {min: 400, max: 1600, onChange () {this.setup()}},
       size: {max: () => minSize*.03},
-      speed: {max: 50},
+      speed: {min: 2, max: 40, default: random(2, 10)},
     },
     
     // Non menu variables

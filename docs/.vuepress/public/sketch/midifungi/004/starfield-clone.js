@@ -2,6 +2,7 @@ export default function () {
 Layers.create(() => {
   new Layer({
     id: 'starfieldClone',
+    waitFor: 'starfield',
     store: {
       isRightSide: false,
     },
@@ -11,6 +12,8 @@ Layers.create(() => {
     },
     
     draw () {
+      if (!Layers.starfield) return
+      
       // Copy the existing starfield into this one
       if ($isRightSide) {
         image(Layers.starfield.canvas, -width, 0)
