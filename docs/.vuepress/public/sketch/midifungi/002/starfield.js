@@ -51,7 +51,7 @@ Layers.create(() => {
       const r = map(this.z, 0, width, Layers.starfield.store.size, 0)
       
       // Fade in
-      this.life += Layers.starfield.store.speed/50 * .1
+      this.life += Layers.starfield.store.speed/50 * .25
       fill(255, min(1, this.life))
       ellipse(sx, sy, r, r)
       
@@ -73,7 +73,7 @@ Layers.create(() => {
     // These automatically convert into sliders
     // You can also bind with MIDI through right click!
     menu: {
-      numStars: {min: 100, max: 2000, onChange () {this.setup()}},
+      numStars: {min: 400, max: 2000, onChange () {this.setup()}},
       size: {max: () => minSize*.03},
       speed: {max: 50},
     },

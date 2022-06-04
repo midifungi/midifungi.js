@@ -277,6 +277,8 @@ export default class Layer {
    * @param skipLoop Set to true to skip the loop (like when recording)
    */
   draw (skipLoop) {
+    cancelAnimationFrame(this.requestAnimationFrameID)
+    
     if (!this.disabled) {
       // Update position
       if (!this._lastX !== this.x || !this._lastY !== this.y) {
