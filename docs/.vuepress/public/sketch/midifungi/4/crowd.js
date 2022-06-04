@@ -25,13 +25,15 @@ Layers.create(() => {
     noLoop: true,
 
     store: {
-      things: []
+      numEmojis: 0,
+      emojis: []
     },
     
     setup () {
-      $things = []
-      for (let i = 0; i < minSize*1.5; i++) {
-        $things.push(new Emoji())
+      $numEmojis = minSize*1.5
+      $emojis = []
+      for (let i = 0; i < $numEmojis; i++) {
+        $emojis.push(new Emoji())
       }
       drawingContext.shadowBlur = 5
       drawingContext.shadowColor = '#000'
@@ -39,13 +41,13 @@ Layers.create(() => {
 
     draw () {
       clear()
-      $things.sort((a, b) => b.z - a.z)
+      $emojis.sort((a, b) => b.z - a.z)
 
       push()
       translate(width/2, 0)
       fill(Layers.default.colors[6])
       rect(-width/2, height/1.35, width, height)
-      $things.forEach(thing => {
+      $emojis.forEach(thing => {
         thing.draw()
       })
       pop()
