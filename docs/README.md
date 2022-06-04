@@ -1,4 +1,5 @@
-# Midifungi - A layer-based p5.js framework with live editing and MIDI support 🎛️🎹
+# <img src="/midifungi-title.png" alt="Midifungi" style="height:32px; position: relative; top: 5px"> - A fantasy p5.js framework, digital art gallery, and daily devlog
+<!-- A layer-based p5.js framework with live editing and MIDI support 🎛️🎹 -->
 
 :::warning 📅 Announcing Mid June 2022
 Midifungi is the result of asking "what if the library itself is the medium?". This project is a fantasy framework and monorepo that contains Midifungi.js, this site and documentation, my daily art gallery, and technical blog all in one package.
@@ -7,6 +8,15 @@ It's more of a creative expression than an [open sourced project](https://github
 :::
 
 <Midifungi title="Midifungi - Sketch 003 - Spirit Emojis" id="sketch-003" height=600 :layers="['@midifungi/003/bg', '@midifungi/003/shapes', '@midifungi/003/checker', '@midifungi/003/self', '@midifungi/003/squid']" help='@midifungi/003' />
+
+<div class="row">
+  <div class="col-6">
+    <Midifungi title="002 - Billions and Billions" id="sketch-002" :layers="['@midifungi/002/starfield', '@midifungi/002/glass', '@midifungi/002/watercanvas', '@midifungi/002/glass-filter', '@midifungi/002/lead']" height=300 help="@midifungi/002" />
+  </div>
+  <div class="col-6">
+    <Midifungi title="001 - Lily Pads" :layers="['@midifungi/001/lilies', '@midifungi/001/ripples']" height=300 help="@midifungi/001" />
+  </div>
+</div>
 
 
 Midifungi is [p5.js](https://p5js.org/reference/) framework designed around the idea of creative coding in "layers of code" instead of "lines of code". You still sketch in a similar way, but instead of writing code into a single `draw()` you layer code across multiple draw loops each containing:
@@ -62,6 +72,23 @@ import p5 from 'p5'
 import midifungi from 'midifungi'
 window.p5 = p5
 ```
+:::
+::: code-group-item Clone this site
+::: tip Cloning this site locally
+Because this is a fantasy framework I'm not running ads or analytics (outside of what's provided by [hosting on Netlify](https://www.netlify.com/products/analytics/)). It's a completely self contained static [vuepress@next](https://v2.vuepress.vuejs.org/) site and JavaScript framework and everything is rendered locally. Cloning this site for play, collaboration, or research is highly encouraged (commercial `/LICENSE` is generally MIT)
+
+To clone this site locally you'll need [NodeJS](https://nodejs.org/en/) installed on your system. It's also helpful to have [git](https://git-scm.com/) so that you can clone [from Github](https://github.com/midifungi/midifungi) and install the dependencies:
+```bash
+git clone https://github.com/midifungi/midifungi
+cd midifungi
+npm i
+npm start
+```
+
+After that's done, you can start things off with `npm start` and end things by closing the terminal or hitting <kbd>CONTROL + C</kbd>. Visit `//localhost:8080` in your browser to start exploring this site offline. The content on this site matches the directory structure in `/docs/`, with the index pages labeled as `README.md`. This page is generated from `/docs/README.md`
+
+If you're interested in the sketches and examples, they are located in `/docs/public/sketch/`. To see how they are assembled, view the corresponding pages in `/docs/sketches/`
+:::
 :::
 
 :::
