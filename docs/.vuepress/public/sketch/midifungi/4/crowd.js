@@ -43,6 +43,8 @@ Layers.create(() => {
 
       push()
       translate(width/2, 0)
+      fill(Layers.default.colors[6])
+      rect(-width/2, height/1.35, width, height)
       $things.forEach(thing => {
         thing.draw()
       })
