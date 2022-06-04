@@ -86,6 +86,10 @@ module.exports = {
                 text: '003 - Spirit Emojis',
                 link: '/sketches/midifungi/003.html'
               },
+              {
+                text: '004 - Chewie Choo',
+                link: '/sketches/midifungi/004.html'
+              },
             ]
           },
           {

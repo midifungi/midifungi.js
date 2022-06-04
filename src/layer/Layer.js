@@ -320,6 +320,8 @@ export default class Layer {
       this.canvas.loadPixels()
       globalThis.pixels = this.canvas.pixels
     }
+    globalThis.canvas = this.canvas
+    globalThis.offscreen = this.offscreen
 
     // Helpers
     globalThis.minSize = min(this.canvas.width, this.canvas.height)
