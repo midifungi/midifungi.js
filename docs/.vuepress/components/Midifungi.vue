@@ -11,7 +11,7 @@
   </div>
   <div class="window-body">
     <div class="midifungi-layers-wrap-outer">
-      <div class="midifungi-layers-wrap" :style="{height: wrapHeight}" ref="target"></div>
+      <div class="midifungi-layers-wrap" :style="{height: height}" ref="target"></div>
     </div>
   </div>
 </div>
@@ -54,7 +54,6 @@ export default {
     hasTitlebarControls () {
       return this.maximize || this.minimize
     },
-    wrapHeight () {return (this.height || 450) + 'px'},
     windowTitle () {return this.title || this.$page.title}
   },
 
