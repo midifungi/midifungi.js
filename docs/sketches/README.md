@@ -11,4 +11,7 @@
   <div class="col-6">
     <Midifungi title="003 - Spirit Emojis" id="sketch-003" :layers="['@midifungi/003/bg', '@midifungi/003/shapes', '@midifungi/003/checker', '@midifungi/003/self', '@midifungi/003/squid']" height=300 help="@midifungi/003" />
   </div>
+  <div class="col-6">
+    <Midifungi title="004 - Chewie Choo" id="sketch-004" :layers="['@midifungi/002/starfield', '@midifungi/004/train', '@midifungi/004/crowd']" height=300 help="@midifungi/004"/>
+  </div>
 </div>

@@ -1,0 +1,5 @@
+I'm not sure on the official license yet but this is my general statement that you agree to by using this software:
+
+Midifungi.js which includes everything in `/src/` is MIT. While it is a fantasy framework, you are welcome to use it commercially.
+
+The documentation site, which is what's hosted at [midifungi.com](midifungi.com), located in `./docs/` and what you see when you run `npm start`, is also MIT but you can't mint the content without permission. You're encouraged to use the Windows 98 VuePress theme and any of the custom components, styles, and functional scripts commercially, including for NFTs or your own commercial blog. This includes any original content you create and generate through `npm run build` in whole or part.

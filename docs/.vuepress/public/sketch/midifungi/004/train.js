@@ -20,9 +20,12 @@ Layers.create(() => {
     },
 
     menu: {
-      x: {min: -1000, max: 1000, default: 292},
-      y: {min: -1000, max: 1000, default: 308},
-      z: {min: -1000, max: 1000, default: 434},
+      // x: {min: -minSize, max: minSize, default: 292},
+      // y: {min: -minSize, max: minSize, default: 308},
+      // z: {min: -minSize, max: minSize, default: 434},
+      x: {min: -minSize, max: minSize, default: 292*minSize*.5},
+      y: {min: -minSize, max: minSize, default: 308*minSize*.5},
+      z: {min: -minSize, max: minSize, default: 434*minSize*.5},
 
       pitch: {min: -PI, max: PI, default: -3.141592653589793, step: .001},
       yaw: {min: -PI, max: PI, default: -1.458592653589793, step: .001},
