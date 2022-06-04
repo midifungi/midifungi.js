@@ -10,8 +10,8 @@
     </div>
   </div>
   <div class="window-body">
-    <div class="midifungi-layers-wrap-outer">
-      <div class="midifungi-layers-wrap" :style="{height: height}" ref="target"></div>
+    <div class="midifungi-layers-wrap-outer" :style="{height: height ? height + 'px' : null}">
+      <div class="midifungi-layers-wrap" ref="target"></div>
     </div>
   </div>
 </div>

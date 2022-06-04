@@ -87,7 +87,7 @@ module.exports = {
                 link: '/sketches/midifungi/3.html'
               },
               {
-                text: '004 - Schrödinger\'s Train',
+                text: '004 - Arriving Home',
                 link: '/sketches/midifungi/4.html'
               },
             ]
