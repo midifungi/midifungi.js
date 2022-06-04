@@ -2,7 +2,7 @@ export default function () {
 class Emoji {
   constructor () {
     const size = minSize * .4
-    
+
     this.emoji = random(Emojis.tag.people)
     this.x = random(0-size/2, width+size/2)
     this.z = random(height/1.4-size/2, height+size/2)
