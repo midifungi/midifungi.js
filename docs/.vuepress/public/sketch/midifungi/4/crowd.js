@@ -30,7 +30,7 @@ Layers.create(() => {
     
     setup () {
       $things = []
-      for (let i = 0; i < minSize*3; i++) {
+      for (let i = 0; i < minSize*1.5; i++) {
         $things.push(new Emoji())
       }
       drawingContext.shadowBlur = 5
