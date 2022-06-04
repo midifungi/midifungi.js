@@ -1,7 +1,7 @@
 <template>
 <div class="window window-component mb-md" ref="window">
   <div class="title-bar" v-if="hasTitlebar">
-    <div class="title-bar-text" v-if="title">{{title}}</div>
+    <div class="title-bar-text">{{windowTitle}}</div>
     <div class="title-bar-controls" v-if="hasTitlebarControls">
       <button v-if="help" aria-label="Help" @click="onHelp"></button>
       <button v-if="minimize" aria-label="Minimize" @click="onMinimize"></button>
@@ -54,7 +54,8 @@ export default {
     hasTitlebarControls () {
       return this.maximize || this.minimize
     },
-    wrapHeight () {return (this.height || 450) + 'px'}
+    wrapHeight () {return (this.height || 450) + 'px'},
+    windowTitle () {return this.title || this.$page.title}
   },
 
   mounted () {

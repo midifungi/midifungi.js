@@ -7,17 +7,17 @@ Midifungi is the result of asking "what if the library itself is the medium?". T
 It's more of a creative expression than an [open sourced project](https://github.com/midifungi/midifungi) that should be taken seriously. Eventually I may sell some of the examples as NFTs so that I can continue to explore this project 🌈
 :::
 
-<Midifungi title="Chewie Choo" height=300 :layers="['@midifungi/002/starfield', '@midifungi/004/starfield-clone', '@midifungi/004/train', '@midifungi/004/crowd']" />
+<Midifungi title="Chewie Choo" :layers="['@midifungi/2/starfield', '@midifungi/4/starfield-clone', '@midifungi/4/train', '@midifungi/4/crowd']" />
 
 <div class="row">
   <div class="col-6">
-    <Midifungi title="Spirit Emojis" id="sketch-003" height=300 :layers="['@midifungi/003/bg', '@midifungi/003/shapes', '@midifungi/003/checker', '@midifungi/003/self', '@midifungi/003/squid']" />
+    <Midifungi title="Spirit Emojis" :layers="['@midifungi/3/bg', '@midifungi/3/shapes', '@midifungi/3/checker', '@midifungi/3/self', '@midifungi/3/squid']" />
   </div>
   <div class="col-6">
-    <Midifungi title="002 - Billions and Billions" id="sketch-002" :layers="['@midifungi/002/starfield', '@midifungi/002/glass', '@midifungi/002/watercanvas', '@midifungi/002/glass-filter', '@midifungi/002/lead']" height=300 help="@midifungi/002" />
+    <Midifungi title="Billions and Billions" :layers="['@midifungi/2/starfield', '@midifungi/2/glass', '@midifungi/2/watercanvas', '@midifungi/2/glass-filter', '@midifungi/2/lead']" />
   </div>
   <div class="col-6">
-    <Midifungi title="001 - Lily Pads" :layers="['@midifungi/001/lilies', '@midifungi/001/ripples']" height=300 help="@midifungi/001" />
+    <Midifungi title="Lily Pads" :layers="['@midifungi/1/lilies', '@midifungi/1/ripples']" />
   </div>
 </div>
 
@@ -111,8 +111,8 @@ In p5.js the action usually starts from within a single `setup()` and `draw()`, 
 
 Let's start with a simple black canvas:
 
-@[code{2-6}](./.vuepress/public/example/001/bg-1.js)
-<Example id="example-001-1" :layers="['001/bg-1']" />
+@[code{2-6}](./.vuepress/public/example/1/bg-1.js)
+<Example id="example-1-1" :layers="['1/bg-1']" />
 
 
 
@@ -122,8 +122,8 @@ Let's spice things up by selecting a random color from a palette. `Layers.defaul
 
 You can access these variables within the `setup()` and `draw()` by prefixing the property with a `$`. Try right-clicking (or tap and hold on mobile) to activate the menu:
 
-@[code{2-9}](./.vuepress/public/example/001/bg-2.js)
-<Example id="example-001-2" :layers="['001/bg-2']" />
+@[code{2-9}](./.vuepress/public/example/1/bg-2.js)
+<Example id="example-1-2" :layers="['1/bg-2']" />
 
 ### Stacking Layers
 
@@ -131,13 +131,13 @@ Now let's introduce a few new layers to demonstrate how stacking works. First, l
 
 Notice how you can now right-click on either the background or the circle to edit their specefic features:
 
-@[code{2-12}](./.vuepress/public/example/001/bg-3.js)
-<Example id="example-001-3" :layers="['001/bg-2', '001/bg-3']" />
+@[code{2-12}](./.vuepress/public/example/1/bg-3.js)
+<Example id="example-1-3" :layers="['1/bg-2', '1/bg-3']" />
 
 Ok! Now let's add yet another layer on top. We'll use it to place an emoji and scale it to match the size of the circle. Each layer exposes their editable variables in `Layer[id].store[prop]`, and **not** in `Layer[id].menu[prop]` (which is what holds the actual menu config). So to get the circle's size, we would do `Layer.circle.store.size`:
 
-@[code{2-22}](./.vuepress/public/example/001/bg-4.js)
-<Example id="example-001-4" :layers="['001/bg-2', '001/bg-3', '001/bg-4']" />
+@[code{2-22}](./.vuepress/public/example/1/bg-4.js)
+<Example id="example-1-4" :layers="['1/bg-2', '1/bg-3', '1/bg-4']" />
 
 ---
 

@@ -76,19 +76,19 @@ module.exports = {
             children: [
               {
                 text: '001 - Lily Pads',
-                link: '/sketches/midifungi/001.html'
+                link: '/sketches/midifungi/1.html'
               },
               {
                 text: '002 - Billions and Billions',
-                link: '/sketches/midifungi/002.html'
+                link: '/sketches/midifungi/2.html'
               },
               {
                 text: '003 - Spirit Emojis',
-                link: '/sketches/midifungi/003.html'
+                link: '/sketches/midifungi/3.html'
               },
               {
                 text: '004 - Chewie Choo',
-                link: '/sketches/midifungi/004.html'
+                link: '/sketches/midifungi/4.html'
               },
             ]
           },

@@ -3,15 +3,16 @@
 
 <div class="row">
   <div class="col-6">
-    <Midifungi title="001 - Lily Pads" :layers="['@midifungi/001/lilies', '@midifungi/001/ripples']" height=300 help="@midifungi/001" />
+    <Midifungi title="Chewie Choo" :layers="['@midifungi/2/starfield', '@midifungi/4/train', '@midifungi/4/crowd']" help="@midifungi/4"/>
   </div>
   <div class="col-6">
-    <Midifungi title="002 - Billions and Billions" id="sketch-002" :layers="['@midifungi/002/starfield', '@midifungi/002/glass', '@midifungi/002/watercanvas', '@midifungi/002/glass-filter', '@midifungi/002/lead']" height=300 help="@midifungi/002" />
+    <Midifungi title="Spirit Emojis" :layers="['@midifungi/3/bg', '@midifungi/3/shapes', '@midifungi/3/checker', '@midifungi/3/self', '@midifungi/3/squid']" help="@midifungi/3" />
   </div>
   <div class="col-6">
-    <Midifungi title="003 - Spirit Emojis" id="sketch-003" :layers="['@midifungi/003/bg', '@midifungi/003/shapes', '@midifungi/003/checker', '@midifungi/003/self', '@midifungi/003/squid']" height=300 help="@midifungi/003" />
+    <Midifungi title="Billions and Billions" :layers="['@midifungi/2/starfield', '@midifungi/2/glass', '@midifungi/2/watercanvas', '@midifungi/2/glass-filter', '@midifungi/2/lead']" help="@midifungi/2" />
   </div>
   <div class="col-6">
-    <Midifungi title="004 - Chewie Choo" id="sketch-004" :layers="['@midifungi/002/starfield', '@midifungi/004/train', '@midifungi/004/crowd']" height=300 help="@midifungi/004"/>
+    <!-- @fixme Automatically style title -->
+    <Midifungi title="Lily Pads" :layers="['@midifungi/1/lilies', '@midifungi/1/ripples']" help="@midifungi/1" />
   </div>
 </div>

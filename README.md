@@ -14,10 +14,5 @@ More details will be available soon! For now, check out https://midifungi.netlif
 - The documentation, gallery, and current collab project is built with [Vuepress 2](https://v2.vuepress.vuejs.org/). They are served from `/docs/`, with `README.md` files representing that directory's index.html
 - `build-tester.html` is there to quickly test that the library build is working before publishing to NPM and for quick experimentation. Run a local server to view it with `npx http-server`
 
-# Sketch List
-001 - Sillily Pads
-002 - Billions and Billions
-003 - Meditating into a squid 🧘👁️🦑👁️
-
 # Readme todo
 [ ] How to add new sketches

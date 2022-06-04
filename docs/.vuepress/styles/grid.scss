@@ -1,3 +1,7 @@
+.midifungi-layers-wrap-outer {
+  height: 450px;
+}
+
 .row {
   display: flex;
   flex-direction: row;
@@ -8,6 +12,10 @@
 
   .col-6 {
     width: 50%;
+
+    .midifungi-layers-wrap-outer {
+      height: 250px;
+    }
   }
   .col-12 {
     width: 100%;

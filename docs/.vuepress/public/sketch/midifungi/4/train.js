@@ -12,6 +12,7 @@ Layers.create(() => {
       textAlign(CENTER, CENTER)
     },
     draw () {
+      clear()
       textSize(minSize * .8)
       text($emoji, width/2, height/2)
     }
