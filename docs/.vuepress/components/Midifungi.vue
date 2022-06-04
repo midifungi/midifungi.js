@@ -1,7 +1,7 @@
 <template>
 <div class="window window-component mb-md" ref="window">
   <div class="title-bar" v-if="hasTitlebar">
-    <div class="title-bar-text">{{windowTitle}}</div>
+    <div class="title-bar-text" @click="onHelp" style="cursor: pointer">{{windowTitle}}</div>
     <div class="title-bar-controls" v-if="hasTitlebarControls">
       <button v-if="help" aria-label="Help" @click="onHelp"></button>
       <button v-if="minimize" aria-label="Minimize" @click="onMinimize"></button>
@@ -141,7 +141,9 @@ export default {
       Layers.trigger('resize')
     },
 
-    onHelp (ev) {
+    onHelp () {
+      if (!this.help) return
+      
       // Unfortunately we have to split this out with vite
       // @see https://github.com/vitejs/vite/issues/4945#issuecomment-951770052
       let page = ''
