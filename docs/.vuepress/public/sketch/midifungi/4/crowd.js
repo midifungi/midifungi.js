@@ -1,12 +1,32 @@
 export default function () {
 class Emoji {
   constructor () {
-    const size = minSize * .4
+    this.emoji = random(Emojis.tag.faces)
+    this.x = random(-width, width)
+    this.y = height/1.5 + minSize*.3
+    this.z = random(width)
+    this.speed = random(2, 10)
+    this.hidden = false
+  }
 
-    this.emoji = random(Emojis.tag.people)
-    this.x = random(0-size/2, width+size/2)
-    this.z = random(height/1.4-size/2, height+size/2)
-    this.y = height/1.5 + this.z*.35
+  update () {
+    this.z -= this.speed
+    if (this.z < width/3) {
+      // this.x = random(-width, width)
+      // this.y = height/2 + minSize*.35
+      // this.z = random(width)
+      this.hidden = true
+    }
+  }
+
+  draw () {
+    if (this.hidden) return
+    const sx = map(this.x / this.z, 0, 1, 0, width)
+    const sy = map(this.y / this.z, 0, 1, 0, height)
+
+    let scale = map(this.z, 0, width, minSize*.4, minSize*.05)
+    textSize(max(0, scale))
+    text(this.emoji, sx, sy)
   }
 }
   
@@ -15,30 +35,30 @@ Layers.create(() => {
     id: 'crowd',
     noLoop: true,
 
-    menu: {
-      size: {min: 60, max: 100},
-    },
     store: {
       things: []
     },
     
     setup () {
-      for (let i = 0; i < $size; i++) {
+      $things = []
+      for (let i = 0; i < width*3; i++) {
         $things.push(new Emoji())
       }
       drawingContext.shadowBlur = 5
       drawingContext.shadowColor = '#000'
-
-      // Sort by z
-      $things.sort((a, b) => a.z - b.z)
     },
 
     draw () {
       clear()
+      $things.sort((a, b) => b.z - a.z)
+
+      push()
+      translate(width/2, 0)
       $things.forEach(thing => {
-        textSize(minSize * .4)
-        text(thing.emoji, thing.x, thing.y)
+        thing.update()
+        thing.draw()
       })
+      pop()
     }
   })
 })

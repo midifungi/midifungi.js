@@ -3,7 +3,8 @@ Layers.create(() => {
   new Layer({
     id: 'train',
     menu: {
-      emoji: ['🚂', '🚄']
+      emoji: ['🚄','🚅','🚈','🚝','🚂'],
+      cab: ['🚃', '🚋', '🚟', '🚠']
     },
     store: {
       tracers: [],
@@ -34,6 +35,8 @@ Layers.create(() => {
           if ($x < -size*$cabs) {
             $x = $x*-1 - $speed
             $state = 1
+            $emoji = random(['🚄','🚅','🚈','🚝','🚂'])
+            $cab = random(['🚃', '🚋', '🚟', '🚠'])
           }
         break
 
@@ -55,14 +58,15 @@ Layers.create(() => {
             $speed = 0
             $x = 0
             $state = 0
+            $cabs = ~~random(10, 60)
           }
         break
       }
       
       textSize(size)
-      text($emoji, width/2 + $x, height/2)
+      text($emoji, width/2 + $x, height/2 + size*.1)
       for (let i = 1; i < $cabs; i++) {
-        text('🚃', width/2 + $x + i*size, height/2)
+        text($cab, width/2 + $x + i*size, height/2 + size*.1)
       }
     }
   })
