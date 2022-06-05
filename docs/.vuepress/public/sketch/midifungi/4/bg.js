@@ -3,11 +3,9 @@ export default function () {
 /*
 "Arriving Home 🚂🚃"
 
-Once the train came by,
-I yelled out "YIPPEE HOORAY!"
-Searching joyfully
----
-ABOUT: The background was purposefully drawn in inverse perspective (further trees look larger), and was inspired by the poster art for the movie "Inception": https://www.imdb.com/title/tt1375666/mediaviewer/rm3426651392/?ref_=tt_ov_i
+Happy arrivals,
+one by one to home sweet home.
+The train goes choo choo 🚂🌈
 ---
 DEVLOG: https://midifungi.com/sketches/midifungi/4.html
 ---

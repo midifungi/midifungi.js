@@ -14,8 +14,12 @@ class Emoji {
     const sy = map(this.y / this.z, 0, 1, 0, height)
 
     let scale = map(this.z, 0, maxSize, minSize*.4, minSize*.05)
+    push()
+    translate(sx, sy)
+    rotate(random(PI/-16, PI/16))
     textSize(max(0, scale))
-    text(this.emoji, sx, sy)
+    text(this.emoji, 0, 0)
+    pop()
   }
 }
   
