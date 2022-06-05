@@ -1,7 +1,7 @@
 export default function () {
 Layers.create(() => {
   new Layer({
-    id: 'eraser',
+    id: 'train',
     menu: {
       emoji: ['🚄','🚅','🚈','🚝','🚂'],
       cab: ['🚃', '🚋', '🚟', '🚠']

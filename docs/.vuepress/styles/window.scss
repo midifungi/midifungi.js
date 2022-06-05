@@ -69,13 +69,15 @@ html {
   
   &.maximized {
     position: fixed;
-    top: 56px;
     margin-top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 100;
-    height: calc(100vh - 61px) !important;
+    // top: 56px;
+    // height: calc(100vh - 61px) !important;
+    top: 0;
+    height: 100%;
 
     button[aria-label='Maximize'] {
       display: none;
