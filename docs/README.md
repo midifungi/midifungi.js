@@ -7,7 +7,7 @@ Midifungi is the result of asking "what if the library itself is the medium?". T
 It's more of a creative expression than an [open sourced project](https://github.com/midifungi/midifungi) that should be taken seriously. Eventually I may sell some of the examples as NFTs so that I can continue to explore this project 🌈
 :::
 
-<Midifungi :layers="['@midifungi/4/bg', '@midifungi/4/train', '@midifungi/4/crowd', '@midifungi/4/traffic']" help="@midifungi/4"/>
+<Midifungi title='@midifungi | 004 | Arriving Home' :layers="['@midifungi/4/bg', '@midifungi/4/train', '@midifungi/4/crowd', '@midifungi/4/traffic']" help="@midifungi/4"/>
 
 <div class="row">
   <div class="col-6">
