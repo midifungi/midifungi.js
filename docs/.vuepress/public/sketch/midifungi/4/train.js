@@ -1,13 +1,23 @@
 export default function () {
-Layers.create(() => {
+/**
+ * CHOO CHOO new trains on arrival
+ *----------
+ * 3 States:
+ * -1:  Depart to the left
+ * 1: Arrive from the right
+ * 0: Unload passengers
+ */
+ Layers.create(() => {
   new Layer({
     id: 'train',
-    menu: {
+    
+		// If you're quick enough you can right click on the train to edit it
+		menu: {
       emoji: ['🚄','🚅','🚈','🚝','🚂'],
       cab: ['🚃', '🚋', '🚟', '🚠']
     },
-    store: {
-      tracers: [],
+    
+		store: {
       x: 0,
       speed: 0,
       acc: .5,
@@ -15,13 +25,17 @@ Layers.create(() => {
 
       // -1 = departing, 0 = idle, 1 = arriving
       state: 0,
-      waiting: 0
+      isWaiting: 0
     },
+		
     setup () {
       textAlign(CENTER, CENTER)
-      $waiting = ~~random(this.fps*3)
+      drawingContext.shadowBlur = 5
+      drawingContext.shadowColor = '#000'
+      $isWaiting = ~~random(this.fps*3)
     },
-    draw () {
+    
+		draw () {
       clear()
       const size = minSize * .8
       
@@ -42,9 +56,9 @@ Layers.create(() => {
 
         // Idling
         case 0:
-          $waiting += 1
-          if ($waiting > this.fps*3) {
-            $waiting = 0
+          $isWaiting += 1
+          if ($isWaiting > this.fps*3) {
+            $isWaiting = 0
             $state = -1
           }
         break

@@ -1,5 +1,9 @@
 export default function () {
-class Emoji {
+/**
+ * This uses the "Starfield" technique to place passengers as if they are "zooming" in towards us
+ * @see: https://www.youtube.com/watch?v=17WoOqgXsRM
+ */
+ class Emoji {
   constructor () {
     this.emoji = random(Emojis.tag.faces)
     this.x = random(-width, width)

@@ -1,5 +1,8 @@
 export default function () {
-Layers.create(() => {
+/**
+ * This will trigger Layers.crowd to regenerate
+ */
+ Layers.create(() => {
   new Layer({
     id: 'traffic',
     menu: {
@@ -25,6 +28,8 @@ Layers.create(() => {
       // Drive from left to right, so flip the emojis
       scale(-1, 1)
       textAlign(CENTER, CENTER)
+      drawingContext.shadowBlur = 5
+      drawingContext.shadowColor = '#000'
       $size = minSize * 3
       this.resetCrowd()
     },

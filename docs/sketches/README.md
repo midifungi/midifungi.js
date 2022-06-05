@@ -3,7 +3,7 @@
 
 <div class="row">
   <div class="col-6">
-    <Midifungi title="Arriving Home" :layers="['@midifungi/4/bg', '@midifungi/4/train', '@midifungi/4/crowd']" help="@midifungi/4"/>
+    <Midifungi :layers="['@midifungi/4/bg', '@midifungi/4/train', '@midifungi/4/crowd', '@midifungi/4/traffic']" help="@midifungi/4"/>
   </div>
   <div class="col-6">
     <Midifungi title="Spirit Emojis" :layers="['@midifungi/3/bg', '@midifungi/3/shapes', '@midifungi/3/checker', '@midifungi/3/self', '@midifungi/3/squid']" help="@midifungi/3" />

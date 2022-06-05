@@ -7,13 +7,17 @@ Happy arrivals,
 one by one to home sweet home.
 The train goes choo choo 🚂🌈
 ---
-DEVLOG: https://midifungi.com/sketches/midifungi/4.html
----
 Sketched for @sableRaph's Weekly Creative Coding Challenge: https://openprocessing.org/curation/78544
+Passengers are placed using Starfield technique from Coding Train: https://www.youtube.com/watch?v=17WoOqgXsRM
 ---
-Made with Midifungi.js
+Devlog (coming soon): https://midifungi.com/sketches/midifungi/4.html
 */
-Layers.create(() => {
+
+
+/**
+ * Draws the trees in inverse perspective (further back are larger)
+ */
+ Layers.create(() => {
   class Tree {
     constructor () {
       this.emoji = random(['🌴', '🌳', '🌲', '🌵'])
@@ -40,20 +44,23 @@ Layers.create(() => {
       trees: []
     },
 
+		// Right click to change background color
+		// If you have a MIDI device then you can also map it!
     menu: {
       bg: {min: 4, max: 6}
     },
     
     setup () {
+			// Shadows don't seem to work with emojis over a certain size
       drawingContext.shadowBlur = 5
       drawingContext.shadowColor = '#000'
       this.store.clouds = []
       this.store.trees = []
 
+			// Create clouds/trees
       for (let i = 0; i < random(0, minSize/10); i++) {
         this.store.clouds.push(new Cloud())
       }
-      
       for (let i = 0; i < maxSize; i++) {
         $trees.push(new Tree())
       }
