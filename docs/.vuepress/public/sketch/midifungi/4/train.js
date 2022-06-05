@@ -59,6 +59,7 @@ Layers.create(() => {
             $x = 0
             $state = 0
             $cabs = ~~random(10, 60)
+            Layers.traffic.resetCrowd()
           }
         break
       }
