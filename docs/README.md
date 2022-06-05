@@ -2,9 +2,11 @@
 <!-- A layer-based p5.js framework with live editing and MIDI support 🎛️🎹 -->
 
 :::warning 📅 Announcing Mid June 2022
-Midifungi is the result of asking "what if the library itself is the medium?". This project is a fantasy framework and monorepo that contains Midifungi.js, this site and documentation, my daily art gallery, and technical blog all in one package.
+Midifungi is the result of asking "what if the library itself is the medium?". This project is a fantasy framework and monorepo that contains Midifungi.js, this site and documentation, my daily [art gallery](/sketches/), and technical blog all in one package.
 
-It's more of a creative expression than an [open sourced project](https://github.com/midifungi/midifungi) that should be taken seriously. Eventually I may sell some of the examples as NFTs so that I can continue to explore this project 🌈
+It's more of a creative expression than an [open sourced project](https://github.com/midifungi/midifungi) that should be taken seriously. Eventually I may sell some of the examples as NFTs so that I can continue to explore this project
+
+**🌈🐞This project is not officially announced and is likely buggy 🐞🌈**
 :::
 
 <Midifungi title='@midifungi | 004 | Arriving Home' :layers="['@midifungi/4/bg', '@midifungi/4/train', '@midifungi/4/crowd', '@midifungi/4/traffic']" help="@midifungi/4"/>
