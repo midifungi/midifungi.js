@@ -50,6 +50,10 @@ export default globalThis.Layers = {
   
   // Layers
   all: [],
+  stack: {},
+  curStack: 'global',
+
+  // Global defaults
   store: {},
   methods: {},
   

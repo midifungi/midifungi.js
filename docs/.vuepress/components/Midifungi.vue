@@ -31,7 +31,8 @@ export default {
       default: true
     },
     minimize: Boolean,
-    help: String
+    help: String,
+    stack: null
   },
 
   /**
@@ -59,6 +60,7 @@ export default {
 
   mounted () {
     this.loadLayers()
+    this.stackId = this.stack || `stack${~~(Math.random() * 9999999999)}`
   },
   beforeUnmount () {
     Layers.dispose()
@@ -105,6 +107,7 @@ export default {
       }
 
       Layers.target = this.$refs.target
+      Layers.curStack = this.stackId
       this.loadedLayers[i] = sketch
       this.numLoadedLayers++
 
