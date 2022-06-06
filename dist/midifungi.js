@@ -4,7 +4,7 @@
  * https://twitter.com/midifungi
  * https://github.com/midifungi/midifungi
  * ---
- * @version 0.0.27
+ * @version 0.0.28
  * @license "Apache 2.0"
  * ---
  * This file was bundled with Rollup
@@ -26362,6 +26362,10 @@
     
     // Layers
     all: [],
+    stack: {},
+    curStack: 'global',
+
+    // Global defaults
     store: {},
     methods: {},
     
@@ -26371,7 +26375,7 @@
     },
 
     // About
-    version: '0.0.27',
+    version: '0.0.28',
     curId: 0,
 
     // Menus
@@ -27308,6 +27312,7 @@
         menuDisabled: false,
         type: 'layer',
         target: Layers.target || null,
+        stack: Layers.curStack || null,
         renderer: P2D,
         offscreenRenderer: opts.offscreenRenderer || P2D,
         
@@ -27354,12 +27359,27 @@
       }
       
       // Store references
+      // Generate unique ID
+      const origId = this.id;
       Layers.curId++;
-      if (Layers[this.id]) {
-        opts.id = this.id = this.id.toString() + '-' + Layers.curId;
+      if (Layers[origId]) {
+        this.id = origId.toString() + '_' + Layers.curId;
       }
-      Layers[this.id] = this;
-      Layers.all.push(Layers[this.id]);
+      // Store into .all
+      Layers.all.push(this);
+      // Store by stack
+      if (!Layers.stack[this.stack]) {
+        Layers.stack[this.stack] = {};
+      }
+      Layers.stack[this.stack][origId] = this;
+      // Update Layers getter to pick the correct reference
+      if (!Layers[origId]) {
+        Object.defineProperty(Layers, origId, {
+          get: () => {
+            return Layers.stack[Layers.curStack]?.[origId]
+          }
+        });
+      }
 
       // Methods
       Object.keys(this.opts.methods).forEach(key => {
@@ -27415,6 +27435,7 @@
       if (!this.renderer) this.renderer = this.opts.renderer;
       if (!this.offscreenRenderer) this.offscreenRenderer = this.opts.offscreenRenderer;
       if (!this.waitFor) this.waitFor = this.opts.waitFor;
+      if (!this.stack) this.stack = this.opts.stack;
 
       // Canvas
       if (!this.canvas) {
@@ -27583,7 +27604,9 @@
      */
     useGlobalContext () {
       if (Layers._globalContextLayer === this.id) return
+      // Layers updates
       Layers._globalContextLayer = this.id;
+      Layers.curStack = this.stack;
 
       // Save the current context
       this._context = {};
@@ -27639,10 +27662,11 @@
       this.canvas.remove();
       this.offscreen.remove();
 
-      const id = this.id;
+      // Delete from all
       const idx = Layers.all.findIndex(layer => layer.id === this.id);
       Layers.all.splice(idx, 1);
-      delete Layers[id];
+      // Delete from stack
+      delete Layers.stack[this.stack][this.opts.id];
     }
 
     /**
@@ -27710,7 +27734,7 @@
    * Midifungi 🎹🍄
    * A p5js library that helps you organize your code into layers
    * ---
-   * @version 0.0.27
+   * @version 0.0.28
    * @license "Apache 2.0" with the addendum that you cannot use this or its output for NFTs without permission
    */
 

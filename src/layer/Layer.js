@@ -391,7 +391,7 @@ export default class Layer {
     const idx = Layers.all.findIndex(layer => layer.id === this.id)
     Layers.all.splice(idx, 1)
     // Delete from stack
-    delete Layers.stack[this.stack][this.opts]
+    delete Layers.stack[this.stack][this.opts.id]
   }
 
   /**

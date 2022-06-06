@@ -60,7 +60,7 @@ export default {
 
   mounted () {
     this.loadLayers()
-    this.stackId = this.stack || `stack${~~(Math.random() * 9999999999)}`
+    this.stackId = this.stack || `stack${~~(Math.random() * 999999)}`
   },
   beforeUnmount () {
     Layers.dispose()
