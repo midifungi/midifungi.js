@@ -28,7 +28,7 @@ Layers.create(() => {
 
   class Cloud {
     constructor () {
-      this.emoji = random(['☁️'])
+      this.emoji = random(config.clouds || ['☁️'])
       this.size = random(minSize*.1, minSize*.5)
       this.x = random(-this.size, width+this.size)
       this.y = random(height/2)

@@ -38,6 +38,10 @@ html {
       color: #222;
     }
   }
+
+  h3 + [class^=language-] {
+    margin-top: calc(var(--element-spacing)*2)
+  }
 }
 .code-group-item > [class^="language-"] {
   box-shadow: var(--border-field);

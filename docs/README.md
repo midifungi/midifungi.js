@@ -80,7 +80,7 @@ window.p5 = p5
 :::
 ::: code-group-item Clone this site
 ::: tip Cloning this site locally
-Because this is a fantasy framework I'm not running ads or analytics (outside of what's provided by [hosting on Netlify](https://www.netlify.com/products/analytics/)). It's a completely self contained static [vuepress@next](https://v2.vuepress.vuejs.org/) site and JavaScript framework and everything is rendered locally. Cloning this site for play, collaboration, or research is highly encouraged (commercial `/LICENSE` is generally MIT)
+Midifungi is a completely self contained static [vuepress@next](https://v2.vuepress.vuejs.org/) site and JavaScript framework. Cloning this site for play, collaboration, or research is highly encouraged (commercial `/LICENSE` is generally MIT)
 
 To clone this site locally you'll need [NodeJS](https://nodejs.org/en/) installed on your system. It's also helpful to have [git](https://git-scm.com/) so that you can clone [from Github](https://github.com/midifungi/midifungi) and install the dependencies:
 ```bash
@@ -92,7 +92,7 @@ npm start
 
 After that's done, you can start things off with `npm start` and end things by closing the terminal or hitting <kbd>CONTROL + C</kbd>. Visit `//localhost:8080` in your browser to start exploring this site offline. The content on this site matches the directory structure in `/docs/`, with the index pages labeled as `README.md`. This page is generated from `/docs/README.md`
 
-If you're interested in the sketches and examples, they are located in `/docs/public/sketch/`. To see how they are assembled, view the corresponding pages in `/docs/sketches/`
+If you're interested in the sketches and examples, they are located in `/docs/.vuepress/public/sketch/`. To see how they are assembled, view the corresponding pages in `/docs/sketches/`
 :::
 :::
 
@@ -103,7 +103,7 @@ If you're interested in the sketches and examples, they are located in `/docs/pu
 
 ## Getting Started
 
-Let's create a quick generative sketch that demonstrates some of the main feature of Midifungi.js. The drawing methods are still all like p5, but instead of drawing into a single canvas we'll be drawing into multiple canvases stacked on top of each other.
+Let's create a quick sketch that demonstrates some of the main feature of Midifungi.js. The drawing methods are still all like p5, but instead of drawing into a single canvas we'll be drawing into multiple canvases stacked on top of each other.
 
 
 
@@ -141,10 +141,12 @@ Ok! Now let's add yet another layer on top. We'll use it to place an emoji and s
 @[code{2-22}](./.vuepress/public/example/1/bg-4.js)
 <Example id="example-1-4" :layers="['1/bg-2', '1/bg-3', '1/bg-4']" />
 
----
-
-# Mapping variables to MIDI
+## Mapping variables to MIDI
 
 ::: tip 📅 COMING SOON
 This project is a work in progress, more will be here soon!
 :::
+
+## Publishing on OpenProcessing, NEORT, etc
+
+## Where to next?
