@@ -1,4 +1,4 @@
-export default function () {
+export default function (config) {
 /**
  * CHOO CHOO new trains on arrival
  *----------
@@ -7,14 +7,14 @@ export default function () {
  * 1: Arrive from the right
  * 0: Unload passengers
  */
- Layers.create(() => {
+Layers.create(() => {
   new Layer({
     id: 'train',
     
 		// If you're quick enough you can right click on the train to edit it
 		menu: {
-      emoji: ['🚄','🚅','🚈','🚝','🚂'],
-      cab: ['🚃', '🚋', '🚟', '🚠']
+      emoji: config.train || ['🚄','🚅','🚈','🚝','🚂'],
+      cab: config.cab || ['🚃', '🚋', '🚟', '🚠']
     },
     
 		store: {
@@ -49,8 +49,8 @@ export default function () {
           if ($x < -size*$cabs) {
             $x = $x*-1 - $speed
             $state = 1
-            $emoji = random(['🚄','🚅','🚈','🚝','🚂'])
-            $cab = random(['🚃', '🚋', '🚟', '🚠'])
+            $emoji = config.train || random(['🚄','🚅','🚈','🚝','🚂'])
+            $cab = config.cab || random(['🚃', '🚋', '🚟', '🚠'])
           }
         break
 

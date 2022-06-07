@@ -17,6 +17,7 @@ import p5Overrides from './p5-overrides.js'
 globalThis.Layers = Layers
 globalThis.Layer = Layer
 globalThis.Emojis = Emojis
+globalThis.config = {}
 
 /**
  * Initialize Midifungi

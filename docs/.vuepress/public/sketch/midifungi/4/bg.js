@@ -1,5 +1,4 @@
-export default function () {
-
+export default function (config) {
 /*
 "Arriving Home 🚂🚃"
 
@@ -17,10 +16,10 @@ Devlog (coming soon): https://midifungi.com/sketches/midifungi/4.html
 /**
  * Draws the trees in inverse perspective (further back are larger)
  */
- Layers.create(() => {
+Layers.create(() => {
   class Tree {
     constructor () {
-      this.emoji = random(['🌴', '🌳', '🌲', '🌵'])
+      this.emoji = random(config.trees || ['🌴', '🌳', '🌲', '🌵'])
       this.size = random(minSize*.1, minSize*.5)
       this.x = random(-this.size, width + this.size)
       this.y = height - this.size

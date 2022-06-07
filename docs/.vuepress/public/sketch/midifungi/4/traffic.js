@@ -1,4 +1,4 @@
-export default function () {
+export default function (config) {
 /**
  * This will trigger Layers.crowd to regenerate
  */

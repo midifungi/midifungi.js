@@ -69,23 +69,30 @@ export default {
   methods: {
     loadLayers () {
       const $this = this
-      $this.layers && $this.layers.forEach((path, i) => {
-        if (path[0] === '@') {
-          path = path.substr(1)
+      $this.layers && $this.layers.forEach((layer, i) => {
+        // Convert to array
+        if (typeof layer === 'string') {
+          layer = [layer]
         }
-        $this.maybeLoadScript(path, i)
+        if (layer[0][0] === '@') {
+          layer[0] = layer[0].substr(1)
+        }
+        $this.maybeLoadScript(layer, i)
       })
     },
     
-    maybeLoadScript (path, i) {
+    maybeLoadScript (layer, i) {
       if (!window.Layers) {
-        setTimeout(() => this.maybeLoadScript(path, i), 0)
+        setTimeout(() => this.maybeLoadScript(layer, i), 0)
       } else {
-        this.loadScript(path, i)
+        this.loadScript(layer, i)
       }
     },
     
-    async loadScript (path, i) {
+    async loadScript (layer, i) {
+      let path = layer[0]
+      let data = layer[1] || {}
+      
       // Unfortunately we have to split this out with vite
       // @see https://github.com/vitejs/vite/issues/4945#issuecomment-951770052
       const splitName = path.split('/')
@@ -108,12 +115,15 @@ export default {
 
       Layers.target = this.$refs.target
       Layers.curStack = this.stackId
-      this.loadedLayers[i] = sketch
-      this.numLoadedLayers++
+      layer.sketch = sketch.default
+      layer.path = path
+      layer.config = data
+      this.loadedLayers[i] = layer
 
-      if (this.numLoadedLayers === this.layers.length) {
-        this.loadedLayers.forEach(sketch => {
-          sketch.default()
+      if (++this.numLoadedLayers === this.layers.length) {
+        this.loadedLayers.forEach((layer, n) => {
+          // globalThis.config = layer.config
+          layer.sketch(layer.config)
         })
       }
     },
