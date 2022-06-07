@@ -94,6 +94,11 @@ Layers.create(() => {
           }))
         }
       }
+
+      // Randomly sort emojis
+      $emojis.sort((a, b) => random() > .5 ? 1 : -1)
+      // Sort vertically
+      $emojis.sort((a, b) => a.y > b.y ? 1 : -1)
     },
 
     draw () {
@@ -102,9 +107,9 @@ Layers.create(() => {
         emoji.draw()
       })
 
-      if (frameCount > 60) {
-        this.noLoop = true
-        this.emit('done')
+      if (frameCount >= 60) {
+        noLoop()
+        Layers.trigger('done', this)
       }
     }
   })

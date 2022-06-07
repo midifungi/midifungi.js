@@ -2,7 +2,6 @@ const {viteBundler} = require('@vuepress/bundler-vite')
 const {path} = require('@vuepress/utils')
 const {registerComponentsPlugin} = require('@vuepress/plugin-register-components')
 const {themeDataPlugin} = require('@vuepress/plugin-theme-data')
-// const {searchPlugin} = require('@vuepress/plugin-search')
 const pkg = require('../../package.json')
 
 module.exports = {
@@ -16,20 +15,12 @@ module.exports = {
   plugins: [
     // @see https://snippetors.github.io/plugins/vuepress-plugin-tabs.html
     registerComponentsPlugin({
+      // componentsDir: path.resolve(__dirname, './components/'),
       components: {
         Midifungi: path.resolve(__dirname, './components/Midifungi.vue'),
         Example: path.resolve(__dirname, './components/Example.vue'),
       }
     }),
-
-    // @see https://v2.vuepress.vuejs.org/reference/plugin/search.html#issearchable
-    // searchPlugin({
-    //   locales: {
-    //     '/': {
-    //       placeholder: 'Search'
-    //     }
-    //   }
-    // }),
 
     themeDataPlugin({
       themeData: {
@@ -46,67 +37,78 @@ module.exports = {
         },
         sidebar: [
           {
-            text: '🏎️ Quick Start',
-            link: '/',
+            text: '👋 Introduction',
+            link: '/'
           },
           {
-            text: '✨ Why Midifungi?',
-            link: '/why.md',
-          },
-          {
-            text: '🪄 Overview',
-            link: '/overview.md',
-          },
-          {
-            text: '🤹 Managing Layers',
-            link: '/layers.md',
-          },
-          {
-            text: '🎛️ Context Menus',
-            link: '/menus.md',
-          },
-          {
-            text: '🎹 MIDI Mapping',
-            link: '/midi.md',
+            text: '📅 Daily Devlog',
+            link: '/devlog/'
           },
           {
             text: '🖼️ Gallery',
-            link: '/sketches/',
+            link: '/gallery/',
             collapsible: true,
             children: [
               {
                 text: '001 - Lily Pads',
-                link: '/sketches/midifungi/1.html'
+                link: '/gallery/midifungi/1.html'
               },
               {
                 text: '002 - Billions and Billions',
-                link: '/sketches/midifungi/2.html'
+                link: '/gallery/midifungi/2.html'
               },
               {
                 text: '003 - Spirit Emojis',
-                link: '/sketches/midifungi/3.html'
+                link: '/gallery/midifungi/3.html'
               },
               {
                 text: '004 - Arriving Home',
-                link: '/sketches/midifungi/4.html'
+                link: '/gallery/midifungi/4.html'
               },
             ]
           },
           {
-            text: '📚 Reference',
-            link: '/ref/'
-          },
-          {
-            text: '🚀 Migrating Sketches',
-            link: '/migrating.md',
-          },
-          {
-            text: '🗺️ Roadmap',
-            link: '/roadmap.md'
-          },
-          {
-            text: '🙋 Get involved',
-            link: '/get-involved.md'
+            text: '🧑‍💻 Midifungi.js',
+            link: '/midifungi.js/',
+            collapsible: true,
+            children: [
+              {
+                text: '🏎️ Quick Start',
+                link: '/midifunigi.js/',
+              },
+              {
+                text: '✨ Why Midifungi?',
+                link: '/midifungi.js/why.md',
+              },
+              {
+                text: '🪄 Overview',
+                link: '/midifungi.js/overview.md',
+              },
+              {
+                text: '🤹 Managing Layers',
+                link: '/midifungi.js/layers.md',
+              },
+              {
+                text: '🎛️ Context Menus',
+                link: '/midifungi.js/menus.md',
+              },
+              {
+                text: '🎹 MIDI Mapping',
+                link: '/midifungi.js/midi.md',
+              },
+              {
+                text: '📚 Reference',
+                link: '/ref/'
+              },
+              {
+                text: '🚀 Migrating Sketches',
+                link: '/migrating.md',
+              },
+              {
+                text: '🗺️ Roadmap',
+                link: '/roadmap.md'
+              },
+            ]
           },
           {
             text: '🤝 Support Midifungi',

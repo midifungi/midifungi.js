@@ -163,7 +163,7 @@ export default {
       let helpLink = this.help
       if (this.help[0] === '@') {
         helpLink = this.help.substr(1)
-        page = `/sketches/`
+        page = `/gallery/`
       }
 
       const splitName = helpLink.split('/')

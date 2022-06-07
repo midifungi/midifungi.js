@@ -151,7 +151,6 @@ export default class Layer {
     if (!this.onDispose) this.onDispose = this.opts.onDispose
     if (!this.setup) this.setup = this.opts.setup
     if (!this.type) this.type = this.opts.type
-    if (!this.noLoop) this.noLoop = this.opts.noLoop
     if (!this.pixelDensity) {
       this.pixelDensity = this.opts.pixelDensity || 1
     }
@@ -161,6 +160,9 @@ export default class Layer {
     if (!this.offscreenRenderer) this.offscreenRenderer = this.opts.offscreenRenderer
     if (!this.waitFor) this.waitFor = this.opts.waitFor
     if (!this.stack) this.stack = this.opts.stack
+
+    // Always reset
+    this.noLoop = this.opts.noLoop
 
     // Canvas
     if (!this.canvas) {
@@ -310,7 +312,6 @@ export default class Layer {
 
       // Draw
       this.useGlobalContext()
-      globalThis.frameCount = this.frameCount
       this.opts.draw && this.opts.draw.call(this, this.offscreen)
       this.restoreGlobalContext()
       this.frameCount++
@@ -348,6 +349,22 @@ export default class Layer {
     }
     globalThis.canvas = this.canvas
     globalThis.offscreen = this.offscreen
+    globalThis.frameCount = this.frameCount
+    
+    // Looping
+    globalThis.noLoop = () => {
+      this.noLoop = true
+      this._context.noLoop()
+    }
+    globalThis.loop = () => {
+      const _noLoop = this.noLoop
+      this.noLoop = false
+      this._context.loop()
+      if (_noLoop) {
+        console.log('draw')
+        this.draw()
+      }
+    }
 
     // Helpers
     globalThis.minSize = min(this.canvas.width, this.canvas.height)
@@ -446,8 +463,11 @@ export default class Layer {
   listeners = {
     menu: {
       regenerate: ev => {
+        // this.noLoop always gets reset to initial state, so we remember what it was
+        // before generate and use that to determine if we should redraw or not
+        const _noLoop = this.noLoop
         this.generate(true)
-        this.noLoop && this.draw(true)
+        _noLoop && this.draw(true)
         this._showContextMenuEvent && this.showContextMenu(this._showContextMenuEvent)
         this._showContextMenuEvent = null
       }
