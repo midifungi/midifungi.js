@@ -1,10 +1,16 @@
 import {gemoji} from '../../node_modules/gemoji/index.js'
 
+let _cachedAll
+
 export default {
   list: gemoji,
   get all () {
-    const list = []
-    gemoji.forEach(emoji => list.push(emoji.emoji))
+    const list = _cachedAll
+    if (!list) {
+      gemoji.forEach(emoji => list.push(emoji.emoji))
+      _cachedAll = list
+    }
+
     return list
   },
   tag: {

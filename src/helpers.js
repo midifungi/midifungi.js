@@ -22,16 +22,6 @@ globalThis.wrap = function (value, min, max) {
 }
 
 /**
- * Uses frameCount to return the progress within a loop of the passed number of seconds
- * @param {*} seconds 
- * @returns 
- */
-globalThis.getProgress = function (seconds = 7) {
-  const period = +params.fps * seconds / 2
-  return (frameCount % period) / period
-} 
-
-/**
  * @see https://stackoverflow.com/a/14627826
  * @param {*} number The number to round
  * @param {*} increment The increment to round to
