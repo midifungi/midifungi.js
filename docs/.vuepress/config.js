@@ -19,6 +19,7 @@ module.exports = {
       components: {
         Midifungi: path.resolve(__dirname, './components/Midifungi.vue'),
         Example: path.resolve(__dirname, './components/Example.vue'),
+        Window: path.resolve(__dirname, './components/Window.vue'),
       }
     }),
 

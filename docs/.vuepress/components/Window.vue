@@ -9,10 +9,8 @@
       <button aria-label="Maximize" @click="onMaximize"></button>
     </div>
   </div>
-  <div class="window-body">
-    <div class="midifungi-layers-wrap-outer" :style="{height: height ? height + 'px' : null}">
-      <div class="midifungi-layers-wrap" ref="target"></div>
-    </div>
+  <div class="window-body" :style="{height: height ? height + 'px' : null}">
+    <slot></slot>
   </div>
 </div>
 </template>
@@ -22,7 +20,6 @@ export default {
   // List of paths to sketch scripts to load
   // Prefix with @username/001/path to load /sketch/midifungi/001/path.js
   props: {
-    layers: Object,
     height: [Number, String],
     title: String,
     maximize: {
@@ -31,7 +28,6 @@ export default {
     },
     minimize: Boolean,
     help: String,
-    stack: null
   },
 
   /**
@@ -42,8 +38,6 @@ export default {
     return {
       isMinimized: false,
       isMaximized: false,
-      loadedLayers: Array(this.layers.length).fill(null),
-      numLoadedLayers: 0,
     }
   },
 
@@ -57,76 +51,7 @@ export default {
     windowTitle () {return this.title || this.$page.title}
   },
 
-  mounted () {
-    this.loadLayers()
-    this.stackId = this.stack || `stack${~~(Math.random() * 999999)}`
-  },
-  beforeUnmount () {
-    Layers.dispose()
-  },
-
   methods: {
-    loadLayers () {
-      const $this = this
-      $this.layers && $this.layers.forEach((layer, i) => {
-        // Convert to array
-        if (typeof layer === 'string') {
-          layer = [layer]
-        }
-        if (layer[0][0] === '@') {
-          layer[0] = layer[0].substr(1)
-        }
-        $this.maybeLoadScript(layer, i)
-      })
-    },
-    
-    maybeLoadScript (layer, i) {
-      if (!window.Layers) {
-        setTimeout(() => this.maybeLoadScript(layer, i), 0)
-      } else {
-        this.loadScript(layer, i)
-      }
-    },
-    
-    async loadScript (layer, i) {
-      let path = layer[0]
-      let data = layer[1] || {}
-      
-      // Unfortunately we have to split this out with vite
-      // @see https://github.com/vitejs/vite/issues/4945#issuecomment-951770052
-      const splitName = path.split('/')
-      let sketch
-      if (splitName.length === 1) {
-        sketch = await import(`../public/sketch/${splitName[0]}.js`)
-      } else if (splitName.length === 2) {
-        sketch = await import(`../public/sketch/${splitName[0]}/${splitName[1]}.js`)
-      } else if (splitName.length === 3) {
-        sketch = await import(`../public/sketch/${splitName[0]}/${splitName[1]}/${splitName[2]}.js`)
-      } else if (splitName.length === 4) {
-        sketch = await import(`../public/sketch/${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}.js`)
-      } else if (splitName.length === 5) {
-        sketch = await import(`../public/sketch/${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}.js`)
-      } else if (splitName.length === 6) {
-        sketch = await import(`../public/sketch/${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}/${splitName[5]}.js`)
-      } else if (splitName.length === 7) {
-        sketch = await import(`../public/sketch/${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}/${splitName[5]}/${splitName[6]}.js`)
-      }
-
-      Layers.target = this.$refs.target
-      Layers.curStack = this.stackId
-      layer.sketch = sketch.default
-      layer.path = path
-      layer.config = data
-      this.loadedLayers[i] = layer
-
-      if (++this.numLoadedLayers === this.layers.length) {
-        this.loadedLayers.forEach((layer, n) => {
-          // globalThis.config = layer.config
-          layer.sketch(layer.config)
-        })
-      }
-    },
-
     /**
      * Handle window resize
      */

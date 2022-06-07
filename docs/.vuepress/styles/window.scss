@@ -12,6 +12,11 @@ html {
       }
     }
 
+    .window-body > iframe {
+      margin: 0;
+      min-height: 350px;
+    }
+  
     &.maximized {
       .window-body section {
         overflow: auto;
@@ -23,6 +28,10 @@ html {
         img {
           width: 100%;
         }
+      }
+
+      .window-body > iframe {
+        height: 100% 
       }
 
       .midifungi-layers-wrap {

@@ -30,7 +30,9 @@ This project is still experimental and the plan is to announce quietly in mid Ju
 </div>
 
 ## Roadmap
-<iframe height=600 src="https://midifungi-notion.ozramos.workers.dev/roadmap"></iframe>
+<Window title="Roadmap">
+  <iframe src="https://midifungi-notion.ozramos.workers.dev/roadmap"></iframe>
+</Window>
 
 ## What to explore next?
 
