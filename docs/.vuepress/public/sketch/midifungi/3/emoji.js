@@ -68,6 +68,10 @@ class Emoji {
 Layers.create(() => {
   new Layer({
     id: 'emojis',
+
+    menu: {
+      bg: Layers.default.colors
+    },
     
     store: {
       emojis: []
@@ -93,13 +97,14 @@ Layers.create(() => {
     },
 
     draw () {
-      clear()
+      background($bg)
       $emojis.forEach(emoji => {
         emoji.draw()
       })
 
       if (frameCount > 60) {
         this.noLoop = true
+        this.emit('done')
       }
     }
   })
