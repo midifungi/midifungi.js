@@ -1,4 +1,4 @@
-# <img src="/midifungi-title.png" alt="Midifungi" style="height:32px; position: relative; top: 5px"> - A fantasy p5.js framework and daily generative art journal
+# <img src="/midifungi-title.png" alt="Midifungi" style="height:32px; position: relative; top: 5px"> - A fantasy p5.js framework and daily creative coding journal
 
 ::: warning 📅 Coming soon!
 This project is still experimental and the plan is to announce quietly in mid June 🤫
@@ -6,7 +6,7 @@ This project is still experimental and the plan is to announce quietly in mid Ju
 
 <div class="row">
   <div class="col-6">
-    <Midifungi title="Arriving Home" :layers="['@midifungi/4/bg', '@midifungi/4/train', '@midifungi/4/crowd', '@midifungi/4/traffic']" help="@midifungi/4"/>
+    <Midifungi title="Arriving Home" :layers="['@4/bg', '@4/train', '@4/crowd', '@4/traffic']" help="@4"/>
   </div>
   <div class="col-6">
     <div class="custom-container tip">
@@ -22,10 +22,10 @@ This project is still experimental and the plan is to announce quietly in mid Ju
 ## Recent compositions
 <div class="row">
   <div class="col-6">
-    <Midifungi title="Spirit Emojis - Group Photo" :layers="['@midifungi/3/emoji']" help="@midifungi/3" />
+    <Midifungi title="Spirit Emojis - Group Photo" :layers="['@3/emoji']" help="@3" />
   </div>
   <div class="col-6">
-    <Midifungi title="Arriving home (scary version 🎃)" :layers="[['@midifungi/4/bg', {trees: ['🫀', '💗'], clouds: ['👁️']}], ['@midifungi/4/train', {train: ['👁️'], cab: ['👀']}], ['@midifungi/4/crowd', {faces: ['👁️', '👀']}], '@midifungi/4/traffic']" help="@midifungi/4" />
+    <Midifungi title="Arriving home (scary version 🎃)" :layers="[['@4/bg', {trees: ['🫀', '💗'], clouds: ['👁️']}], ['@4/train', {train: ['👁️'], cab: ['👀']}], ['@4/crowd', {faces: ['👁️', '👀']}], '@4/traffic']" help="@4" />
   </div>
 </div>
 

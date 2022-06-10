@@ -1,18 +1,16 @@
 # Sketches
-## @Midifungi
-
 <div class="row">
   <div class="col-6">
-    <Midifungi title="Arriving Home" :layers="['@midifungi/4/bg', '@midifungi/4/train', '@midifungi/4/crowd', '@midifungi/4/traffic']" help="@midifungi/4"/>
+    <Midifungi title="Arriving Home" :layers="['@4/bg', '@4/train', '@4/crowd', '@4/traffic']" help="@4"/>
   </div>
   <div class="col-6">
-    <Midifungi title="Spirit Emojis" :layers="['@midifungi/3/bg', '@midifungi/3/shapes', '@midifungi/3/checker', '@midifungi/3/self', '@midifungi/3/squid']" help="@midifungi/3" />
+    <Midifungi title="Spirit Emojis" :layers="['@3/bg', '@3/shapes', '@3/checker', '@3/self', '@3/squid']" help="@3" />
   </div>
   <div class="col-6">
-    <Midifungi title="Billions and Billions" :layers="['@midifungi/2/starfield', '@midifungi/2/glass', '@midifungi/2/watercanvas', '@midifungi/2/glass-filter', '@midifungi/2/lead']" help="@midifungi/2" />
+    <Midifungi title="Billions and Billions" :layers="['@2/starfield', '@2/glass', '@2/watercanvas', '@2/glass-filter', '@2/lead']" help="@2" />
   </div>
   <div class="col-6">
     <!-- @fixme Automatically style title -->
-    <Midifungi title="Lily Pads" :layers="['@midifungi/1/lilies', '@midifungi/1/ripples']" help="@midifungi/1" />
+    <Midifungi title="Lily Pads" :layers="['@1/lilies', '@1/ripples']" help="@1" />
   </div>
 </div>

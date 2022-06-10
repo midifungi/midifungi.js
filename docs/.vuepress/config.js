@@ -75,7 +75,7 @@ module.exports = {
             children: [
               {
                 text: '🏎️ Quick Start',
-                link: '/midifunigi.js/',
+                link: '/midifungi.js/',
               },
               {
                 text: '✨ Why Midifungi?',
@@ -99,11 +99,11 @@ module.exports = {
               },
               {
                 text: '📚 Reference',
-                link: '/ref/'
+                link: '/midifungi.js/ref/'
               },
               {
                 text: '🚀 Migrating Sketches',
-                link: '/migrating.md',
+                link: '/midifungi.js/migrating.md',
               },
               {
                 text: '🗺️ Roadmap',
@@ -124,8 +124,7 @@ module.exports = {
     viteOptions: {
       resolve: {
         alias: {
-          '@examples': path.resolve(__dirname, './public/exampl'),
-          '@sketches': path.resolve(__dirname, './public/sketch'),
+          '&': path.resolve(__dirname, '../../'),
           '@lib': path.resolve(__dirname, '../../src'),
         }
       }

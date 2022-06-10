@@ -73,8 +73,9 @@ export default {
         if (typeof layer === 'string') {
           layer = [layer]
         }
+
         if (layer[0][0] === '@') {
-          layer[0] = layer[0].substr(1)
+          layer[0] = '/sketch/' + layer[0].substr(1)
         }
         $this.maybeLoadScript(layer, i)
       })
@@ -97,19 +98,19 @@ export default {
       const splitName = path.split('/')
       let sketch
       if (splitName.length === 1) {
-        sketch = await import(`../public/sketch/${splitName[0]}.js`)
+        sketch = await import(`${splitName[0]}.js`)
       } else if (splitName.length === 2) {
-        sketch = await import(`../public/sketch/${splitName[0]}/${splitName[1]}.js`)
+        sketch = await import(`${splitName[0]}/${splitName[1]}.js`)
       } else if (splitName.length === 3) {
-        sketch = await import(`../public/sketch/${splitName[0]}/${splitName[1]}/${splitName[2]}.js`)
+        sketch = await import(`${splitName[0]}/${splitName[1]}/${splitName[2]}.js`)
       } else if (splitName.length === 4) {
-        sketch = await import(`../public/sketch/${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}.js`)
+        sketch = await import(`${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}.js`)
       } else if (splitName.length === 5) {
-        sketch = await import(`../public/sketch/${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}.js`)
+        sketch = await import(`${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}.js`)
       } else if (splitName.length === 6) {
-        sketch = await import(`../public/sketch/${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}/${splitName[5]}.js`)
+        sketch = await import(`${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}/${splitName[5]}.js`)
       } else if (splitName.length === 7) {
-        sketch = await import(`../public/sketch/${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}/${splitName[5]}/${splitName[6]}.js`)
+        sketch = await import(`${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}/${splitName[5]}/${splitName[6]}.js`)
       }
 
       Layers.target = this.$refs.target
@@ -166,20 +167,25 @@ export default {
       }
 
       const splitName = helpLink.split('/')
+      // If not ending with slash, add .html
+      if (splitName[splitName.length - 1] !== '/') {
+        helpLink += '.html'
+      }
+      
       if (splitName.length === 1) {
-        page += `${splitName[0]}.html`
+        page += `${splitName[0]}`
       } else if (splitName.length === 2) {
-        page += `${splitName[0]}/${splitName[1]}.html`
+        page += `${splitName[0]}/${splitName[1]}`
       } else if (splitName.length === 3) {
-        page += `${splitName[0]}/${splitName[1]}/${splitName[2]}.html`
+        page += `${splitName[0]}/${splitName[1]}/${splitName[2]}`
       } else if (splitName.length === 4) {
-        page += `${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}.html`
+        page += `${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}`
       } else if (splitName.length === 5) {
-        page += `${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}.html`
+        page += `${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}`
       } else if (splitName.length === 6) {
-        page += `${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}/${splitName[5]}.html`
+        page += `${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}/${splitName[5]}`
       } else if (splitName.length === 7) {
-        page += `${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}/${splitName[5]}/${splitName[6]}.html`
+        page += `${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}/${splitName[5]}/${splitName[6]}`
       }
 
       this.$router.push(page)
