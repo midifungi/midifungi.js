@@ -75,7 +75,7 @@ export default {
         }
 
         if (layer[0][0] === '@') {
-          layer[0] = '/sketch/' + layer[0].substr(1)
+          layer[0] = layer[0].substr(1)
         }
         $this.maybeLoadScript(layer, i)
       })
@@ -97,20 +97,40 @@ export default {
       // @see https://github.com/vitejs/vite/issues/4945#issuecomment-951770052
       const splitName = path.split('/')
       let sketch
-      if (splitName.length === 1) {
-        sketch = await import(`${splitName[0]}.js`)
-      } else if (splitName.length === 2) {
-        sketch = await import(`${splitName[0]}/${splitName[1]}.js`)
-      } else if (splitName.length === 3) {
-        sketch = await import(`${splitName[0]}/${splitName[1]}/${splitName[2]}.js`)
-      } else if (splitName.length === 4) {
-        sketch = await import(`${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}.js`)
-      } else if (splitName.length === 5) {
-        sketch = await import(`${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}.js`)
-      } else if (splitName.length === 6) {
-        sketch = await import(`${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}/${splitName[5]}.js`)
-      } else if (splitName.length === 7) {
-        sketch = await import(`${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}/${splitName[5]}/${splitName[6]}.js`)
+
+      if (this.$theme.env.NODE_ENV === 'development') {
+          sketch = await import(`./../public/sketch/${splitName[0]}/${splitName[1]}.js`)
+        if (splitName.length === 1) {
+          sketch = await import(`./../public/sketch/${splitName[0]}.js`)
+        } else if (splitName.length === 2) {
+          sketch = await import(`./../public/sketch/${splitName[0]}/${splitName[1]}.js`)
+        } else if (splitName.length === 3) {
+          sketch = await import(`./../public/sketch/${splitName[0]}/${splitName[1]}/${splitName[2]}.js`)
+        } else if (splitName.length === 4) {
+          sketch = await import(`./../public/sketch/${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}.js`)
+        } else if (splitName.length === 5) {
+          sketch = await import(`./../public/sketch/${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}.js`)
+        } else if (splitName.length === 6) {
+          sketch = await import(`./../public/sketch/${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}/${splitName[5]}.js`)
+        } else if (splitName.length === 7) {
+          sketch = await import(`./../public/sketch/${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}/${splitName[5]}/${splitName[6]}.js`)
+        }
+      } else {
+        if (splitName.length === 1) {
+          sketch = await import(/* @vite-ignore */`/sketch/${splitName[0]}.js`)
+        } else if (splitName.length === 2) {
+          sketch = await import(/* @vite-ignore */`/sketch/${splitName[0]}/${splitName[1]}.js`)
+        } else if (splitName.length === 3) {
+          sketch = await import(/* @vite-ignore */`/sketch/${splitName[0]}/${splitName[1]}/${splitName[2]}.js`)
+        } else if (splitName.length === 4) {
+          sketch = await import(/* @vite-ignore */`/sketch/${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}.js`)
+        } else if (splitName.length === 5) {
+          sketch = await import(/* @vite-ignore */`/sketch/${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}.js`)
+        } else if (splitName.length === 6) {
+          sketch = await import(/* @vite-ignore */`/sketch/${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}/${splitName[5]}.js`)
+        } else if (splitName.length === 7) {
+          sketch = await import(/* @vite-ignore */`/sketch/${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}/${splitName[5]}/${splitName[6]}.js`)
+        }
       }
 
       Layers.target = this.$refs.target

@@ -1,71 +1,71 @@
 export default function (config) {
-const size = minSize * .8
-  
-class Tracer {
-  constructor (opts) {
-    this.size = opts.size
-  }
-}
-  
-class Emoji {
-  constructor (opts) {
-    this.opts = opts
-    this.emoji = random(Emojis.tag.people)
-    this.tracers = []
-    this.size = opts.size || size
-    this.eyeEyeHeight = random(-.5, .5)
-    this.x = opts.x + random(-this.size/16, this.size/16)
-    this.y = opts.y + random(-this.size/16, this.size/16)
-    this.eyeShape = random(['cyclops', 'normal', 'tri', 'quad'])
-  }
-
-  draw () {
-    // // Create a new tracer
-    if (frameCount%10 === 0) {
-      this.tracers.unshift(new Tracer({size: this.size}))
-    }
-
-    // Main emoji
-    textSize(this.size)
-    text(this.emoji, this.x, this.y)
-
-    // Tracers
-    this.tracers.forEach((tracer, n) => {
-      tracer.size -= this.size * .015
-      textSize(tracer.size)
-      text(this.emoji, this.x, this.y)
-
-      if (tracer.size < minSize * .02) {
-        this.tracers.splice(n, 1)
-      }
-    })
-
-    // Eyes
-    switch (this.eyeShape) {
-      case 'cyclops':
-        textSize(this.size * .3)
-        text('👁️', this.x, this.y - this.eyeEyeHeight)
-      break
-      case 'normal':
-        textSize(this.size * .2)
-        text('👁️👁️', this.x, this.y+this.size*this.eyeEyeHeight/2)
-      break
-      case 'tri':
-        textSize(this.size * .2)
-        text('👁️👁️', this.x, this.y+this.size*this.eyeEyeHeight/2)
-        textSize(this.size * .3)
-        text('👁️', this.x, this.y - this.eyeEyeHeight)
-      break
-      case 'quad':
-        textSize(this.size * .2)
-        text('👁️👁️', this.x, this.y+this.size*this.eyeEyeHeight/2)
-        text('👁️👁️', this.x, this.y+this.size*this.eyeEyeHeight*2)
-      break
-    }
-  }
-}
-  
 Layers.create(() => {
+  const size = minSize * .8
+  
+  class Tracer {
+    constructor (opts) {
+      this.size = opts.size
+    }
+  }
+    
+  class Emoji {
+    constructor (opts) {
+      this.opts = opts
+      this.emoji = random(Emojis.tag.people)
+      this.tracers = []
+      this.size = opts.size || size
+      this.eyeEyeHeight = random(-.5, .5)
+      this.x = opts.x + random(-this.size/16, this.size/16)
+      this.y = opts.y + random(-this.size/16, this.size/16)
+      this.eyeShape = random(['cyclops', 'normal', 'tri', 'quad'])
+    }
+  
+    draw () {
+      // // Create a new tracer
+      if (frameCount%10 === 0) {
+        this.tracers.unshift(new Tracer({size: this.size}))
+      }
+  
+      // Main emoji
+      textSize(this.size)
+      text(this.emoji, this.x, this.y)
+  
+      // Tracers
+      this.tracers.forEach((tracer, n) => {
+        tracer.size -= this.size * .015
+        textSize(tracer.size)
+        text(this.emoji, this.x, this.y)
+  
+        if (tracer.size < minSize * .02) {
+          this.tracers.splice(n, 1)
+        }
+      })
+  
+      // Eyes
+      switch (this.eyeShape) {
+        case 'cyclops':
+          textSize(this.size * .3)
+          text('👁️', this.x, this.y - this.eyeEyeHeight)
+        break
+        case 'normal':
+          textSize(this.size * .2)
+          text('👁️👁️', this.x, this.y+this.size*this.eyeEyeHeight/2)
+        break
+        case 'tri':
+          textSize(this.size * .2)
+          text('👁️👁️', this.x, this.y+this.size*this.eyeEyeHeight/2)
+          textSize(this.size * .3)
+          text('👁️', this.x, this.y - this.eyeEyeHeight)
+        break
+        case 'quad':
+          textSize(this.size * .2)
+          text('👁️👁️', this.x, this.y+this.size*this.eyeEyeHeight/2)
+          text('👁️👁️', this.x, this.y+this.size*this.eyeEyeHeight*2)
+        break
+      }
+    }
+  }
+      
   new Layer({
     id: 'emojis',
 

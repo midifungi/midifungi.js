@@ -25,9 +25,12 @@ module.exports = {
 
     themeDataPlugin({
       themeData: {
-        logo: '/midifungi-title.png',
-        
+        // Globals
         pkgVersion: pkg.version,
+        env: process.env,
+
+        // Theme
+        logo: '/midifungi-title.png',
         repo: 'midifungi/midifungi',
         locales: {
           '/': {
@@ -52,19 +55,19 @@ module.exports = {
             children: [
               {
                 text: '001 - Lily Pads',
-                link: '/gallery/midifungi/1.html'
+                link: '/gallery/1.html'
               },
               {
                 text: '002 - Billions and Billions',
-                link: '/gallery/midifungi/2.html'
+                link: '/gallery/2.html'
               },
               {
                 text: '003 - Spirit Emojis',
-                link: '/gallery/midifungi/3.html'
+                link: '/gallery/3.html'
               },
               {
                 text: '004 - Arriving Home',
-                link: '/gallery/midifungi/4.html'
+                link: '/gallery/4.html'
               },
             ]
           },
