@@ -3,10 +3,12 @@ const {path} = require('@vuepress/utils')
 const {registerComponentsPlugin} = require('@vuepress/plugin-register-components')
 const {themeDataPlugin} = require('@vuepress/plugin-theme-data')
 const pkg = require('../../package.json')
+const {localTheme} = require('./theme')
 
 module.exports = {
   title: 'Midifungi 🎛️🎹',
   description: 'A layer-based p5.js framework with live editing and MIDI support',
+  theme: localTheme(),
 
   head: [
     ['link', {rel: 'icon', type: 'image/png', href: '/midifungi.png'}]
@@ -31,7 +33,8 @@ module.exports = {
 
         // Theme
         logo: '/midifungi-title.png',
-        repo: 'midifungi/midifungi',
+        repo: 'midifungi/midifungi.js',
+        
         locales: {
           '/': {
             editLinkText: 'Edit this page on GitHub',
@@ -39,6 +42,8 @@ module.exports = {
             contributorsText: 'Contributors',
           }
         },
+
+        // @todo Automate this
         sidebar: [
           {
             text: '👋 Introduction',
@@ -46,7 +51,18 @@ module.exports = {
           },
           {
             text: '📅 Daily Devlog',
-            link: '/devlog/'
+            link: '/devlog/',
+            collapsible: true,
+            children: [
+              {
+                text: '22/06/09',
+                link: '/devlog/220609.html'
+              },
+              {
+                text: '22/06/10',
+                link: '/devlog/220610.html'
+              }
+            ]
           },
           {
             text: '🖼️ Gallery',
@@ -133,5 +149,4 @@ module.exports = {
       }
     },
   }),
-  
 }

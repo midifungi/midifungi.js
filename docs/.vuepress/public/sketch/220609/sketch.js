@@ -79,7 +79,6 @@ Layers.create(() => {
     },
 
     draw () {
-      const clockSize = minSize*1.5
       clear()
       background(this.colors[0])
 
@@ -87,38 +86,11 @@ Layers.create(() => {
         b.draw()
       })
 
-      // Stripes texture
-      // offscreen.clear()
-      // offscreen.circle(width/2, height/2, clockSize)
-
       // Clock
-      fill(255, 1)
-      noStroke()
       push()
-        translate(0, 0, -clockSize/2)
-        rotateY(frameCount/(this.fps*3))
-        push()
-          fill('#f00')
-          translate(0, 0, -clockSize/4)
-          plane(clockSize/2)
-        pop()
-        push()
-          fill('#0f0')
-          translate(0, 0, clockSize/4)
-          plane(clockSize/2)
-        pop()
-        push()
-          fill('#00f')
-          rotateY(PI/2)
-          translate(0, 0, -clockSize/4)
-          plane(clockSize/2)
-        pop()
-        push()
-          fill('#f0f')
-          rotateY(-PI/2)
-          translate(0, 0, -clockSize/4)
-          plane(clockSize/2)
-        pop()
+      translate(0, 0, -minSize*.6)
+      rotateY(frameCount/(this.fps*3))
+      box(minSize*.6)
       pop()
       
       $fgBoxes.forEach(b => {

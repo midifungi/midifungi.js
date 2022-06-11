@@ -18,6 +18,8 @@ html {
     }
   
     &.maximized {
+      .devlog-meta {display: none}
+      
       .window-body section {
         overflow: auto;
         width: 740px;

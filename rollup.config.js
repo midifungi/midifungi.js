@@ -13,7 +13,7 @@ export default {
  * midifungi.js
  * ---
  * https://twitter.com/midifungi
- * https://github.com/midifungi/midifungi
+ * https://github.com/midifungi/midifungi.js
  * ---
  * @version ${pkg.version}
  * @license "Apache 2.0"

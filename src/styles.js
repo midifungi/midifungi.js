@@ -33,6 +33,9 @@ if (typeof document !== 'undefined') {
     min-width: 300px;
     z-index: 999999999999;
   }
+  body input.tp-txtv_i {
+    background-color: var(--tp-input-background-color);
+  }
   /* Input and monitor view */
   body .tp-lblv_v {
     min-width: 180px;
