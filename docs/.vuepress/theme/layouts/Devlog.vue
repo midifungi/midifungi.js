@@ -1,7 +1,7 @@
 <template>
   <ParentLayout>
     <template #page-content-top>
-      <Midifungi :layers="['@220609/sketch']">
+      <Midifungi :layers="$page.frontmatter.layers">
         <div class="custom-container tip devlog-meta">
           <ul>
             <li>
@@ -15,7 +15,7 @@
         </div>
       </Midifungi>
       <Window title="Devlog">
-        <iframe height=500 src="https://midifungi-notion.ozramos.workers.dev/eee85c3731374c2a8dea271c5568b576"></iframe>
+        <iframe height=500 :src="$page.frontmatter.devlog"></iframe>
       </Window>
     </template>
   </ParentLayout>

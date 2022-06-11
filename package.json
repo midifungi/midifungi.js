@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/midifungi/midifungi.git"
+    "url": "git+https://github.com/midifungi/midifungi.js.git"
   },
   "author": "Midifungi <midifungi@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/midifungi/midifungi/issues"
+    "url": "https://github.com/midifungi/midifungi.js/issues"
   },
-  "homepage": "https://github.com/midifungi/midifungi#readme",
+  "homepage": "https://github.com/midifungi/midifungi.js#readme",
   "dependencies": {
     "@tweakpane/plugin-essentials": "^0.1.4",
     "emoji-name-map": "^1.2.9",

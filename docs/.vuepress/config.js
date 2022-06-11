@@ -33,7 +33,7 @@ module.exports = {
 
         // Theme
         logo: '/midifungi-title.png',
-        repo: 'midifungi/midifungi',
+        repo: 'midifungi/midifungi.js',
         
         locales: {
           '/': {
@@ -50,7 +50,18 @@ module.exports = {
           },
           {
             text: '📅 Daily Devlog',
-            link: '/devlog/'
+            link: '/devlog/',
+            collapsible: true,
+            children: [
+              {
+                text: '22/06/09',
+                link: '/devlog/220609.html'
+              },
+              {
+                text: '22/06/10',
+                link: '/devlog/220610.html'
+              }
+            ]
           },
           {
             text: '🖼️ Gallery',

@@ -4,7 +4,7 @@
 :::warning 📅 Announcing Mid June 2022
 Midifungi is the result of asking "what if the library itself is the medium?". This project is a fantasy framework and monorepo that contains Midifungi.js, this site and documentation, my daily [art gallery](/sketches/), and technical blog all in one package.
 
-It's more of a creative expression than an [open sourced project](https://github.com/midifungi/midifungi) that should be taken seriously. Eventually I may sell some of the examples as NFTs so that I can continue to explore this project
+It's more of a creative expression than an [open sourced project](https://github.com/midifungi/midifungi.js) that should be taken seriously. Eventually I may sell some of the examples as NFTs so that I can continue to explore this project
 
 **🌈🐞This project is not officially announced and is likely buggy 🐞🌈**
 :::
@@ -82,9 +82,9 @@ window.p5 = p5
 ::: tip Cloning this site locally
 Midifungi is a completely self contained static [vuepress@next](https://v2.vuepress.vuejs.org/) site and JavaScript framework. Cloning this site for play, collaboration, or research is highly encouraged (commercial `/LICENSE` is generally MIT)
 
-To clone this site locally you'll need [NodeJS](https://nodejs.org/en/) installed on your system. It's also helpful to have [git](https://git-scm.com/) so that you can clone [from Github](https://github.com/midifungi/midifungi) and install the dependencies:
+To clone this site locally you'll need [NodeJS](https://nodejs.org/en/) installed on your system. It's also helpful to have [git](https://git-scm.com/) so that you can clone [from Github](https://github.com/midifungi/midifungi.js) and install the dependencies:
 ```bash
-git clone https://github.com/midifungi/midifungi
+git clone https://github.com/midifungi/midifungi.js
 cd midifungi
 npm i
 npm start
