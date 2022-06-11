@@ -10,6 +10,7 @@
     </div>
   </div>
   <div class="window-body">
+    <slot class="midifungi-top-slot"></slot>
     <div class="midifungi-layers-wrap-outer" :style="{height: height ? height + 'px' : null}">
       <div class="midifungi-layers-wrap" ref="target"></div>
     </div>
