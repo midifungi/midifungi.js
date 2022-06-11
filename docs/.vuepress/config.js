@@ -43,6 +43,7 @@ module.exports = {
           }
         },
 
+        // @todo Automate this
         sidebar: [
           {
             text: '👋 Introduction',

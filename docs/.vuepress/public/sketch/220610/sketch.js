@@ -1,6 +1,4 @@
 export default function () {
-console.log('test')
-  
 class Box {
   constructor (opts) {
     this.x = opts.x
@@ -90,8 +88,8 @@ Layers.create(() => {
       })
 
       // Stripes texture
-      // offscreen.clear()
-      // offscreen.circle(width/2, height/2, clockSize)
+      offscreen.clear()
+      offscreen.circle(width/2, height/2, clockSize)
 
       // Clock
       fill(255, 1)

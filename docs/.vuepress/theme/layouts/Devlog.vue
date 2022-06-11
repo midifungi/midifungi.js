@@ -14,7 +14,7 @@
           </ul>
         </div>
       </Midifungi>
-      <Window title="Devlog">
+      <Window title="Devlog" v-if="(!$page.frontmatter.hideDevlog && $theme.env.NODE_ENV === 'development') || $theme.env.NODE_ENV !== 'development'">
         <iframe height=500 :src="$page.frontmatter.devlog"></iframe>
       </Window>
     </template>
