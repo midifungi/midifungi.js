@@ -180,11 +180,6 @@ export default class Layer {
     globalThis.minSize = min(this.width, this.height)
     globalThis.maxSize = max(this.width, this.height)
 
-    // Menu
-    this.menu = globalThis.clone(this.opts.menu)
-    this.store = globalThis.clone(this.opts.store)
-    this.parseMenu()
-    
     // Setup the target to receive the canvases
     if (this.target && !this._hasMovedTarget) {
       this._hasMovedTarget = true
@@ -217,6 +212,11 @@ export default class Layer {
     // Throttled functions
     this.throttledDraw = throttle(this.draw.bind(this), 1000/this.opts.fps)
 
+    // Menu
+    this.menu = globalThis.clone(this.opts.menu)
+    this.store = globalThis.clone(this.opts.store)
+    this.parseMenu()
+    
     this.useGlobalContext()
     this.beforeGenerate && this.beforeGenerate()
     this.restoreGlobalContext()

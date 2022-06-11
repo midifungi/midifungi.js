@@ -266,6 +266,11 @@ export default {
     Object.keys(this.menu).forEach(key => {
       let menu = this.menu[key]
 
+      // Extract values from functions
+      if (typeof menu === 'function') {
+        menu = menu.call(this)
+      }
+
       // Convert arrays
       if (Array.isArray(menu)) {
         const opts = [...menu]
