@@ -31,11 +31,14 @@ Layers.create(() => {
     renderer: WEBGL,
     
     colors: [
-      // @see https://www.colourlovers.com/palette/3636765/seapunk_vaporwave
+      // @see http://www.colourlovers.com/color/10D7AE/VAPOR_WAVE_GREEN
       // green
       '#10D7AE',
+      // @see https://www.schemecolor.com/vaporwave.php
       // pink
-      '#FF6AD5'
+      '#E93479',
+      // purple
+      '#300350'
     ],
 
     menu: {
@@ -70,11 +73,55 @@ Layers.create(() => {
           $bgBoxes.push(new Box({
             x: -width - size + size*i + size/2,
             y: height/4 * y,
-            z: -width/1.3,
+            z: -width,
             size: size*.5,
             color: this.colors[1]
           }))
         }
+      }
+
+      // Misc
+      offscreen.resizeCanvas(minSize, minSize)
+    },
+
+    methods: {
+      /**
+       * Draws the clock face
+       */
+      drawClock () {
+        const clockSize = minSize*1.5
+
+        offscreen.clear()
+        offscreen.background(this.colors[2])
+        offscreen.fill(255)
+        offscreen.stroke(this.colors[1])
+        offscreen.strokeWeight(minSize*.03)
+        offscreen.circle(offscreen.width/2, offscreen.height/2, clockSize/2)
+        texture(offscreen)
+      },
+
+      /**
+       * Draws the sides of the clock
+       */
+      // @todo draw in separate throttled layer
+      drawStripes (isHoriz) {
+        offscreen.clear()
+        offscreen.noStroke()
+
+        const numStripes = 12
+        const stripeWidth = minSize/numStripes
+
+        for (let i = 0; i < numStripes; i++) {
+          const isEven = i % 2 === 0
+          offscreen.fill(isEven ? 255 : 0)
+
+          if (isHoriz) {
+            offscreen.rect(-minSize, i*stripeWidth, minSize*3, stripeWidth)
+          } else {
+            offscreen.rect(i*stripeWidth, -minSize, stripeWidth, minSize*3)
+          }
+        }
+        texture(offscreen)
       }
     },
 
@@ -83,47 +130,45 @@ Layers.create(() => {
       clear()
       background(this.colors[0])
 
+      // Draw background boxes
       $bgBoxes.forEach(b => {
         b.draw()
       })
+      $fgBoxes.forEach(b => {
+        b.draw()
+      })
 
-      // Stripes texture
-      offscreen.clear()
-      offscreen.circle(width/2, height/2, clockSize)
-
-      // Clock
-      fill(255, 1)
+      // Main Clock Box
       noStroke()
       push()
         translate(0, 0, -clockSize/2)
         rotateY(frameCount/(this.fps*3))
+        // front
+        this.drawClock()
         push()
-          fill('#f00')
           translate(0, 0, -clockSize/4)
           plane(clockSize/2)
         pop()
+        // back
         push()
-          fill('#0f0')
           translate(0, 0, clockSize/4)
           plane(clockSize/2)
         pop()
+        // left
+        this.drawStripes()
         push()
-          fill('#00f')
           rotateY(PI/2)
           translate(0, 0, -clockSize/4)
           plane(clockSize/2)
         pop()
+        // right
+        this.drawStripes(true)
         push()
-          fill('#f0f')
           rotateY(-PI/2)
           translate(0, 0, -clockSize/4)
           plane(clockSize/2)
         pop()
       pop()
-      
-      $fgBoxes.forEach(b => {
-        b.draw()
-      })
     }
   })
 })
