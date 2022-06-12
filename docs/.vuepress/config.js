@@ -63,7 +63,7 @@ module.exports = {
                 link: '/devlog/220610.html'
               },
               {
-                text: '22/06/11 - Emoji Pointillism',
+                text: '22/06/11 - Emoji Evolution',
                 link: '/devlog/220611.html'
               },
             ]
