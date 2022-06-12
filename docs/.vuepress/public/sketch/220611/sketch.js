@@ -47,7 +47,7 @@ class Ring {
 }
 
 Layers.create(() => {
-  new Layer({
+  const layer = new Layer({
     id: 'main',
     noLoop: true,
 
@@ -72,6 +72,8 @@ Layers.create(() => {
       let extraCount = 0
       let scale = .7
       Object.keys(emojis).forEach(key => {
+        if (key === 'kids') return
+        
         $rings.unshift(new Ring({
           radius: $centerSize * scale,
           count: ~~random(10+extraCount, 50+extraCount),
@@ -94,5 +96,19 @@ Layers.create(() => {
       $rings.forEach(ring => ring.draw())
     }
   })
+
+
+  // Uncomment to regenerate every few frames for recording purposes
+  // @todo Make this a feature
+  // function restart () {
+  //   setTimeout(() => {
+  //     if (layer) {
+  //       layer.generate(true)
+  //       layer.draw()
+  //       restart()
+  //     }
+  //   }, 2500)
+  // }
+  // restart()
 })
 }
