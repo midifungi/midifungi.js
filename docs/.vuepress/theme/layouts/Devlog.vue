@@ -5,7 +5,7 @@
         <div class="custom-container tip devlog-meta">
           <ul>
             <li>
-              <strong>Devlog:</strong> <a href="{{$page.frontmatter.devlog}}">{{$page.frontmatter.devlog}}</a>
+              <strong>Devlog:</strong> <a target="_blank" :href="$page.frontmatter.devlog">{{$page.frontmatter.devlog}}</a>
             </li>
             <li>
               <strong>Dates worked on:</strong> 

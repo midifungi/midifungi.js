@@ -6,7 +6,7 @@ This project is still experimental and the plan is to announce quietly in mid Ju
 
 <div class="row">
   <div class="col-6">
-    <Midifungi title="Arriving Home" :layers="['@4/bg', '@4/train', '@4/crowd', '@4/traffic']" help="@4"/>
+    <Midifungi :layers="['@220611/sketch']" title="22/06/11 - Emoji Evolution" help="/devlog/220611.html" />
   </div>
   <div class="col-6">
     <div class="custom-container tip">
@@ -25,13 +25,13 @@ This project is still experimental and the plan is to announce quietly in mid Ju
     <Midifungi title="Spirit Emojis - Group Photo" :layers="['@3/emoji']" help="@3" />
   </div>
   <div class="col-6">
-    <Midifungi title="Arriving home (scary version 🎃)" :layers="[['@4/bg', {trees: ['🫀', '💗'], clouds: ['👁️']}], ['@4/train', {train: ['👁️'], cab: ['👀']}], ['@4/crowd', {faces: ['👁️', '👀']}], '@4/traffic']" help="@4" />
+    <Midifungi title="Arriving Home" :layers="['@4/bg', '@4/train', '@4/crowd', '@4/traffic']" help="@4"/>
   </div>
 </div>
 
 ## Roadmap
 <Window title="Roadmap">
-  <iframe src="https://midifungi-notion.ozramos.workers.dev/roadmap"></iframe>
+  <iframe src="https://midifungi-notion.ozramos.workers.dev/9ddd74b2744748d3b9f47ea50be70969"></iframe>
 </Window>
 
 ## What to explore next?

@@ -55,13 +55,17 @@ module.exports = {
             collapsible: true,
             children: [
               {
-                text: '22/06/09',
+                text: '22/06/09 - Cuckoo\'s Clock',
                 link: '/devlog/220609.html'
               },
               {
-                text: '22/06/10',
+                text: '22/06/10 - Cuckoo\'s Clock',
                 link: '/devlog/220610.html'
-              }
+              },
+              {
+                text: '22/06/11 - Emoji Evolution',
+                link: '/devlog/220611.html'
+              },
             ]
           },
           {

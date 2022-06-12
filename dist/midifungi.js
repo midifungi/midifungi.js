@@ -4,7 +4,7 @@
  * https://twitter.com/midifungi
  * https://github.com/midifungi/midifungi.js
  * ---
- * @version 0.0.28
+ * @version 0.0.29
  * @license "Apache 2.0"
  * ---
  * This file was bundled with Rollup
@@ -12720,11 +12720,17 @@
     }
   ];
 
+  let _cachedAll;
+
   var Emojis = {
     list: gemoji,
     get all () {
-      const list = [];
-      gemoji.forEach(emoji => list.push(emoji.emoji));
+      const list = _cachedAll;
+      if (!list) {
+        gemoji.forEach(emoji => list.push(emoji.emoji));
+        _cachedAll = list;
+      }
+
       return list
     },
     tag: {
@@ -16039,16 +16045,6 @@
     var maxLessMin = max - min;
     return ((value - min) % maxLessMin + maxLessMin) % maxLessMin + min;
   };
-
-  /**
-   * Uses frameCount to return the progress within a loop of the passed number of seconds
-   * @param {*} seconds 
-   * @returns 
-   */
-  globalThis.getProgress = function (seconds = 7) {
-    const period = +params.fps * seconds / 2;
-    return (frameCount % period) / period
-  }; 
 
   /**
    * @see https://stackoverflow.com/a/14627826
@@ -26314,6 +26310,9 @@
   const wm = new WebMidi();
   wm.constructor = null;
 
+  globalThis.debounce = debounce;
+  globalThis.WebMidi = wm;
+
   /**
    * Throttled Filter
    */
@@ -26375,7 +26374,7 @@
     },
 
     // About
-    version: '0.0.28',
+    version: '0.0.29',
     curId: 0,
 
     // Menus
@@ -26803,6 +26802,9 @@
     min-width: 300px;
     z-index: 999999999999;
   }
+  body input.tp-txtv_i {
+    background-color: var(--tp-input-background-color);
+  }
   /* Input and monitor view */
   body .tp-lblv_v {
     min-width: 180px;
@@ -27157,6 +27159,11 @@
       Object.keys(this.menu).forEach(key => {
         let menu = this.menu[key];
 
+        // Extract values from functions
+        if (typeof menu === 'function') {
+          menu = menu.call(this);
+        }
+
         // Convert arrays
         if (Array.isArray(menu)) {
           const opts = [...menu];
@@ -27426,7 +27433,6 @@
       if (!this.onDispose) this.onDispose = this.opts.onDispose;
       if (!this.setup) this.setup = this.opts.setup;
       if (!this.type) this.type = this.opts.type;
-      if (!this.noLoop) this.noLoop = this.opts.noLoop;
       if (!this.pixelDensity) {
         this.pixelDensity = this.opts.pixelDensity || 1;
       }
@@ -27436,6 +27442,9 @@
       if (!this.offscreenRenderer) this.offscreenRenderer = this.opts.offscreenRenderer;
       if (!this.waitFor) this.waitFor = this.opts.waitFor;
       if (!this.stack) this.stack = this.opts.stack;
+
+      // Always reset
+      this.noLoop = this.opts.noLoop;
 
       // Canvas
       if (!this.canvas) {
@@ -27453,11 +27462,6 @@
       globalThis.minSize = min(this.width, this.height);
       globalThis.maxSize = max(this.width, this.height);
 
-      // Menu
-      this.menu = globalThis.clone(this.opts.menu);
-      this.store = globalThis.clone(this.opts.store);
-      this.parseMenu();
-      
       // Setup the target to receive the canvases
       if (this.target && !this._hasMovedTarget) {
         this._hasMovedTarget = true;
@@ -27490,6 +27494,11 @@
       // Throttled functions
       this.throttledDraw = throttle(this.draw.bind(this), 1000/this.opts.fps);
 
+      // Menu
+      this.menu = globalThis.clone(this.opts.menu);
+      this.store = globalThis.clone(this.opts.store);
+      this.parseMenu();
+      
       this.useGlobalContext();
       this.beforeGenerate && this.beforeGenerate();
       this.restoreGlobalContext();
@@ -27585,7 +27594,6 @@
 
         // Draw
         this.useGlobalContext();
-        globalThis.frameCount = this.frameCount;
         this.opts.draw && this.opts.draw.call(this, this.offscreen);
         this.restoreGlobalContext();
         this.frameCount++;
@@ -27623,6 +27631,22 @@
       };
       globalThis.canvas = this.canvas;
       globalThis.offscreen = this.offscreen;
+      globalThis.frameCount = this.frameCount;
+      
+      // Looping
+      globalThis.noLoop = () => {
+        this.noLoop = true;
+        this._context.noLoop();
+      };
+      globalThis.loop = () => {
+        const _noLoop = this.noLoop;
+        this.noLoop = false;
+        this._context.loop();
+        if (_noLoop) {
+          console.log('draw');
+          this.draw();
+        }
+      };
 
       // Helpers
       globalThis.minSize = min(this.canvas.width, this.canvas.height);
@@ -27721,8 +27745,11 @@
     listeners = {
       menu: {
         regenerate: ev => {
+          // this.noLoop always gets reset to initial state, so we remember what it was
+          // before generate and use that to determine if we should redraw or not
+          const _noLoop = this.noLoop;
           this.generate(true);
-          this.noLoop && this.draw(true);
+          _noLoop && this.draw(true);
           this._showContextMenuEvent && this.showContextMenu(this._showContextMenuEvent);
           this._showContextMenuEvent = null;
         }
@@ -27734,7 +27761,7 @@
    * Midifungi 🎹🍄
    * A p5js library that helps you organize your code into layers
    * ---
-   * @version 0.0.28
+   * @version 0.0.29
    * @license "Apache 2.0" with the addendum that you cannot use this or its output for NFTs without permission
    */
 
@@ -27742,6 +27769,7 @@
   globalThis.Layers = Layers$1;
   globalThis.Layer = Layer;
   globalThis.Emojis = Emojis;
+  globalThis.config = {};
 
   /**
    * Initialize Midifungi
