@@ -2,10 +2,19 @@ export default function () {
 class Square {
   constructor (opts) {
     Object.assign(this, opts)
+    this.colorFrameCounter = 0
+    this.colorOffset = 0
   }
 
   draw () {
-    fill(this.color)
+    if (this.colorFrameCounter++ > this.layer.store.colorSpeed) {
+      this.colorFrameCounter = 0
+      this.colorOffset++
+    }
+    
+    let col = wrap(this.color-this.colorOffset, 0, this.layer.colors.length)
+    
+    fill(this.layer.colors[col])
     rect(this.x, this.y, this.size, this.size)
   }
 }
@@ -15,7 +24,12 @@ Layers.create(() => {
     id: 'border',
 
     menu: {
-      bg () {return this.colors}
+      bg () {return this.colors},
+      colorSpeed () {return {
+        min: ~~this.fps/15,
+        max: ~~this.fps*.8,
+        // default: .5
+      }}
     },
     store: {
       squares: []
@@ -46,7 +60,8 @@ Layers.create(() => {
           size,
           x: i*size,
           y: 0,
-          color: this.colors[wrap(colorCount++, 0, this.colors.length)]
+          color: wrap(colorCount++, 0, this.colors.length),
+          layer: this
         }))
       }
       // East
@@ -55,7 +70,8 @@ Layers.create(() => {
           size,
           x: width-size,
           y: i*size,
-          color: this.colors[wrap(colorCount++, 0, this.colors.length)]
+          color: wrap(colorCount++, 0, this.colors.length),
+          layer: this
         }))
       }
       // South
@@ -64,7 +80,8 @@ Layers.create(() => {
           size,
           x: i*size,
           y: height-size,
-          color: this.colors[wrap(colorCount++, 0, this.colors.length)]
+          color: wrap(colorCount++, 0, this.colors.length),
+          layer: this
         }))
       }
       // West
@@ -73,7 +90,8 @@ Layers.create(() => {
           size,
           x: 0,
           y: i*size,
-          color: this.colors[wrap(colorCount++, 0, this.colors.length)]
+          color: wrap(colorCount++, 0, this.colors.length),
+          layer: this
         }))
       }
     },
