@@ -22,7 +22,7 @@ Some of the content might not load properly yet
 </div>
 
 <div class="custom-container danger">
-  <p><strong>Before exploring Midifungi please note that this project is an artistic creative expression</strong> with my primary audience being other artists, creative technologists, and anyone interested in a fantastical hands-on (and eventually hands-free) live coding experience. I struggle with multiple mental health challenges including Schizoaffective Disorder and the content may sometimes reflect my extreme emotions or delusions. Please keep an open mind and enjoy the art.</p>
+  <p><strong>Before exploring Midifungi please note that this project is an artistic creative expression</strong> with my primary audience being other artists, creative technologists, and anyone interested in a fantastical hands-on (and eventually hands-free) live coding experience. Although the project is open source it's not meant to be taken seriously and instead meant to be appreciated as a creative expression.</p>
 </div>
 
 ## Recent compositions
