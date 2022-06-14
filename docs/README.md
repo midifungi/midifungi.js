@@ -6,23 +6,28 @@ This project is still experimental and the plan is to announce quietly in mid Ju
 
 <div class="row">
   <div class="col-6">
-    <Midifungi :layers="['@220611/sketch']" title="22/06/11 - Emoji Evolution" help="/devlog/220611.html" />
+    <Midifungi title="Spirit Emojis - Group Photo" :layers="['@3/emoji']" height=300 help="@3" />
   </div>
   <div class="col-6">
     <div class="custom-container tip">
-      <p>Midifungi is an attempt to combine art, performance, and documentation into a single creative expression. It's my brush, oils, canvas, and journal all-in-one.</p>
+      <p>Hello! I'm Oz and Midifungi is an attempt to combine art, performance, and documentation into a single creative expression. I'm still working on the idea but I'm exploring the intersection of "vlogging + devlogging + live coding".</p>
+      <p>It's not quite ready yet though, but I'll announce it on <a href="https://twitter.com/midifungi">Twitter @Midifungi</a> sometime by July 2022 👀</p>
       <p><strong>Click on window titles or [?] to learn more about that sketch ✨</strong></p>
     </div>
-    <div class="custom-container danger">
-      <p>🐞 This site is updated daily and may sometimes be buggy.</p>
-    </div>
   </div>
+</div>
+
+<div class="custom-container danger">
+  <p><strong>Before exploring Midifungi please note that this project is an artistic creative expression</strong> with my primary audience being other artists, creative technologists, and anyone interested in a fantastical hands-on (and eventually hands-free) live coding experience. I struggle with multiple mental health challenges including Schizoaffective Disorder and the content may sometimes reflect my extreme emotions or delusions. Please keep an open mind and enjoy the art.</p>
 </div>
 
 ## Recent compositions
 <div class="row">
   <div class="col-6">
-    <Midifungi title="Spirit Emojis - Group Photo" :layers="['@3/emoji']" help="@3" />
+    <Midifungi :layers="['@220610/sketch']" title="22/06/11 - Emoji Evolution" help="/devlog/220611.html" />
+  </div>
+  <div class="col-6">
+    <Midifungi :layers="['@220611/sketch']" title="22/06/11 - Emoji Evolution" help="/devlog/220611.html" />
   </div>
   <div class="col-6">
     <Midifungi title="Arriving Home" :layers="['@4/bg', '@4/train', '@4/crowd', '@4/traffic']" help="@4"/>
