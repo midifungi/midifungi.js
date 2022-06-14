@@ -4,6 +4,10 @@
 This project is still experimental and the plan is to announce quietly in mid June 🤫
 :::
 
+::: danger 🐞 This is still a buggy prototype
+Some of the content might not load properly yet
+:::
+
 <div class="row">
   <div class="col-6">
     <Midifungi title="Spirit Emojis - Group Photo" :layers="['@3/emoji']" height=300 help="@3" />
