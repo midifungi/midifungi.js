@@ -1,19 +1,20 @@
 <template>
   <ParentLayout>
     <template #page-content-top>
-      <Midifungi :layers="$page.frontmatter.layers">
-        <div class="custom-container tip devlog-meta">
-          <ul>
-            <li>
-              <strong>Devlog:</strong> <a target="_blank" :href="$page.frontmatter.devlog">{{$page.frontmatter.devlog}}</a>
-            </li>
-            <li>
-              <strong>Dates worked on:</strong> 
-              <a class="devlog-link-date" v-for="page in $page.frontmatter.dates" :href="'/devlog/' + page + '.html'">{{page}}</a>
-            </li>
-          </ul>
-        </div>
-      </Midifungi>
+      <Midifungi :layers="$page.frontmatter.layers" :isMaximized="$page.frontmatter.maximized"></Midifungi>
+
+      <div class="custom-container tip devlog-meta">
+        <ul>
+          <li>
+            <strong>Devlog:</strong> <a target="_blank" :href="$page.frontmatter.devlog">{{$page.frontmatter.devlog}}</a>
+          </li>
+          <li>
+            <strong>Dates worked on:</strong> 
+            <a class="devlog-link-date" v-for="page in $page.frontmatter.dates" :href="'/devlog/' + page + '.html'">{{page}}</a>
+          </li>
+        </ul>
+      </div>
+
       <Window title="Devlog" v-if="(!$page.frontmatter.hideDevlog && $theme.env.NODE_ENV === 'development') || $theme.env.NODE_ENV !== 'development'">
         <iframe height=500 :src="$page.frontmatter.devlog"></iframe>
       </Window>

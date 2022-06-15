@@ -2,6 +2,9 @@
 
 <div class="row">
   <div class="col-6">
+    <Midifungi :layers="['@220614/mat', '@220614/self', '@220614/frame']" title="22/06/14 - Meditation Room" help="/devlog/220614.html" />
+  </div>
+  <div class="col-6">
     <Midifungi :layers="['@220611/sketch']" title="22/06/11 - Emoji Evolution" help="/devlog/220611.html" />
   </div>
   <div class="col-6">
