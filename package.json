@@ -40,5 +40,8 @@
     "rollup": "^2.67.0",
     "rollup-plugin-external-globals": "^0.6.1",
     "vuepress": "^2.0.0-beta.45"
+  },
+  "resolutions": {
+    "vite": "2.8.6"
   }
 }

@@ -1,10 +1,11 @@
 # Midifungi 🎛️🎹 - A layer-based p5.js framework with live editing and MIDI support
 
-More details will be available soon! For now, check out https://midifungi.netlify.app
+More details will be available soon! For now, check out https://midifungi.com/midifungi.js
 
 # Local Development
 
-- Install dependencies with `npm i`
+- Install dependencies with `yarn`
+  - Important: use `yarn` and not `npm i` [due to this bug](https://github.com/vuepress/vuepress-next/issues/781#issuecomment-1084031274)
 - Boot things up with: `npm start`
 
 ## Overview

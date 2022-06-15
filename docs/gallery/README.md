@@ -10,7 +10,6 @@
     <Midifungi title="Billions and Billions" :layers="['@2/starfield', '@2/glass', '@2/watercanvas', '@2/glass-filter', '@2/lead']" help="@2" />
   </div>
   <div class="col-6">
-    <!-- @fixme Automatically style title -->
     <Midifungi title="Lily Pads" :layers="['@1/lilies', '@1/ripples']" help="@1" />
   </div>
 </div>
