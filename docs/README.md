@@ -10,7 +10,7 @@ Some of the content might not load properly yet
 
 <div class="row">
   <div class="col-6">
-    <Midifungi title="Spirit Emojis - Group Photo" :layers="['@3/emoji']" height=300 help="@3" />
+    <Midifungi title="Spirit Emojis - Training Room" :layers="['@220614/mat', '@220614/self', '@220614/frame']" height=300 help="@4" />
   </div>
   <div class="col-6">
     <div class="custom-container tip">
@@ -27,6 +27,9 @@ Some of the content might not load properly yet
 
 ## Recent compositions
 <div class="row">
+  <div class="col-6">
+    <Midifungi title="Spirit Emojis - Group Photo" :layers="['@3/emoji']" help="@3" />
+  </div>
   <div class="col-6">
     <Midifungi :layers="['@220610/sketch']" title="22/06/11 - Emoji Evolution" help="/devlog/220611.html" />
   </div>

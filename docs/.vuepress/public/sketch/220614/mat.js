@@ -31,6 +31,7 @@ Layers.create(() => {
             }
             
             offscreen.rect(width - size * (x + 1) - (n * size * 2), y - yShift, size, size)
+            texture(offscreen)
           }
         }
       }
@@ -38,10 +39,13 @@ Layers.create(() => {
 
     draw () {
       const ratio = width/height
-      
-      background($bg)
-      texture(offscreen)
       noStroke()
+
+      // Fullscreen plane
+      plane(width, height)
+
+      // Make next drawings happen in reverse
+      drawingContext.clear(drawingContext.DEPTH_BUFFER_BIT)
       push()
       translate(0, height/4)
       rotateX(PI/2.5)
