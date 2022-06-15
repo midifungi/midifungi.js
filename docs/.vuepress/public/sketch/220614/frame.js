@@ -97,7 +97,6 @@ Layers.create(() => {
     },
 
     draw () {
-      background($bg)
       $squares.forEach(s => s.draw())
     }
   })
