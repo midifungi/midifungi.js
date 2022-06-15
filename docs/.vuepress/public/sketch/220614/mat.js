@@ -37,13 +37,15 @@ Layers.create(() => {
     },
 
     draw () {
+      const ratio = width/height
+      
       background($bg)
       texture(offscreen)
       noStroke()
       push()
       translate(0, height/4)
       rotateX(PI/2.5)
-      plane(width*1.5, height*1.5)
+      plane(maxSize*1.5*ratio, maxSize*1.5)
       pop()
     }
   })
