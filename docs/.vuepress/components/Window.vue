@@ -1,5 +1,5 @@
 <template>
-<div class="window window-component mb-md" ref="window">
+<div class="window window-component mb-md" ref="window" :class="{maximized: _isMaximized, minimized: _isMinimized}">
   <div class="title-bar" v-if="hasTitlebar">
     <div class="title-bar-text" @click="onHelp" style="cursor: pointer">{{windowTitle}}</div>
     <div class="title-bar-controls" v-if="hasTitlebarControls">
@@ -27,6 +27,8 @@ export default {
       default: true
     },
     minimize: Boolean,
+    isMaximized: Boolean,
+    isMinimized: Boolean,
     help: String,
   },
 
@@ -36,6 +38,8 @@ export default {
    */
   data() {
     return {
+      _isMinimized: this.isMinimized,
+      _isMaximized: this.isMaximized,
       isMinimized: false,
       isMaximized: false,
     }
@@ -58,24 +62,24 @@ export default {
     onMinimize () {
       this.$refs.window.classList.add('minimized')
       this.$refs.window.classList.remove('maximized')
-      this.isMinimized = true
-      this.isMaximized = false
-      Layers.trigger('resize')
+      this._isMinimized = true
+      this._isMaximized = false
+      setTimeout(() => Layers.trigger('resize'), 0)
     },
 
     onMaximize () {
       this.$refs.window.classList.add('maximized')
       this.$refs.window.classList.remove('minimized')
-      this.isMinimized = false
-      this.isMaximized = true
-      Layers.trigger('resize')
+      this._isMinimized = false
+      this._isMaximized = true
+      setTimeout(() => Layers.trigger('resize'), 0)
     },
     
     onRestore () {
       this.$refs.window.classList.remove('maximized', 'minimized')
-      this.isMinimized = false
-      this.isMaximized = false      
-      Layers.trigger('resize')
+      this._isMinimized = false
+      this._isMaximized = false      
+      setTimeout(() => Layers.trigger('resize'), 0)
     },
 
     onHelp () {
