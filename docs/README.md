@@ -7,7 +7,7 @@ This project is still very experimental and buggy!
 
 <div class="row">
   <div class="col-6">
-    <Midifungi title="Ancient Visitors" :layers="['@1/bg', '@1/texturizer']" height=300 help="@1" />
+    <Midifungi title="Ancient Visitors" :layers="['@1/bg', '@1/main', '@1/texturizer']" height=300 help="@1" />
   </div>
   <div class="col-6">
     <div class="custom-container tip">
