@@ -2,7 +2,7 @@ export default function () {
 
   Layers.create(() => {
     new Layer({
-      id: 'bg',
+      id: 'texturizer',
       type: 'filter',
       noLoop: true,
       colors: ['#eee2c7'],

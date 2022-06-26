@@ -132,7 +132,6 @@ export default globalThis.Layers = {
     for (let i = 0; i < idx+1; i++) {
       !Layers.all[i].disabled && layer.offscreen.image(Layers.all[i].canvas, 0, 0)
     }
-    layer.offscreen.image(layer.canvas, 0, 0)
     layer.canvas.image(layer.offscreen, 0, 0)
   },
 
