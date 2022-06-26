@@ -134,7 +134,6 @@ export default globalThis.Layers = {
     }
     layer.offscreen.image(layer.canvas, 0, 0)
     layer.canvas.image(layer.offscreen, 0, 0)
-    console.log('test')
   },
 
   /**

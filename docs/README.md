@@ -7,7 +7,7 @@ This project is still very experimental and buggy!
 
 <div class="row">
   <div class="col-6">
-    <Midifungi title="Spirit Emojis - Training Room" :layers="['@220614/mat', '@220614/self', '@220614/frame']" height=300 help="@4" />
+    <Midifungi title="Ancient Visitors" :layers="['@1/bg', '@1/texturizer']" height=300 help="@1" />
   </div>
   <div class="col-6">
     <div class="custom-container tip">
