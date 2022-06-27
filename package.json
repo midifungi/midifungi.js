@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-replace": "^3.0.1",
+    "@vuepress/plugin-container": "^2.0.0-beta.48",
     "@vuepress/plugin-register-components": "^2.0.0-beta.45",
     "@vuepress/plugin-theme-data": "^2.0.0-beta.45",
     "cpx": "^1.5.0",

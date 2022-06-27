@@ -40,8 +40,6 @@ export default {
     return {
       _isMinimized: this.isMinimized,
       _isMaximized: this.isMaximized,
-      isMinimized: false,
-      isMaximized: false,
     }
   },
 

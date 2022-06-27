@@ -4,6 +4,7 @@ const {registerComponentsPlugin} = require('@vuepress/plugin-register-components
 const {themeDataPlugin} = require('@vuepress/plugin-theme-data')
 const pkg = require('../../package.json')
 const {localTheme} = require('./theme')
+const {containerPlugin} = require('@vuepress/plugin-container')
 
 module.exports = {
   title: 'Midifungi 🎛️🎹',
@@ -23,6 +24,13 @@ module.exports = {
         Example: path.resolve(__dirname, './components/Example.vue'),
         Window: path.resolve(__dirname, './components/Window.vue'),
       }
+    }),
+
+    // Removes default title from ::: ::: containers
+    containerPlugin({
+      type: 'tip',
+      before: (info) => `<div class="custom-container tip">${info ? `<p class="custom-container-title">${info}</p>` : ''}\n`,
+      after: () => '</div>\n'
     }),
 
     themeDataPlugin({
@@ -60,6 +68,17 @@ module.exports = {
               }
             ]
           },
+          {
+            text: '🖌️ Techniques',
+            link: '/technique/',
+            collapsible: true,
+            children: [
+              {
+                text: 'Paint chips',
+                link: '/technique/paint-chips.html'
+              }
+            ]
+          }
           // {
           //   text: '📅 Daily Devlog',
           //   link: '/devlog/',
