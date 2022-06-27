@@ -293,7 +293,15 @@ export default class Layer {
     this.offscreen.resizeCanvas(width, height)
 
     this.generate(true)
-    this.noLoop && this.draw()
+
+    if (this.type === 'filter' && !this.disabled) {
+      Layers.mergeLayers(this)
+      setTimeout(() => {
+        this.noLoop && this.draw()
+      }, 0)
+    } else if (!this.disabled) {
+      this.noLoop && this.draw()
+    }
   }
 
   /**
