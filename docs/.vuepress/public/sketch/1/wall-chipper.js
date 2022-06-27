@@ -1,5 +1,4 @@
 export default function () {
-  
   Layers.create(() => {
     new Layer({
       id: 'wallChipper',
@@ -43,6 +42,7 @@ export default function () {
       },
       
       draw () {
+        drawingContext.shadowBlur = 0
         let size = $size
         let cols = $cols
         let spaceY = $spaceY
