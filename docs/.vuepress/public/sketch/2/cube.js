@@ -5,7 +5,7 @@ export default function () {
   ]
 
   Layers.create(() => {
-    const size = minSize*.8
+    const size = minSize*.6
     new Layer({
       id: 'cube',
       render: WEBGL,
@@ -25,13 +25,13 @@ export default function () {
         $smear = []
         for (let i = 0; i < 1000; i++) {
           const x = random(width/2-size/2, width/2+size/2)
-          const y = random(0, size*.5)
+          const y = random(height/2-size/2, height/2-size/6)
           const thickness = random(size*.01, size*.05)
 
           for (let j = 0; j < thickness; j++) {
             $smear.push({
               x, y,
-              height: random(size*.01, size*.3),
+              height: random(size*.05, size*.3),
             })
           }
         }
@@ -58,9 +58,23 @@ export default function () {
         colorMode(RGB)
         $smear.forEach(point => {
           const col = [...point.color]
-          col[3] = random(255)
-          stroke(point.color)
-          line(point.x, point.y, point.x, point.y - point.height)
+          const darken = random(50, 255)
+          col[0] -= darken
+          col[1] -= darken
+          col[2] -= darken
+          col[3] = 0
+
+          const gradient = drawingContext.createLinearGradient(point.x, point.y, point.x, point.y-point.height)
+          gradient.addColorStop(0, `rgba(${point.color[0]}, ${point.color[1]}, ${point.color[2]}, ${point.color[3]})`)
+          gradient.addColorStop(1, `rgba(${col[0]}, ${col[1]}, ${col[2]}, ${col[3]})`)
+          drawingContext.strokeStyle = gradient
+
+          drawingContext.beginPath()
+          drawingContext.moveTo(point.x, point.y)
+          drawingContext.lineTo(point.x, point.y-point.height)
+          drawingContext.stroke()
+          // stroke(col)
+          // line(point.x, point.y, point.x, point.y - point.height)
         })
         colorMode(...this.colorMode)
       }
