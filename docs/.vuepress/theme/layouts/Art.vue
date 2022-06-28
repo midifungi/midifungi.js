@@ -2,7 +2,8 @@
   <ParentLayout>
     <template #page-content-top>
       <Midifungi :layers="$page.frontmatter.layers" :isMaximized="$page.frontmatter.maximized"></Midifungi>
-
+    </template>
+    <template #page-content-bottom>
       <Window title="Devlog" v-if="$page.frontmatter.devlog && ((!$page.frontmatter.hideDevlog && $theme.env.NODE_ENV === 'development') || $theme.env.NODE_ENV !== 'development')">
         <iframe height=500 :src="'https://midifungi-notion.ozramos.workers.dev/' + $page.frontmatter.devlog"></iframe>
       </Window>

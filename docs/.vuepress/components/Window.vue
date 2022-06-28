@@ -6,7 +6,7 @@
       <button v-if="help" aria-label="Help" @click="onHelp"></button>
       <button v-if="minimize" aria-label="Minimize" @click="onMinimize"></button>
       <button v-if="maximize || minimize" aria-label="Restore" @click="onRestore"></button>
-      <button aria-label="Maximize" @click="onMaximize"></button>
+      <button v-if="maximize" aria-label="Maximize" @click="onMaximize"></button>
     </div>
   </div>
   <div class="window-body" :style="{height: height ? height + 'px' : null}">
@@ -40,8 +40,6 @@ export default {
     return {
       _isMinimized: this.isMinimized,
       _isMaximized: this.isMaximized,
-      isMinimized: false,
-      isMaximized: false,
     }
   },
 
@@ -50,7 +48,7 @@ export default {
       return this.hasTitlebarControls || this.title
     },
     hasTitlebarControls () {
-      return this.maximize || this.minimize
+      return this.maximize || this.minimize || this.help
     },
     windowTitle () {return this.title || this.$page.title}
   },
@@ -64,7 +62,7 @@ export default {
       this.$refs.window.classList.remove('maximized')
       this._isMinimized = true
       this._isMaximized = false
-      setTimeout(() => Layers.trigger('resize'), 0)
+      this.$emit('minimized')
     },
 
     onMaximize () {
@@ -72,14 +70,14 @@ export default {
       this.$refs.window.classList.remove('minimized')
       this._isMinimized = false
       this._isMaximized = true
-      setTimeout(() => Layers.trigger('resize'), 0)
+      this.$emit('maximized')
     },
     
     onRestore () {
       this.$refs.window.classList.remove('maximized', 'minimized')
       this._isMinimized = false
-      this._isMaximized = false      
-      setTimeout(() => Layers.trigger('resize'), 0)
+      this._isMaximized = false
+      this.$emit('restored')
     },
 
     onHelp () {
@@ -91,7 +89,7 @@ export default {
       let helpLink = this.help
       if (this.help[0] === '@') {
         helpLink = this.help.substr(1)
-        page = `/gallery/`
+        page = `/art/`
       }
 
       const splitName = helpLink.split('/')

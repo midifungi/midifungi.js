@@ -1,25 +1,20 @@
 <template>
-<div class="window window-component mb-md" ref="window" :class="{maximized: _isMaximized, minimized: _isMinimized}">
-  <div class="title-bar" v-if="hasTitlebar">
-    <div class="title-bar-text" @click="onHelp" style="cursor: pointer">{{windowTitle}}</div>
-    <div class="title-bar-controls" v-if="hasTitlebarControls">
-      <button v-if="help" aria-label="Help" @click="onHelp"></button>
-      <button v-if="minimize" aria-label="Minimize" @click="onMinimize"></button>
-      <button v-if="maximize || minimize" aria-label="Restore" @click="onRestore"></button>
-      <button aria-label="Maximize" @click="onMaximize"></button>
-    </div>
-  </div>
-  <div class="window-body">
+  <Window :title="title" :height="height" :help="help" 
+    :maximize="maximize" :isMaximized="isMaximized" :isMinimized="isMinimized"
+    @restored="onRestore" @maximized="onMaximize">
     <slot class="midifungi-top-slot"></slot>
     <div class="midifungi-layers-wrap-outer" :style="{height: height ? height + 'px' : null}">
       <div class="midifungi-layers-wrap" ref="target"></div>
     </div>
-  </div>
-</div>
+  </Window>
 </template>
 
 <script>
+import Window from './Window.vue'
+
 export default {
+  components: {Window},
+
   // List of paths to sketch scripts to load
   // Prefix with @username/001/path to load /sketch/midifungi/001/path.js
   props: {
@@ -43,21 +38,9 @@ export default {
    */
   data() {
     return {
-      _isMinimized: this.isMinimized,
-      _isMaximized: this.isMaximized,
       loadedLayers: Array(this.layers.length).fill(null),
       numLoadedLayers: 0,
     }
-  },
-
-  computed: {
-    hasTitlebar () {
-      return this.hasTitlebarControls || this.title
-    },
-    hasTitlebarControls () {
-      return this.maximize || this.minimize
-    },
-    windowTitle () {return this.title || this.$page.title}
   },
 
   mounted () {
@@ -102,7 +85,6 @@ export default {
       let sketch
 
       if (this.$theme.env.NODE_ENV === 'development') {
-          sketch = await import(`./../public/sketch/${splitName[0]}/${splitName[1]}.js`)
         if (splitName.length === 1) {
           sketch = await import(`./../public/sketch/${splitName[0]}.js`)
         } else if (splitName.length === 2) {
@@ -154,59 +136,13 @@ export default {
     /**
      * Handle window resize
      */
-    onMinimize () {
-      this._isMinimized = true
-      this._isMaximized = false
-      setTimeout(() => Layers.trigger('resize'), 0)
-    },
-
+    // @todo Stop looping
+    onMinimize () {},
     onMaximize () {
-      this._isMinimized = false
-      this._isMaximized = true
       setTimeout(() => Layers.trigger('resize'), 0)
     },
-    
     onRestore () {
-      this._isMinimized = false
-      this._isMaximized = false      
       setTimeout(() => Layers.trigger('resize'), 0)
-    },
-
-    onHelp () {
-      if (!this.help) return
-      
-      // Unfortunately we have to split this out with vite
-      // @see https://github.com/vitejs/vite/issues/4945#issuecomment-951770052
-      let page = ''
-      let helpLink = this.help
-      if (this.help[0] === '@') {
-        helpLink = this.help.substr(1)
-        page = `/art/`
-      }
-
-      const splitName = helpLink.split('/')
-      // If not ending with slash, add .html
-      if (splitName[splitName.length - 1] !== '/') {
-        helpLink += '.html'
-      }
-      
-      if (splitName.length === 1) {
-        page += `${splitName[0]}`
-      } else if (splitName.length === 2) {
-        page += `${splitName[0]}/${splitName[1]}`
-      } else if (splitName.length === 3) {
-        page += `${splitName[0]}/${splitName[1]}/${splitName[2]}`
-      } else if (splitName.length === 4) {
-        page += `${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}`
-      } else if (splitName.length === 5) {
-        page += `${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}`
-      } else if (splitName.length === 6) {
-        page += `${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}/${splitName[5]}`
-      } else if (splitName.length === 7) {
-        page += `${splitName[0]}/${splitName[1]}/${splitName[2]}/${splitName[3]}/${splitName[4]}/${splitName[5]}/${splitName[6]}`
-      }
-
-      this.$router.push(page)
     }
   }
 }
