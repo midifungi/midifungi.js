@@ -5,9 +5,9 @@ Layers.create(() => {
   new Layer({
     id: 'cube',
     render: WEBGL,
+    noLoop: true,
 
     menu: {
-      bg: Layers.default.colors,
       emoji: busts
     },
     store: {},
@@ -17,7 +17,7 @@ Layers.create(() => {
     },
 
     draw () {
-      background($bg)
+      clear()
       textSize(minSize*.8)
       text($emoji, width/2, height/2)
     }

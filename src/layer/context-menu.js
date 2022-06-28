@@ -192,6 +192,7 @@ export default {
       // Update filter layers above this layer
       // Persist data to localstorage
       this.$menu.on('change', () => {
+        this.noLoop && this.draw()
         Layers.updateFilters(this)
 
         // Store menu states
