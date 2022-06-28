@@ -78,6 +78,10 @@ module.exports = {
                 link: '/technique/paint-chips.html'
               }
             ]
+          },
+          {
+            text: '💼 Pre-Midifungi Portfolio',
+            link: 'https://ozramos.notion.site/29f2ff163a554f3081c155653d07ace0?v=07b8c60c499d42b0b734ce29bf4b0ed1'
           }
           // {
           //   text: '📅 Daily Devlog',
