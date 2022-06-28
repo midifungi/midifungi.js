@@ -85,7 +85,6 @@ export default {
       let sketch
 
       if (this.$theme.env.NODE_ENV === 'development') {
-          sketch = await import(`./../public/sketch/${splitName[0]}/${splitName[1]}.js`)
         if (splitName.length === 1) {
           sketch = await import(`./../public/sketch/${splitName[0]}.js`)
         } else if (splitName.length === 2) {

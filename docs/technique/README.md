@@ -6,6 +6,7 @@
 
 <div class="row">
   <div class="col-6">
-    <Midifungi title="Paint Chips" :layers="['@1/bg', '@1/main', '@1/wall-chipper', '@1/texturizer']" :maximize="false" help="/technique/paint-chips"></Midifungi>
+    <Midifungi title="Paint Chips" :layers="['@technique/paint-chip/sketch']" :maximize="false" help="/technique/paint-chips"></Midifungi>
   </div>
 </div>
+
