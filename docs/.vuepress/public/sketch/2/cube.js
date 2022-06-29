@@ -8,7 +8,7 @@ export default function () {
     const size = minSize*.6
     new Layer({
       id: 'cube',
-      render: WEBGL,
+      renderer: WEBGL,
       noLoop: true,
 
       menu: {
@@ -19,7 +19,8 @@ export default function () {
       },
 
       setup () {
-        textAlign(CENTER, CENTER)
+        offscreen.textAlign(CENTER, CENTER)
+        canvas.setAttributes('alpha', true)
 
         // Pick a bunch of random points to smear
         $smear = []
@@ -41,42 +42,59 @@ export default function () {
       },
 
       draw () {
-        clear()
-        textSize(size)
-        text($emoji, width/2, height/2)
+        offscreen.clear()
+        offscreen.textSize(size)
+        offscreen.text($emoji, width/2, height/2)
 
         // Get the points
         $smear.forEach((point, n) => {
-          point.color = get(point.x, point.y)
+          point.color = offscreen.get(point.x, point.y)
           if (!point.color[3]) {
             delete $smear[n]
           }
         })
 
         // Draw lines from points to smear height
-        strokeWeight(minSize*.01)
-        colorMode(RGB)
+        offscreen.strokeWeight(minSize*.01)
+        offscreen.colorMode(RGB)
         $smear.forEach(point => {
           const col = [...point.color]
-          const darken = random(50, 255)
+          const darken = 255
           col[0] -= darken
           col[1] -= darken
           col[2] -= darken
           col[3] = 0
 
-          const gradient = drawingContext.createLinearGradient(point.x, point.y, point.x, point.y-point.height)
+          const gradient = offscreen.drawingContext.createLinearGradient(point.x, point.y, point.x, point.y-point.height)
           gradient.addColorStop(0, `rgba(${point.color[0]}, ${point.color[1]}, ${point.color[2]}, ${point.color[3]})`)
           gradient.addColorStop(1, `rgba(${col[0]}, ${col[1]}, ${col[2]}, ${col[3]})`)
-          drawingContext.strokeStyle = gradient
+          offscreen.drawingContext.strokeStyle = gradient
 
-          drawingContext.beginPath()
-          drawingContext.moveTo(point.x, point.y)
-          drawingContext.lineTo(point.x, point.y-point.height)
-          drawingContext.stroke()
-          // stroke(col)
-          // line(point.x, point.y, point.x, point.y - point.height)
+          offscreen.drawingContext.beginPath()
+          offscreen.drawingContext.moveTo(point.x, point.y)
+          offscreen.drawingContext.lineTo(point.x, point.y-point.height)
+          offscreen.drawingContext.stroke()
         })
-        colorMode(...this.colorMode)
+        offscreen.colorMode(...this.colorMode)
+
+        clear()
+        background(0,0)
+        noFill()
+        stroke(255)
+        strokeWeight(minSize*.01)
+
+        push()
+        rotateY(random(-PI/6, PI/6))
+        box(size*1.2)
+        pop()
+
+        texture(offscreen)
+        noStroke()
+        push()
+        translate(0, size*.2)
+        rotateY(random(-PI/6, PI/6))
+        plane(width, height)
+        pop()
       }
     })
   })
