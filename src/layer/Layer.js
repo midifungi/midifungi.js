@@ -121,9 +121,7 @@ export default class Layer {
     // Add an extra delay to filters to allow for faster render on load
     if (this.type === 'filter' && !this.disabled) {
       Layers.mergeLayers(this)
-      setTimeout(() => {
-        this.draw()
-      }, 0)
+      this.draw()
     } else if (!this.disabled) {
       this.draw()
     }

@@ -30,6 +30,8 @@ Layers.create(() => {
     },
 
     draw () {
+      console.log('brushify')
+      
       // Get the points
       $smear.forEach((point, n) => {
         point.color = get(point.x, point.y)
@@ -60,6 +62,8 @@ Layers.create(() => {
         drawingContext.stroke()
       })
       colorMode(...this.colorMode)
+
+      console.log('1')
     }
   })
 })
