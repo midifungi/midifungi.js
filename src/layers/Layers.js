@@ -164,9 +164,11 @@ export default globalThis.Layers = {
 
   /**
    * Updates all filter layers above a given layer
+   * @param {Layer} layer The layer to update
    */
   updateFilters (layer, instant = false) {
     let hasFoundLayer = false
+    
     Object.keys(Layers.stack[layer.stack]).forEach(key => {
       const stackLayer = Layers.stack[layer.stack][key]
       
@@ -247,8 +249,8 @@ export default globalThis.Layers = {
      * Contextmenu
      */
     contextmenu (ev) {
-      for (let i = this.all.length - 1; i >= 0; i--) {
-        const layer = this.all[i]
+      const layers = Layers.getAll().reverse()
+      layers.forEach(layer => {
         if (!layer.disabled && !layer.menuDisabled) {
           let bounds = layer.canvas.canvas.getBoundingClientRect()
           let x = layer.x + bounds.x
@@ -265,7 +267,7 @@ export default globalThis.Layers = {
             }
           }
         }
-      }
+      })
     },
 
     /**
@@ -432,7 +434,7 @@ export default globalThis.Layers = {
   },
 
   /**
-   * Helpers
+   * Loop through each layer and run the callback
    */
   forEach (cb) {
     Object.keys(Layers.stack).forEach(key => {
@@ -440,6 +442,22 @@ export default globalThis.Layers = {
         cb(Layers.stack[key][id])
       })
     })
+  },
+
+  /**
+   * Returns an array of all layers, optionally by stack
+   */
+  getAll (stack = null) {
+    const layers = []
+    if (stack) {
+      Object.keys(Layers.stack[stack]).forEach(key => {
+        layers.push(Layers.stack[stack][key])
+      })
+    } else {
+      Layers.forEach(layer => layers.push(layer))
+    }
+
+    return layers
   },
 
   /**

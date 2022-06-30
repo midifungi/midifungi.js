@@ -89,7 +89,10 @@ export default {
             Layers.forEach(layer => {
               layer.listeners.menu.regenerate.call(layer, ev)
             })
-            Layers.updateFilters()
+            Object.keys(Layers.stack).forEach(key => {
+              const keys = Object.keys(Layers.stack[key])
+              Layers.updateFilters(Layers.stack[key][keys[0]])
+            })
           break
           // Regenerate layer
           case 1:
