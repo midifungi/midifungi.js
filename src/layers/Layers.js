@@ -168,7 +168,7 @@ export default globalThis.Layers = {
    */
   updateFilters (layer, instant = false) {
     let hasFoundLayer = false
-    
+
     Object.keys(Layers.stack[layer.stack]).forEach(key => {
       const stackLayer = Layers.stack[layer.stack][key]
       
@@ -249,24 +249,34 @@ export default globalThis.Layers = {
      * Contextmenu
      */
     contextmenu (ev) {
-      const layers = Layers.getAll().reverse()
-      layers.forEach(layer => {
-        if (!layer.disabled && !layer.menuDisabled) {
-          let bounds = layer.canvas.canvas.getBoundingClientRect()
-          let x = layer.x + bounds.x
-          let y = layer.y + bounds.y
+      const stacks = Object.keys(Layers.stack).reverse()
+      let foundLayer = false
+      
+      stacks.every(stack => {
+        const layerKeys = Object.keys(Layers.stack[stack]).reverse()
+        layerKeys.every(layerKey => {
+          const layer = Layers.stack[stack][layerKey]
 
-          // Only show when clicked within the layer
-          if (ev.x > x && ev.x < x + layer.width && ev.y > y && ev.y < y + layer.height) {
-            // Check if the pixel is empty
-            const pixel = layer.canvas.get(ev.x-bounds.x, ev.y-bounds.y)
-            if (pixel[3]) {
-              ev.preventDefault()
-              layer.showContextMenu(ev)
-              return false
+          if (!layer.disabled && !layer.menuDisabled) {
+            let bounds = layer.canvas.canvas.getBoundingClientRect()
+            let x = layer.x + bounds.x
+            let y = layer.y + bounds.y
+  
+            // Only show when clicked within the layer
+            if (ev.x > x && ev.x < x + layer.width && ev.y > y && ev.y < y + layer.height) {
+              // Check if the pixel is empty
+              const pixel = layer.canvas.get(ev.x-bounds.x, ev.y-bounds.y)
+              if (pixel[3]) {
+                ev.preventDefault()
+                layer.showContextMenu(ev)
+                foundLayer = true
+                return false
+              }
             }
           }
-        }
+
+          return !foundLayer
+        })
       })
     },
 
