@@ -86,7 +86,7 @@ export default {
         switch (ev.index[0]) {
           // Regenerate all layers
           case 0:
-            Layers.all.forEach(layer => {
+            Layers.forEach(layer => {
               layer.listeners.menu.regenerate.call(layer, ev)
             })
             Layers.updateFilters()
@@ -120,7 +120,9 @@ export default {
 
       // Generate toggles
       const layerVisibility = {}
-      const layers = [...Layers.all]
+      const layers = []
+      Layers.forEach(layer => layers.push(layer))
+      
       layers.reverse().forEach(layer => {
         layerVisibility[layer.id] = !layer.disabled
         layerToggle.addInput(layerVisibility, String(layer.id))
@@ -197,7 +199,7 @@ export default {
 
         // Store menu states
         Layers.sessionData = {}
-        Layers.all.forEach(layer => {
+        Layers.forEach(layer => {
           Layers.sessionData[layer.id] = {
             disabled: layer.disabled
           }

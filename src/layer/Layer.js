@@ -90,8 +90,6 @@ export default class Layer {
     if (Layers[origId]) {
       this.id = origId.toString() + '_' + Layers.curId
     }
-    // Store into .all
-    Layers.all.push(this)
     // Store by stack
     if (!Layers.stack[this.stack]) {
       Layers.stack[this.stack] = {}
@@ -410,49 +408,10 @@ export default class Layer {
     this.canvas.remove()
     this.offscreen.remove()
 
-    // Delete from all
-    const idx = Layers.all.findIndex(layer => layer.id === this.id)
-    Layers.all.splice(idx, 1)
     // Delete from stack
     delete Layers.stack[this.stack][this.opts.id]
   }
 
-  /**
-   * Moves the layer up/down within the stack
-   * @param {*} seconds 
-   * @returns 
-   */
-  moveDown () {
-    const idx = Layers.all.findIndex(layer => layer.id === this.id)
-    if (idx) {
-      const curCanvas = this.canvas.elt
-      const curOffscreen = this.offscreen.elt
-      const targetCanvas = Layers.all[idx-1].canvas.elt
-      const targetOffscreen = Layers.all[idx-1].offscreen.elt
-      
-      this.canvas.elt.parentElement.insertBefore(curCanvas, targetCanvas)
-      this.canvas.elt.parentElement.insertBefore(curOffscreen, targetOffscreen)
-      
-      Layers.all.splice(idx, 1)
-      Layers.all.splice(idx-1, 0, this)
-    }
-  }
-  moveUp () {
-    const idx = Layers.all.findIndex(layer => layer.id === this.id)
-    if (idx < Layers.all.length - 1) {
-      const curCanvas = this.canvas.elt
-      const curOffscreen = this.offscreen.elt
-      const targetCanvas = Layers.all[idx+1].canvas.elt
-      const targetOffscreen = Layers.all[idx+1].offscreen.elt
-
-      this.canvas.elt.parentElement.insertAfter(curCanvas, targetCanvas)
-      this.canvas.elt.parentElement.insertAfter(curOffscreen, targetOffscreen)
-
-      Layers.all.splice(idx, 1)
-      Layers.all.splice(idx+1, 0, this)
-    }
-  }
-  
   /**
    * Uses frameCount to return the progress within a loop of the passed number of seconds
    * @param {*} seconds 
