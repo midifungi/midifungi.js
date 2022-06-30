@@ -7,7 +7,7 @@ export default function () {
   Layers.create(() => {
     const size = minSize*.6
     new Layer({
-      id: 'cube',
+      id: 'emoji',
       renderer: WEBGL,
       noLoop: true,
 

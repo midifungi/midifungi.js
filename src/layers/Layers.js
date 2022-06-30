@@ -1,5 +1,5 @@
 import debounce from '../../node_modules/lodash-es/debounce.js'
-import p5Overrides from '../p5-overrides.js'
+import p5Overrides from '../p5-overrides/list.js'
 import {WebMidi} from '../../node_modules/webmidi/dist/esm/webmidi.esm.js'
 
 globalThis.debounce = debounce

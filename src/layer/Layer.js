@@ -1,5 +1,6 @@
 import contextMenu from './context-menu.js'
-import p5Overrides from '../p5-overrides.js'
+import p5Overrides from '../p5-overrides/list.js'
+import applyP5Overrides from '../p5-overrides/methods.js'
 import midiMenu from './midi-menu.js'
 
 export default class Layer {
@@ -347,27 +348,7 @@ export default class Layer {
     })
 
     // Manual overrides
-    globalThis.loadPixels = () => {
-      this.canvas.loadPixels()
-      globalThis.pixels = this.canvas.pixels
-    }
-    globalThis.canvas = this.canvas
-    globalThis.offscreen = this.offscreen
-    globalThis.frameCount = this.frameCount
-    
-    // Looping
-    globalThis.noLoop = () => {
-      this.noLoop = true
-      this._context.noLoop()
-    }
-    globalThis.loop = () => {
-      const _noLoop = this.noLoop
-      this.noLoop = false
-      this._context.loop()
-      if (_noLoop) {
-        this.draw()
-      }
-    }
+    applyP5Overrides.call(this)
 
     // Helpers
     globalThis.minSize = min(this.canvas.width, this.canvas.height)
