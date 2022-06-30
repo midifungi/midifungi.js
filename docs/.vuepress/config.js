@@ -65,7 +65,11 @@ module.exports = {
               {
                 text: '1 - Ancient Visitors',
                 link: '/art/1.html'
-              }
+              },
+              {
+                text: '2 - Francis Bacon Study 1',
+                link: '/art/2.html'
+              },
             ]
           },
           {

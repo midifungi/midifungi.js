@@ -227,7 +227,8 @@ export default globalThis.Layers = {
     saveCanvas(`layers-${date.getFullYear()}${date.getMonth()}${date.getDate()}`, format)
   },
 
-  throttledFilter: debounce(_throttledFilter, 1000, {leading: false}),
+  // throttledFilter: debounce(_throttledFilter, 1000, {leading: true}),
+  throttledFilter: debounce(_throttledFilter, 1, {leading: true}),
 
   listeners: {
     /**

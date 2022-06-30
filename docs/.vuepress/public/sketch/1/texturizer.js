@@ -9,8 +9,6 @@ export default function () {
       menuDisabled: true,
   
       draw () {
-        console.log('texturizer')
-
         // Add noise
         let noiseAmount = 40
         let x = 0
@@ -63,7 +61,6 @@ export default function () {
         }
   
         updatePixels()      
-        console.log('2')
       }
     })
   })

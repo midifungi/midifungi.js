@@ -365,7 +365,6 @@ export default class Layer {
       this.noLoop = false
       this._context.loop()
       if (_noLoop) {
-        console.log('draw')
         this.draw()
       }
     }

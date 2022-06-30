@@ -19,8 +19,7 @@ Layers.create(() => {
     ],
 
     menu: {
-      eyeHeight: {max: 1},
-      mouthHeight: {max: 1},
+      numEmojis: {max: ~~random(1, 4)},
     },
 
     store: {
@@ -32,7 +31,7 @@ Layers.create(() => {
 
       // Create main subjects
       $subjects = []
-      for (let i = 0; i < ~~random(1, 4); i++) {
+      for (let i = 0; i < $numEmojis; i++) {
         $subjects.push({
           emoji: random(subjects),
           eyeHeight: random(1),
