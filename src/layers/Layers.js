@@ -250,11 +250,12 @@ export default globalThis.Layers = {
      * Contextmenu
      */
     contextmenu (ev) {
-      const stacks = Object.keys(Layers.stack).reverse()
+      const stacks = Object.keys(Layers.stack)
       let foundLayer = false
       
       stacks.every(stack => {
         const layerKeys = Object.keys(Layers.stack[stack]).reverse()
+
         layerKeys.every(layerKey => {
           const layer = Layers.stack[stack][layerKey]
 
@@ -278,6 +279,8 @@ export default globalThis.Layers = {
 
           return !foundLayer
         })
+
+        return !foundLayer
       })
     },
 
