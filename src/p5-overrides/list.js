@@ -110,7 +110,6 @@ export default [
   'push',
   'pop',
   'redraw',
-  'p5',
 
   // Rendering
   'blendMode',

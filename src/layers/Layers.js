@@ -1,5 +1,5 @@
 import debounce from '../../node_modules/lodash-es/debounce.js'
-import p5Overrides from '../p5-overrides.js'
+import p5Overrides from '../p5-overrides/list.js'
 import {WebMidi} from '../../node_modules/webmidi/dist/esm/webmidi.esm.js'
 
 globalThis.debounce = debounce
@@ -125,13 +125,16 @@ export default globalThis.Layers = {
    * Merges all the layers below the given layer
    */
   mergeLayers (layer) {
-    // Determine the index within Layers.all
-    let idx = Layers.all.findIndex(l => l.id === layer.id)
-    // Loop through all layers below it and merge their canvases
-    layer.offscreen.clear()
-    for (let i = 0; i < idx+1; i++) {
-      !Layers.all[i].disabled && layer.offscreen.image(Layers.all[i].canvas, 0, 0)
-    }
+    const stack = Layers.stack[layer.stack]
+    Object.keys(stack).every(key => {
+      if (Object.is(stack[key], layer)) {
+        return false
+      } else {
+        !stack[key].disabled && layer.offscreen.image(stack[key].canvas, 0, 0)
+        return true
+      }
+    })
+    
     layer.canvas.image(layer.offscreen, 0, 0)
   },
 
@@ -139,19 +142,10 @@ export default globalThis.Layers = {
    * Free memory
    */
   dispose () {
-    const all = [...Layers.all]
-    all.forEach((layer, key) => {
+    Layers.forEach(layer => {
       layer.dispose()
     })
-    Layers.all = []
-  },
-
-  /**
-   * Move all layers up (top layer moves to bottom)
-   */
-  shift () {
-    const layer = Layers.all.pop()
-    Layers.all.unshift(layer)
+    Layers.stack = {}
   },
 
   /**
@@ -170,23 +164,29 @@ export default globalThis.Layers = {
 
   /**
    * Updates all filter layers above a given layer
+   * @param {Layer} layer The layer to update
    */
   updateFilters (layer, instant = false) {
-    // Find the index of the layer
-    const idx = layer ? layer.id : Layers.all[0].id
-    const layerIdx = Layers.all.findIndex(l => l.id === idx)
-    
-    for (let i = layerIdx; i < Layers.all.length; i++) {
-      if (Layers.all[i]?.type === 'filter' && !Layers.all[i]?.disabled) {
-        Layers.all[i].canvas.clear()
+    let hasFoundLayer = false
 
-        if (instant) {
-          _throttledFilter.call(this, Layers.all[i])
-        } else {
-          this.throttledFilter(Layers.all[i])
+    Object.keys(Layers.stack[layer.stack]).forEach(key => {
+      const stackLayer = Layers.stack[layer.stack][key]
+      
+      if (Object.is(stackLayer, layer)) {
+        hasFoundLayer = true
+        return
+      } else if (hasFoundLayer) {
+        if (stackLayer.type === 'filter' && !stackLayer.disabled) {
+          stackLayer.canvas.clear()
+
+          if (instant) {
+            _throttledFilter.call(this, stackLayer)
+          } else {
+            this.throttledFilter(stackLayer)
+          }
         }
       }
-    }
+    })
   },
 
   /**
@@ -204,7 +204,7 @@ export default globalThis.Layers = {
     let smallestPixelDensity = 1
 
     // Get dimensions and smallest pixel density
-    Layers.all.forEach(layer => {
+    Layers.forEach(layer => {
       if (x > layer.x) x = layer.x
       if (xx < layer.x + layer.width) xx = layer.x + layer.width
       if (y > layer.y) y = layer.y
@@ -219,7 +219,7 @@ export default globalThis.Layers = {
     // Create a new canvas and merge all layers
     resizeCanvas(xx - x, yy - y)
     pixelDensity(smallestPixelDensity)
-    Layers.all.forEach(layer => {
+    Layers.forEach(layer => {
       if (layer.canvas.elt.style.visibility.toLowerCase() !== 'hidden' && !layer.disabled) {
         image(layer.canvas, layer.x, layer.y)
       }
@@ -227,7 +227,8 @@ export default globalThis.Layers = {
     saveCanvas(`layers-${date.getFullYear()}${date.getMonth()}${date.getDate()}`, format)
   },
 
-  throttledFilter: debounce(_throttledFilter, 1000, {leading: false}),
+  // throttledFilter: debounce(_throttledFilter, 1000, {leading: true}),
+  throttledFilter: debounce(_throttledFilter, 1, {leading: true}),
 
   listeners: {
     /**
@@ -249,25 +250,38 @@ export default globalThis.Layers = {
      * Contextmenu
      */
     contextmenu (ev) {
-      for (let i = this.all.length - 1; i >= 0; i--) {
-        const layer = this.all[i]
-        if (!layer.disabled && !layer.menuDisabled) {
-          let bounds = layer.canvas.canvas.getBoundingClientRect()
-          let x = layer.x + bounds.x
-          let y = layer.y + bounds.y
+      const stacks = Object.keys(Layers.stack)
+      let foundLayer = false
+      
+      stacks.every(stack => {
+        const layerKeys = Object.keys(Layers.stack[stack]).reverse()
 
-          // Only show when clicked within the layer
-          if (ev.x > x && ev.x < x + layer.width && ev.y > y && ev.y < y + layer.height) {
-            // Check if the pixel is empty
-            const pixel = layer.canvas.get(ev.x-bounds.x, ev.y-bounds.y)
-            if (pixel[3]) {
-              ev.preventDefault()
-              layer.showContextMenu(ev)
-              return false
+        layerKeys.every(layerKey => {
+          const layer = Layers.stack[stack][layerKey]
+
+          if (!layer.disabled && !layer.menuDisabled) {
+            let bounds = layer.canvas.canvas.getBoundingClientRect()
+            let x = layer.x + bounds.x
+            let y = layer.y + bounds.y
+  
+            // Only show when clicked within the layer
+            if (ev.x > x && ev.x < x + layer.width && ev.y > y && ev.y < y + layer.height) {
+              // Check if the pixel is empty
+              const pixel = layer.canvas.get(ev.x-bounds.x, ev.y-bounds.y)
+              if (pixel[3]) {
+                ev.preventDefault()
+                layer.showContextMenu(ev)
+                foundLayer = true
+                return false
+              }
             }
           }
-        }
-      }
+
+          return !foundLayer
+        })
+
+        return !foundLayer
+      })
     },
 
     /**
@@ -421,7 +435,7 @@ export default globalThis.Layers = {
   explodeLayers (shouldExplode, shouldSave = true) {
     shouldSave && localStorage.setItem('explodeLayers', shouldExplode)
 
-    Layers.all.forEach(layer => {
+    Layers.forEach(layer => {
       this.toggleExplodeClassForLayerTarget(layer, shouldExplode)      
     })
   },
@@ -434,10 +448,37 @@ export default globalThis.Layers = {
   },
 
   /**
+   * Loop through each layer and run the callback
+   */
+  forEach (cb) {
+    Object.keys(Layers.stack).forEach(key => {
+      Object.keys(Layers.stack[key]).forEach(id => {
+        cb(Layers.stack[key][id])
+      })
+    })
+  },
+
+  /**
+   * Returns an array of all layers, optionally by stack
+   */
+  getAll (stack = null) {
+    const layers = []
+    if (stack) {
+      Object.keys(Layers.stack[stack]).forEach(key => {
+        layers.push(Layers.stack[stack][key])
+      })
+    } else {
+      Layers.forEach(layer => layers.push(layer))
+    }
+
+    return layers
+  },
+
+  /**
    * Trigger an event on layers
    */
   trigger (ev) {
-    Layers.all.forEach(layer => {
+    Layers.forEach(layer => {
       layer.trigger(ev)
     })
   },

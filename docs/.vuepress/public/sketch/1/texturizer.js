@@ -6,6 +6,7 @@ export default function () {
       type: 'filter',
       noLoop: true,
       colors: ['#eee2c7'],
+      menuDisabled: true,
   
       draw () {
         // Add noise

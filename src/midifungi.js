@@ -11,7 +11,8 @@ import Emojis from './emoji/Emojis'
 import './helpers.js'
 import Layers from './layers/Layers.js'
 import Layer from './layer/Layer.js'
-import p5Overrides from './p5-overrides.js'
+import p5OverridesList from './p5-overrides/list.js'
+import p5PrototypeOverrides from './p5-overrides/prototypes.js'
 
 // Global exports
 globalThis.Layers = Layers
@@ -69,9 +70,10 @@ const onSetup = function () {
   globalThis.maxSize = max(width, height)
 
   // Backup default states before any p5 overrides
-  p5Overrides.forEach(key => {
+  p5OverridesList.forEach(key => {
     Layers._context[key] = window[key]
   })
+  p5PrototypeOverrides()
   
   Layers.init()
 }

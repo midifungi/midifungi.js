@@ -4,6 +4,8 @@ export default function () {
       id: 'wallChipper',
       noLoop: true,
       colors: ['#fff'],
+      type: 'filter',
+      menuDisabled: true,
       
       store: {
         holes: []

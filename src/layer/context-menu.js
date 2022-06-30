@@ -86,10 +86,13 @@ export default {
         switch (ev.index[0]) {
           // Regenerate all layers
           case 0:
-            Layers.all.forEach(layer => {
+            Layers.forEach(layer => {
               layer.listeners.menu.regenerate.call(layer, ev)
             })
-            Layers.updateFilters()
+            Object.keys(Layers.stack).forEach(key => {
+              const keys = Object.keys(Layers.stack[key])
+              Layers.updateFilters(Layers.stack[key][keys[0]])
+            })
           break
           // Regenerate layer
           case 1:
@@ -120,7 +123,9 @@ export default {
 
       // Generate toggles
       const layerVisibility = {}
-      const layers = [...Layers.all]
+      const layers = []
+      Layers.forEach(layer => layers.push(layer))
+      
       layers.reverse().forEach(layer => {
         layerVisibility[layer.id] = !layer.disabled
         layerToggle.addInput(layerVisibility, String(layer.id))
@@ -192,11 +197,13 @@ export default {
       // Update filter layers above this layer
       // Persist data to localstorage
       this.$menu.on('change', () => {
+        this.setup && this.setup()
+        this.noLoop && this.draw()
         Layers.updateFilters(this)
 
         // Store menu states
         Layers.sessionData = {}
-        Layers.all.forEach(layer => {
+        Layers.forEach(layer => {
           Layers.sessionData[layer.id] = {
             disabled: layer.disabled
           }

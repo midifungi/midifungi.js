@@ -1,5 +1,6 @@
 import contextMenu from './context-menu.js'
-import p5Overrides from '../p5-overrides.js'
+import p5Overrides from '../p5-overrides/list.js'
+import applyP5Overrides from '../p5-overrides/methods.js'
 import midiMenu from './midi-menu.js'
 
 export default class Layer {
@@ -90,8 +91,6 @@ export default class Layer {
     if (Layers[origId]) {
       this.id = origId.toString() + '_' + Layers.curId
     }
-    // Store into .all
-    Layers.all.push(this)
     // Store by stack
     if (!Layers.stack[this.stack]) {
       Layers.stack[this.stack] = {}
@@ -121,9 +120,7 @@ export default class Layer {
     // Add an extra delay to filters to allow for faster render on load
     if (this.type === 'filter' && !this.disabled) {
       Layers.mergeLayers(this)
-      setTimeout(() => {
-        this.draw()
-      }, 0)
+      this.draw()
     } else if (!this.disabled) {
       this.draw()
     }
@@ -351,28 +348,7 @@ export default class Layer {
     })
 
     // Manual overrides
-    globalThis.loadPixels = () => {
-      this.canvas.loadPixels()
-      globalThis.pixels = this.canvas.pixels
-    }
-    globalThis.canvas = this.canvas
-    globalThis.offscreen = this.offscreen
-    globalThis.frameCount = this.frameCount
-    
-    // Looping
-    globalThis.noLoop = () => {
-      this.noLoop = true
-      this._context.noLoop()
-    }
-    globalThis.loop = () => {
-      const _noLoop = this.noLoop
-      this.noLoop = false
-      this._context.loop()
-      if (_noLoop) {
-        console.log('draw')
-        this.draw()
-      }
-    }
+    applyP5Overrides.call(this)
 
     // Helpers
     globalThis.minSize = min(this.canvas.width, this.canvas.height)
@@ -412,49 +388,10 @@ export default class Layer {
     this.canvas.remove()
     this.offscreen.remove()
 
-    // Delete from all
-    const idx = Layers.all.findIndex(layer => layer.id === this.id)
-    Layers.all.splice(idx, 1)
     // Delete from stack
     delete Layers.stack[this.stack][this.opts.id]
   }
 
-  /**
-   * Moves the layer up/down within the stack
-   * @param {*} seconds 
-   * @returns 
-   */
-  moveDown () {
-    const idx = Layers.all.findIndex(layer => layer.id === this.id)
-    if (idx) {
-      const curCanvas = this.canvas.elt
-      const curOffscreen = this.offscreen.elt
-      const targetCanvas = Layers.all[idx-1].canvas.elt
-      const targetOffscreen = Layers.all[idx-1].offscreen.elt
-      
-      this.canvas.elt.parentElement.insertBefore(curCanvas, targetCanvas)
-      this.canvas.elt.parentElement.insertBefore(curOffscreen, targetOffscreen)
-      
-      Layers.all.splice(idx, 1)
-      Layers.all.splice(idx-1, 0, this)
-    }
-  }
-  moveUp () {
-    const idx = Layers.all.findIndex(layer => layer.id === this.id)
-    if (idx < Layers.all.length - 1) {
-      const curCanvas = this.canvas.elt
-      const curOffscreen = this.offscreen.elt
-      const targetCanvas = Layers.all[idx+1].canvas.elt
-      const targetOffscreen = Layers.all[idx+1].offscreen.elt
-
-      this.canvas.elt.parentElement.insertAfter(curCanvas, targetCanvas)
-      this.canvas.elt.parentElement.insertAfter(curOffscreen, targetOffscreen)
-
-      Layers.all.splice(idx, 1)
-      Layers.all.splice(idx+1, 0, this)
-    }
-  }
-  
   /**
    * Uses frameCount to return the progress within a loop of the passed number of seconds
    * @param {*} seconds 
