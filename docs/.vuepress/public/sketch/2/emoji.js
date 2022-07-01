@@ -12,7 +12,10 @@ export default function () {
       noLoop: true,
 
       menu: {
-        emoji: busts
+        emoji: {
+          options: busts,
+          type: 'slider'
+        }
       },
       store: {
         smear: []
