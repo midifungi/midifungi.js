@@ -477,10 +477,16 @@ export default globalThis.Layers = {
   /**
    * Trigger an event on layers
    */
-  trigger (ev) {
-    Layers.forEach(layer => {
-      layer.trigger(ev)
-    })
+  trigger (ev, stack) {
+    if (stack) {
+      Object.keys(Layers.stack[stack]).forEach(key => {
+        Layers.stack[stack][key].trigger(ev)
+      })
+    } else {
+      Layers.forEach(layer => {
+        layer.trigger(ev)
+      })
+    }
   },
   
   /**
