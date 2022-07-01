@@ -1,9 +1,9 @@
 <template>
-  <Window :title="title" :height="height" :help="help" 
+  <Window :title="title" :help="help" :height="height"
     :maximize="maximize" :isMaximized="isMaximized" :isMinimized="isMinimized"
     @restored="onRestore" @maximized="onMaximize">
     <slot class="midifungi-top-slot"></slot>
-    <div class="midifungi-layers-wrap-outer" :style="{height: height ? height + 'px' : null}">
+    <div class="midifungi-layers-wrap-outer" :style="{height: `${height}px`}">
       <div class="midifungi-layers-wrap" ref="target"></div>
     </div>
   </Window>
@@ -19,7 +19,10 @@ export default {
   // Prefix with @username/001/path to load /sketch/midifungi/001/path.js
   props: {
     layers: Object,
-    height: [Number, String],
+    height: {
+      type: [Number, String],
+      default: 350
+    },
     title: String,
     maximize: {
       type: Boolean,
