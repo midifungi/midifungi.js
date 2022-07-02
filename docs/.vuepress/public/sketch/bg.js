@@ -4,7 +4,12 @@ Layers.create(() => {
     id: 'bgBasic',
     noLoop: true,
 
-    menu: {bg: Layers.default.colors},
+    menu: {
+      bg: {
+        type: 'slider',
+        options: Layers.default.colors
+      }
+    },
     store: {},
 
     setup () {},
