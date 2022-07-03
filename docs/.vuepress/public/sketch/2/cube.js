@@ -7,7 +7,10 @@ export default function () {
       noLoop: true,
 
       menu: {
-        bg: Layers.default.colors
+        bg: {
+          type: 'slider',
+          options: Layers.default.colors
+        }
       },
 
       draw () {

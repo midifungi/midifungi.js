@@ -1,12 +1,12 @@
 # <img src="/midifungi-title.png" alt="Midifungi" title="Midifungi" style="height:32px; position: relative; top: 5px"> - A fantasy p5.js framework and daily creative coding journal
 
-::: danger 🐞 Coming soon!
+::: danger 📅 Announcing August 2022
 This project is still very experimental and buggy!
 :::
 
 <div class="row">
   <div class="col-6">
-    <Midifungi title="Francis Bacon Study 1" :layers="['@2/cube', '@2/brushify', '@2/emoji', '@1/texturizer']" height=300 help="@2" />
+    <Midifungi title="Francis Bacon Study 1" :layers="['@2/cube', '@2/brushify', '@2/emoji', '@1/texturizer']" help="@2" />
   </div>
   <div class="col-6">
     <div class="custom-container tip">
@@ -20,11 +20,37 @@ This project is still very experimental and buggy!
 <!-- @todo Automate this and include things like tags etc -->
 ---
 
-# Past Sketches
+<div class="row">
+  <div class="col-6">
+    <div class="custom-container tip">
+      <h3 class="custom-container-title">Current Features</h3>
+      <ul>
+        <li>Create unlimited layers with individual FPS and loop states</li>
+        <li>Right click anything to edit that specific thing</li>
+        <li>Map MIDI to variables inside any layer (even to multiple sketches at once)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="custom-container danger">
+      <h3 class="custom-container-title">Roadmap</h3>
+      <ul>
+        <li>Head-tracked Parallax for AR/VR-ready art</li>
+        <li>Popup editor to edit a layers internal code live</li>
+        <li>Record to mp4 and GIF through right-click menu</li>
+        <li>Full roadmap coming soon</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+---
+
+# Work in progress sketches
 
 <div class="row">
   <div class="col-6">
-    <Midifungi title="Ancient Visitors" :layers="['@1/bg', '@1/main', '@1/wall-chipper', '@1/texturizer']" height=300 help="@1" />
+    <Midifungi title="Ancient Visitors" :layers="['@1/bg', '@1/main', '@1/wall-chipper', '@1/texturizer']" help="@1" />
   </div>
   <div class="col-6">
   </div>

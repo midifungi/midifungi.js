@@ -9,7 +9,7 @@
       <button v-if="maximize" aria-label="Maximize" @click="onMaximize"></button>
     </div>
   </div>
-  <div class="window-body" :style="{height: height ? height + 'px' : null}">
+  <div class="window-body" :style="{height: `${height}px`}">
     <slot></slot>
   </div>
 </div>
@@ -20,7 +20,10 @@ export default {
   // List of paths to sketch scripts to load
   // Prefix with @username/001/path to load /sketch/midifungi/001/path.js
   props: {
-    height: [Number, String],
+    height: {
+      type: [Number, String],
+      default: 350
+    },
     title: String,
     maximize: {
       type: Boolean,

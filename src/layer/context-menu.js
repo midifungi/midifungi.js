@@ -43,11 +43,24 @@ export default {
           // Actually add the setting
           switch (menu.type) {
             case 'slider':
+              // Due to a bug with Tweakpane we need to set initial value to number/string
+              // @see https://github.com/cocopon/tweakpane/issues/376
+              if (this.menu[key]._options) {
+               this.store[key] = this.store[key + '__index']
+              }
+              
               general.addInput(this.store, key, {
                 min: typeof menu.min === 'function' ? menu.min() : menu.min,
                 max: typeof menu.max === 'function' ? menu.max() : menu.max,
                 step: typeof menu.step === 'function' ? menu.step() : menu.step,
               }).on('change', ev => {
+                // Set correct value
+                if (menu._options && Array.isArray(menu._options)) {
+                  const keys = Object.keys(menu._options)
+                  this.store[key + '__index'] = ev.value
+                  this.store[key] = menu._options[keys[ev.value]]
+                }
+                
                 menu.onChange.call(this, ev)
                 maybeBindControlToLayer()
               })
@@ -86,13 +99,7 @@ export default {
         switch (ev.index[0]) {
           // Regenerate all layers
           case 0:
-            Layers.forEach(layer => {
-              layer.listeners.menu.regenerate.call(layer, ev)
-            })
-            Object.keys(Layers.stack).forEach(key => {
-              const keys = Object.keys(Layers.stack[key])
-              Layers.updateFilters(Layers.stack[key][keys[0]])
-            })
+            Layers.trigger('resize', this.stack)
           break
           // Regenerate layer
           case 1:
@@ -286,6 +293,10 @@ export default {
           options: opts
         }
       }
+      // Add type to missing objects
+      if (!menu.type && Array.isArray(menu.options)) {
+        menu.type = 'list'
+      }
       // Convert list into objects
       if (menu?.type === 'list' && Array.isArray(menu.options)) {
         const opts = {}
@@ -298,6 +309,14 @@ export default {
       // Objects without a type
       if (typeof menu === 'object' && !menu.type) {
         menu.type = 'slider'
+      }
+      // Convert slider with options to slider with values
+      if (menu.type === 'slider' && menu.options) {
+        menu.min = 0
+        menu.max = Object.keys(menu.options).length-1
+        menu.step = 1
+        menu._options = menu.options
+        delete menu.options
       }
 
       switch (menu.type) {
@@ -327,6 +346,12 @@ export default {
             const max = typeof menu.max === 'function' ? menu.max() : menu.max
             const step = typeof menu.step === 'function' ? menu.step() : menu.step
             this.store[key] = ('default' in menu) ? menu.default : stepRound(random(min, max), step, min)
+
+            // Use correct value if it's an array and store index
+            if (menu._options && Array.isArray(menu._options)) {
+              this.store[key + '__index'] = this.store[key]
+              this.store[key] = menu._options[this.store[key]]
+            }
           }
         break
 

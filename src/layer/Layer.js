@@ -293,9 +293,7 @@ export default class Layer {
 
     if (this.type === 'filter' && !this.disabled) {
       Layers.mergeLayers(this)
-      setTimeout(() => {
-        this.noLoop && this.draw()
-      }, 0)
+      this.noLoop && this.draw()
     } else if (!this.disabled) {
       this.noLoop && this.draw()
     }
