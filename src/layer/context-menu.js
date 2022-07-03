@@ -1,5 +1,11 @@
 import '../styles.js'
 
+function onChange (key) {
+  this.menu[key].reset && this.setup && this.setup()
+  this.noLoop && this.draw()
+  Layers.updateFilters(this)
+}
+
 /**
  * Shows the context menu for the Moar
  */
@@ -54,19 +60,20 @@ export default {
                 max: typeof menu.max === 'function' ? menu.max() : menu.max,
                 step: typeof menu.step === 'function' ? menu.step() : menu.step,
               }).on('change', ev => {
-                // Set correct value
-                if (menu._options && Array.isArray(menu._options)) {
-                  const keys = Object.keys(menu._options)
-                  this.store[key + '__index'] = ev.value
-                  this.store[key] = menu._options[keys[ev.value]]
-                }
-                
-                menu.onChange.call(this, ev)
-                maybeBindControlToLayer()
-              })
-              .on('click', ev => {
-                maybeBindControlToLayer()
-              })
+                  // Set correct value
+                  if (menu._options && Array.isArray(menu._options)) {
+                    const keys = Object.keys(menu._options)
+                    this.store[key + '__index'] = ev.value
+                    this.store[key] = menu._options[keys[ev.value]]
+                  }
+                  
+                  menu.onChange.call(this, ev)
+                  maybeBindControlToLayer()
+                })
+                .on('change', () => onChange.call(this, key))
+                .on('click', ev => {
+                  maybeBindControlToLayer()
+                })
             break
 
             case 'list':
@@ -75,6 +82,7 @@ export default {
               const origVal = this.store[key]
               this.store[key] = 0
               general.addInput(this.store, key, {options: menu.options})
+                .on('change', () => onChange.call(this, key))
               this.store[key] = origVal
             break
           }
@@ -204,10 +212,6 @@ export default {
       // Update filter layers above this layer
       // Persist data to localstorage
       this.$menu.on('change', () => {
-        this.setup && this.setup()
-        this.noLoop && this.draw()
-        Layers.updateFilters(this)
-
         // Store menu states
         Layers.sessionData = {}
         Layers.forEach(layer => {
