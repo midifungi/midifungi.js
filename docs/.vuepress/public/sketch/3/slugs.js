@@ -197,139 +197,134 @@ export default function () {
     /**
     * Snail
     */
-    // for (let i = 0; i < numSnails; i++) {
-    //   new Layer({
-    //     id: `snail${i}`,
-    //     methods: sharedMethods,
-    //     noLoop: true,
+    for (let i = 0; i < numSnails; i++) {
+      new Layer({
+        id: `snail${i}`,
+        methods: sharedMethods,
+        noLoop: true,
         
-    //     menu: {
-    //       color1: {max: Layers.default.colors.length-1, step: 1},
-    //       color2: {max: Layers.default.colors.length-1, step: 1},
-    //       color1Threshold: {}
-    //     },
+        menu: {
+          color1: {max: Layers.default.colors.length-1, step: 1},
+          color2: {max: Layers.default.colors.length-1, step: 1},
+          color1Threshold: {}
+        },
 
-    //     store: {
-    //       spine: [],
-    //       shouldUpdateSlime: false,
-    //       seed: ~random(99999),
-    //     },
+        store: {
+          spine: [],
+          shouldUpdateSlime: false,
+        },
         
-    //     // Regenerate the slime layer and copy its store to this layer
-    //     beforeGenerate () {
-    //       this.store.shouldUpdateSlime = false
+        // Regenerate the slime layer and copy its store to this layer
+        beforeGenerate () {
+          this.store.shouldUpdateSlime = false
           
-    //       if (Object.keys(this.store).length) {
-    //         Layers[`slime${i}`].generate(true)
-    //         this.store.shouldUpdateSlime = true
-    //       }
+          if (Object.keys(this.store).length) {
+            Layers[`slime${i}`].generate(true)
+            this.store.shouldUpdateSlime = true
+          }
           
-    //       this.store = clone(Layers[`slime${i}`].store)
-    //       this.store.spine = this.store.snailSpine
-    //       this.store.color1Threshold = random(.3, .7)
-    //     },
+          this.store = clone(Layers[`slime${i}`].store)
+          this.store.spine = this.store.snailSpine
+          this.store.color1Threshold = random(.3, .7)
+        },
         
-    //     // Reraw the slime layer
-    //     afterGenerate () {
-    //       $shouldUpdateSlime && Layers[`slime${i}`].draw()
-    //     },
+        // Reraw the slime layer
+        afterGenerate () {
+          this.store.shouldUpdateSlime && Layers[`slime${i}`].draw()
+        },
         
-    //     /**
-    //     * Initialize the dragons body
-    //     */
-    //     setup () {
-    //       randomSeed($seed)
-    //       noiseSeed($seed)
-          
-    //       $color1 = floor(random(this.colors.length))
-    //       $color2 = floor(random(this.colors.length))
-    //     },
+        /**
+        * Initialize the dragons body
+        */
+        setup () {
+          $color1 = floor(random(this.colors.length))
+          $color2 = floor(random(this.colors.length))
+        },
         
-    //     draw () {
-    //       clear()
-    //       offscreen.clear()
-    //       this.createBody()
+        draw () {
+          clear()
+          offscreen.clear()
+          this.createBody()
           
-    //       // Scales
-    //       for (let n = $norms.length-1; n > 0; n--) {
-    //         const norm = $norms[n]
+          // Scales
+          for (let n = $norms.length-1; n > 0; n--) {
+            const norm = $norms[n]
             
-    //         let orthLen = minSize*.05 + $tapers[n]*minSize*.003
-    //         let orth = norm.copy().rotate(PI/2)
-    //         const scaleWidth = minSize*.02
-    //         orthLen+=scaleWidth
+            let orthLen = minSize*.05 + $tapers[n]*minSize*.003
+            let orth = norm.copy().rotate(PI/2)
+            const scaleWidth = minSize*.02
+            orthLen+=scaleWidth
             
-    //         // Loop for length of norm
-    //         const steps = ceil(orthLen*2/scaleWidth)
-    //         let curStep = scaleWidth * steps/2 - scaleWidth
-    //         for (let i = ceil(steps/2); i > 0; i--) {
-    //           // Base color
-    //           let col = [...this.colors[$color1]]
+            // Loop for length of norm
+            const steps = ceil(orthLen*2/scaleWidth)
+            let curStep = scaleWidth * steps/2 - scaleWidth
+            for (let i = ceil(steps/2); i > 0; i--) {
+              // Base color
+              let col = [...this.colors[$color1]]
               
-    //           // Random noise, 1 color
-    //           if ($style === 1 && noise(10000*n, 10000*i) > $color1Threshold) {
-    //             col = [...this.colors[$color1]]
-    //           }
-    //           // Random noise, 2 colors
-    //           if ($style === 2) {
-    //             if (noise(20000*n, 20000*i) > $color1Threshold) {
-    //               col = [...this.colors[$color1]]
-    //             } else {
-    //               col = [...this.colors[$color2]]
-    //             }
-    //           }
+              // Random noise, 1 color
+              if ($style === 1 && noise(10000*n, 10000*i) > $color1Threshold) {
+                col = [...this.colors[$color1]]
+              }
+              // Random noise, 2 colors
+              if ($style === 2) {
+                if (noise(20000*n, 20000*i) > $color1Threshold) {
+                  col = [...this.colors[$color1]]
+                } else {
+                  col = [...this.colors[$color2]]
+                }
+              }
               
-    //           // Shift colors
-    //           col[0] += 10 - noise(n, i) * 20
-    //           col[1] += .1 - noise(n, i) * .2
-    //           col[2] += .1 - noise(n, i) * .2
-    //           col[2] -= i*i*.015
+              // Shift colors
+              col[0] += 10 - noise(n, i) * 20
+              col[1] += .1 - noise(n, i) * .2
+              col[2] += .1 - noise(n, i) * .2
+              col[2] -= i*i*.015
               
-    //           // Color mods
-    //           if ($color1 === 6) col[2] += .15
-    //           if ($color1 === 5) col[2] += .1
+              // Color mods
+              if ($color1 === 6) col[2] += .15
+              if ($color1 === 5) col[2] += .1
               
-    //           offscreen.fill(col)
-    //           col[2] += .08
-    //           offscreen.stroke(col)
-    //           offscreen.drawingContext.shadowBlur = minSize*.01
-    //           // @todo Use two shadows, one for the scale and a softer one for the whole dragon
-    //           offscreen.drawingContext.shadowColor = '#000'
+              offscreen.fill(col)
+              col[2] += .08
+              offscreen.stroke(col)
+              offscreen.drawingContext.shadowBlur = minSize*.01
+              // @todo Use two shadows, one for the scale and a softer one for the whole dragon
+              offscreen.drawingContext.shadowColor = '#000'
               
-    //           // Start from the center and spread out
-    //           // Left
-    //           if (curStep <= 0 && i > 0) {
-    //             offscreen.drawingContext.shadowBlur = 0
-    //           }
+              // Start from the center and spread out
+              // Left
+              if (curStep <= 0 && i > 0) {
+                offscreen.drawingContext.shadowBlur = 0
+              }
               
-    //           offscreen.push()
-    //           offscreen.translate($joints[n][0] + orth.x*curStep, $joints[n][1] + orth.y*curStep)
-    //           offscreen.rotate(orth.heading())
-    //           offscreen.ellipse(0, 0, scaleWidth, scaleWidth*2)
-    //           offscreen.pop()
+              offscreen.push()
+              offscreen.translate($joints[n][0] + orth.x*curStep, $joints[n][1] + orth.y*curStep)
+              offscreen.rotate(orth.heading())
+              offscreen.ellipse(0, 0, scaleWidth, scaleWidth*2)
+              offscreen.pop()
               
-    //           // Right
-    //           if (curStep > 0) {
-    //             offscreen.push()
-    //             offscreen.translate($joints[n][0] - orth.x*curStep, $joints[n][1] - orth.y*curStep)
-    //             offscreen.rotate(orth.heading())
-    //             offscreen.ellipse(0, 0, scaleWidth, scaleWidth*2)
-    //             offscreen.pop()
-    //           }
-    //           curStep -= scaleWidth
-    //         }
-    //         offscreen.drawingContext.shadowBlur = 0
-    //       }
+              // Right
+              if (curStep > 0) {
+                offscreen.push()
+                offscreen.translate($joints[n][0] - orth.x*curStep, $joints[n][1] - orth.y*curStep)
+                offscreen.rotate(orth.heading())
+                offscreen.ellipse(0, 0, scaleWidth, scaleWidth*2)
+                offscreen.pop()
+              }
+              curStep -= scaleWidth
+            }
+            offscreen.drawingContext.shadowBlur = 0
+          }
           
-    //       drawingContext.shadowBlur = minSize*.01
-    //       drawingContext.shadowColor = 'black'
-    //       image(offscreen, 0, 0)
+          drawingContext.shadowBlur = minSize*.01
+          drawingContext.shadowColor = 'black'
+          image(offscreen, 0, 0)
           
-    //       drawingContext.shadowBlur = 0
-    //     }
-        
-    //   })
-    // }
+          drawingContext.shadowBlur = 0
+        }
+      })
+    }
   })  
 }
     
