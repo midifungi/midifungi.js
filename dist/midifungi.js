@@ -4,7 +4,7 @@
  * https://twitter.com/midifungi
  * https://github.com/midifungi/midifungi.js
  * ---
- * @version 0.0.30
+ * @version 0.0.31
  * @license "Apache 2.0"
  * ---
  * This file was bundled with Rollup
@@ -16074,7 +16074,7 @@
     canv.endShape(CLOSE);
   };
 
-  var p5Overrides = [
+  var p5OverridesList = [
     // Globals
     '_renderer',
     'canvas',
@@ -16186,7 +16186,6 @@
     'push',
     'pop',
     'redraw',
-    'p5',
 
     // Rendering
     'blendMode',
@@ -26374,7 +26373,7 @@
     },
 
     // About
-    version: '0.0.30',
+    version: '0.0.31',
     curId: 0,
 
     // Menus
@@ -26433,13 +26432,16 @@
      * Merges all the layers below the given layer
      */
     mergeLayers (layer) {
-      // Determine the index within Layers.all
-      let idx = Layers.all.findIndex(l => l.id === layer.id);
-      // Loop through all layers below it and merge their canvases
-      layer.offscreen.clear();
-      for (let i = 0; i < idx+1; i++) {
-        !Layers.all[i].disabled && layer.offscreen.image(Layers.all[i].canvas, 0, 0);
-      }
+      const stack = Layers.stack[layer.stack];
+      Object.keys(stack).every(key => {
+        if (Object.is(stack[key], layer)) {
+          return false
+        } else {
+          !stack[key].disabled && layer.offscreen.image(stack[key].canvas, 0, 0);
+          return true
+        }
+      });
+      
       layer.canvas.image(layer.offscreen, 0, 0);
     },
 
@@ -26447,19 +26449,10 @@
      * Free memory
      */
     dispose () {
-      const all = [...Layers.all];
-      all.forEach((layer, key) => {
+      Layers.forEach(layer => {
         layer.dispose();
       });
-      Layers.all = [];
-    },
-
-    /**
-     * Move all layers up (top layer moves to bottom)
-     */
-    shift () {
-      const layer = Layers.all.pop();
-      Layers.all.unshift(layer);
+      Layers.stack = {};
     },
 
     /**
@@ -26478,23 +26471,29 @@
 
     /**
      * Updates all filter layers above a given layer
+     * @param {Layer} layer The layer to update
      */
     updateFilters (layer, instant = false) {
-      // Find the index of the layer
-      const idx = layer ? layer.id : Layers.all[0].id;
-      const layerIdx = Layers.all.findIndex(l => l.id === idx);
-      
-      for (let i = layerIdx; i < Layers.all.length; i++) {
-        if (Layers.all[i]?.type === 'filter' && !Layers.all[i]?.disabled) {
-          Layers.all[i].canvas.clear();
+      let hasFoundLayer = false;
 
-          if (instant) {
-            _throttledFilter.call(this, Layers.all[i]);
-          } else {
-            this.throttledFilter(Layers.all[i]);
+      Object.keys(Layers.stack[layer.stack]).forEach(key => {
+        const stackLayer = Layers.stack[layer.stack][key];
+        
+        if (Object.is(stackLayer, layer)) {
+          hasFoundLayer = true;
+          return
+        } else if (hasFoundLayer) {
+          if (stackLayer.type === 'filter' && !stackLayer.disabled) {
+            stackLayer.canvas.clear();
+
+            if (instant) {
+              _throttledFilter.call(this, stackLayer);
+            } else {
+              this.throttledFilter(stackLayer);
+            }
           }
         }
-      }
+      });
     },
 
     /**
@@ -26512,7 +26511,7 @@
       let smallestPixelDensity = 1;
 
       // Get dimensions and smallest pixel density
-      Layers.all.forEach(layer => {
+      Layers.forEach(layer => {
         if (x > layer.x) x = layer.x;
         if (xx < layer.x + layer.width) xx = layer.x + layer.width;
         if (y > layer.y) y = layer.y;
@@ -26520,14 +26519,14 @@
         smallestPixelDensity = layer.pixelDensity < smallestPixelDensity ? layer.pixelDensity : smallestPixelDensity;
       });
 
-      p5Overrides.forEach(key => {
+      p5OverridesList.forEach(key => {
         window[key] = Layers._context[key];
       });
 
       // Create a new canvas and merge all layers
       resizeCanvas(xx - x, yy - y);
       pixelDensity(smallestPixelDensity);
-      Layers.all.forEach(layer => {
+      Layers.forEach(layer => {
         if (layer.canvas.elt.style.visibility.toLowerCase() !== 'hidden' && !layer.disabled) {
           image(layer.canvas, layer.x, layer.y);
         }
@@ -26535,7 +26534,8 @@
       saveCanvas(`layers-${date.getFullYear()}${date.getMonth()}${date.getDate()}`, format);
     },
 
-    throttledFilter: debounce(_throttledFilter, 1000, {leading: false}),
+    // throttledFilter: debounce(_throttledFilter, 1000, {leading: true}),
+    throttledFilter: debounce(_throttledFilter, 1, {leading: true}),
 
     listeners: {
       /**
@@ -26557,25 +26557,38 @@
        * Contextmenu
        */
       contextmenu (ev) {
-        for (let i = this.all.length - 1; i >= 0; i--) {
-          const layer = this.all[i];
-          if (!layer.disabled && !layer.menuDisabled) {
-            let bounds = layer.canvas.canvas.getBoundingClientRect();
-            let x = layer.x + bounds.x;
-            let y = layer.y + bounds.y;
+        const stacks = Object.keys(Layers.stack);
+        let foundLayer = false;
+        
+        stacks.every(stack => {
+          const layerKeys = Object.keys(Layers.stack[stack]).reverse();
 
-            // Only show when clicked within the layer
-            if (ev.x > x && ev.x < x + layer.width && ev.y > y && ev.y < y + layer.height) {
-              // Check if the pixel is empty
-              const pixel = layer.canvas.get(ev.x-bounds.x, ev.y-bounds.y);
-              if (pixel[3]) {
-                ev.preventDefault();
-                layer.showContextMenu(ev);
-                return false
+          layerKeys.every(layerKey => {
+            const layer = Layers.stack[stack][layerKey];
+
+            if (!layer.disabled && !layer.menuDisabled) {
+              let bounds = layer.canvas.canvas.getBoundingClientRect();
+              let x = layer.x + bounds.x;
+              let y = layer.y + bounds.y;
+    
+              // Only show when clicked within the layer
+              if (ev.x > x && ev.x < x + layer.width && ev.y > y && ev.y < y + layer.height) {
+                // Check if the pixel is empty
+                const pixel = layer.canvas.get(ev.x-bounds.x, ev.y-bounds.y);
+                if (pixel[3]) {
+                  ev.preventDefault();
+                  layer.showContextMenu(ev);
+                  foundLayer = true;
+                  return false
+                }
               }
             }
-          }
-        }
+
+            return !foundLayer
+          });
+
+          return !foundLayer
+        });
       },
 
       /**
@@ -26729,7 +26742,7 @@
     explodeLayers (shouldExplode, shouldSave = true) {
       shouldSave && localStorage.setItem('explodeLayers', shouldExplode);
 
-      Layers.all.forEach(layer => {
+      Layers.forEach(layer => {
         this.toggleExplodeClassForLayerTarget(layer, shouldExplode);      
       });
     },
@@ -26742,12 +26755,45 @@
     },
 
     /**
+     * Loop through each layer and run the callback
+     */
+    forEach (cb) {
+      Object.keys(Layers.stack).forEach(key => {
+        Object.keys(Layers.stack[key]).forEach(id => {
+          cb(Layers.stack[key][id]);
+        });
+      });
+    },
+
+    /**
+     * Returns an array of all layers, optionally by stack
+     */
+    getAll (stack = null) {
+      const layers = [];
+      if (stack) {
+        Object.keys(Layers.stack[stack]).forEach(key => {
+          layers.push(Layers.stack[stack][key]);
+        });
+      } else {
+        Layers.forEach(layer => layers.push(layer));
+      }
+
+      return layers
+    },
+
+    /**
      * Trigger an event on layers
      */
-    trigger (ev) {
-      Layers.all.forEach(layer => {
-        layer.trigger(ev);
-      });
+    trigger (ev, stack) {
+      if (stack) {
+        Object.keys(Layers.stack[stack]).forEach(key => {
+          Layers.stack[stack][key].trigger(ev);
+        });
+      } else {
+        Layers.forEach(layer => {
+          layer.trigger(ev);
+        });
+      }
     },
     
     /**
@@ -26935,11 +26981,24 @@
             // Actually add the setting
             switch (menu.type) {
               case 'slider':
+                // Due to a bug with Tweakpane we need to set initial value to number/string
+                // @see https://github.com/cocopon/tweakpane/issues/376
+                if (this.menu[key]._options) {
+                 this.store[key] = this.store[key + '__index'];
+                }
+                
                 general.addInput(this.store, key, {
                   min: typeof menu.min === 'function' ? menu.min() : menu.min,
                   max: typeof menu.max === 'function' ? menu.max() : menu.max,
                   step: typeof menu.step === 'function' ? menu.step() : menu.step,
                 }).on('change', ev => {
+                  // Set correct value
+                  if (menu._options && Array.isArray(menu._options)) {
+                    const keys = Object.keys(menu._options);
+                    this.store[key + '__index'] = ev.value;
+                    this.store[key] = menu._options[keys[ev.value]];
+                  }
+                  
                   menu.onChange.call(this, ev);
                   maybeBindControlToLayer();
                 })
@@ -26978,10 +27037,7 @@
           switch (ev.index[0]) {
             // Regenerate all layers
             case 0:
-              Layers.all.forEach(layer => {
-                layer.listeners.menu.regenerate.call(layer, ev);
-              });
-              Layers.updateFilters();
+              Layers.trigger('resize', this.stack);
             break
             // Regenerate layer
             case 1:
@@ -27012,7 +27068,9 @@
 
         // Generate toggles
         const layerVisibility = {};
-        const layers = [...Layers.all];
+        const layers = [];
+        Layers.forEach(layer => layers.push(layer));
+        
         layers.reverse().forEach(layer => {
           layerVisibility[layer.id] = !layer.disabled;
           layerToggle.addInput(layerVisibility, String(layer.id))
@@ -27084,11 +27142,13 @@
         // Update filter layers above this layer
         // Persist data to localstorage
         this.$menu.on('change', () => {
+          this.setup && this.setup();
+          this.noLoop && this.draw();
           Layers.updateFilters(this);
 
           // Store menu states
           Layers.sessionData = {};
-          Layers.all.forEach(layer => {
+          Layers.forEach(layer => {
             Layers.sessionData[layer.id] = {
               disabled: layer.disabled
             };
@@ -27171,6 +27231,10 @@
             options: opts
           };
         }
+        // Add type to missing objects
+        if (!menu.type && Array.isArray(menu.options)) {
+          menu.type = 'list';
+        }
         // Convert list into objects
         if (menu?.type === 'list' && Array.isArray(menu.options)) {
           const opts = {};
@@ -27183,6 +27247,14 @@
         // Objects without a type
         if (typeof menu === 'object' && !menu.type) {
           menu.type = 'slider';
+        }
+        // Convert slider with options to slider with values
+        if (menu.type === 'slider' && menu.options) {
+          menu.min = 0;
+          menu.max = Object.keys(menu.options).length-1;
+          menu.step = 1;
+          menu._options = menu.options;
+          delete menu.options;
         }
 
         switch (menu.type) {
@@ -27212,6 +27284,12 @@
               const max = typeof menu.max === 'function' ? menu.max() : menu.max;
               const step = typeof menu.step === 'function' ? menu.step() : menu.step;
               this.store[key] = ('default' in menu) ? menu.default : stepRound(random(min, max), step, min);
+
+              // Use correct value if it's an array and store index
+              if (menu._options && Array.isArray(menu._options)) {
+                this.store[key + '__index'] = this.store[key];
+                this.store[key] = menu._options[this.store[key]];
+              }
             }
           break
 
@@ -27227,6 +27305,30 @@
       });
     }
   };
+
+  function applyP5Overrides () {
+    globalThis.loadPixels = () => {
+      this.canvas.loadPixels();
+      globalThis.pixels = this.canvas.pixels;
+    };
+    globalThis.canvas = this.canvas;
+    globalThis.offscreen = this.offscreen;
+    globalThis.frameCount = this.frameCount;
+    
+    // Looping
+    globalThis.noLoop = () => {
+      this.noLoop = true;
+      this._context.noLoop();
+    };
+    globalThis.loop = () => {
+      const _noLoop = this.noLoop;
+      this.noLoop = false;
+      this._context.loop();
+      if (_noLoop) {
+        this.draw();
+      }
+    };
+  }
 
   var midiMenu = {
     addMIDIButtons (ev, generalMenu, layerMenu) {
@@ -27371,8 +27473,6 @@
       if (Layers[origId]) {
         this.id = origId.toString() + '_' + Layers.curId;
       }
-      // Store into .all
-      Layers.all.push(this);
       // Store by stack
       if (!Layers.stack[this.stack]) {
         Layers.stack[this.stack] = {};
@@ -27402,9 +27502,7 @@
       // Add an extra delay to filters to allow for faster render on load
       if (this.type === 'filter' && !this.disabled) {
         Layers.mergeLayers(this);
-        setTimeout(() => {
-          this.draw();
-        }, 0);
+        this.draw();
       } else if (!this.disabled) {
         this.draw();
       }
@@ -27577,9 +27675,7 @@
 
       if (this.type === 'filter' && !this.disabled) {
         Layers.mergeLayers(this);
-        setTimeout(() => {
-          this.noLoop && this.draw();
-        }, 0);
+        this.noLoop && this.draw();
       } else if (!this.disabled) {
         this.noLoop && this.draw();
       }
@@ -27626,34 +27722,13 @@
       // Save the current context
       this._context = {};
       this._storeContext = {};
-      p5Overrides.forEach(key => {
+      p5OverridesList.forEach(key => {
         this._context[key] = window[key];
         window[key] = key === 'canvas' ? this.canvas.elt : this.canvas[key];
       });
 
       // Manual overrides
-      globalThis.loadPixels = () => {
-        this.canvas.loadPixels();
-        globalThis.pixels = this.canvas.pixels;
-      };
-      globalThis.canvas = this.canvas;
-      globalThis.offscreen = this.offscreen;
-      globalThis.frameCount = this.frameCount;
-      
-      // Looping
-      globalThis.noLoop = () => {
-        this.noLoop = true;
-        this._context.noLoop();
-      };
-      globalThis.loop = () => {
-        const _noLoop = this.noLoop;
-        this.noLoop = false;
-        this._context.loop();
-        if (_noLoop) {
-          console.log('draw');
-          this.draw();
-        }
-      };
+      applyP5Overrides.call(this);
 
       // Helpers
       globalThis.minSize = min(this.canvas.width, this.canvas.height);
@@ -27672,7 +27747,7 @@
     restoreGlobalContext () {
       Layers._globalContextLayer = null;
 
-      p5Overrides.forEach(key => {
+      p5OverridesList.forEach(key => {
         window[key] = this._context[key];
       });
 
@@ -27693,49 +27768,10 @@
       this.canvas.remove();
       this.offscreen.remove();
 
-      // Delete from all
-      const idx = Layers.all.findIndex(layer => layer.id === this.id);
-      Layers.all.splice(idx, 1);
       // Delete from stack
       delete Layers.stack[this.stack][this.opts.id];
     }
 
-    /**
-     * Moves the layer up/down within the stack
-     * @param {*} seconds 
-     * @returns 
-     */
-    moveDown () {
-      const idx = Layers.all.findIndex(layer => layer.id === this.id);
-      if (idx) {
-        const curCanvas = this.canvas.elt;
-        const curOffscreen = this.offscreen.elt;
-        const targetCanvas = Layers.all[idx-1].canvas.elt;
-        const targetOffscreen = Layers.all[idx-1].offscreen.elt;
-        
-        this.canvas.elt.parentElement.insertBefore(curCanvas, targetCanvas);
-        this.canvas.elt.parentElement.insertBefore(curOffscreen, targetOffscreen);
-        
-        Layers.all.splice(idx, 1);
-        Layers.all.splice(idx-1, 0, this);
-      }
-    }
-    moveUp () {
-      const idx = Layers.all.findIndex(layer => layer.id === this.id);
-      if (idx < Layers.all.length - 1) {
-        const curCanvas = this.canvas.elt;
-        const curOffscreen = this.offscreen.elt;
-        const targetCanvas = Layers.all[idx+1].canvas.elt;
-        const targetOffscreen = Layers.all[idx+1].offscreen.elt;
-
-        this.canvas.elt.parentElement.insertAfter(curCanvas, targetCanvas);
-        this.canvas.elt.parentElement.insertAfter(curOffscreen, targetOffscreen);
-
-        Layers.all.splice(idx, 1);
-        Layers.all.splice(idx+1, 0, this);
-      }
-    }
-    
     /**
      * Uses frameCount to return the progress within a loop of the passed number of seconds
      * @param {*} seconds 
@@ -27764,11 +27800,52 @@
     }
   }
 
+  function p5PrototypeOverrides () {
+    /**
+     * setAttributes
+     * - Restores attributes to the canvas, especially in reactive environments like Vue/React
+     */
+    const _resetContext = globalThis.p5.RendererGL.prototype._resetContext;
+    
+    globalThis.p5.RendererGL.prototype._resetContext = function (options, callback) {
+      let pg = this._pInst;
+      let parent = pg.elt.parentNode;
+      let prevElt = pg.elt.previousElementSibling;
+      let nextElt = pg.elt.nextElementSibling;
+      
+      // backup attributes
+      const attributes = {};
+      pg.elt.getAttributeNames().forEach(key => {
+        attributes[key] = pg.elt.getAttribute(key);
+      });
+      
+      // Run original
+      _resetContext.call(this, [options, callback]);
+      pg = this._pInst;
+
+      // Restore attributes
+      Object.keys(attributes).forEach(key => {
+        pg.elt.setAttribute(key, attributes[key]);
+      });
+
+      // Place back into the DOM
+      if (prevElt) {
+        prevElt.before(pg.elt);
+      } else if (nextElt) {
+        nextElt.after(pg.elt);
+      } else if (parent) {
+        parent.appendChild(pg.elt);
+      } else {
+        document.body.appendChild(pg.elt);
+      }
+    };
+  }
+
   /**
    * Midifungi 🎹🍄
    * A p5js library that helps you organize your code into layers
    * ---
-   * @version 0.0.30
+   * @version 0.0.31
    * @license "Apache 2.0" with the addendum that you cannot use this or its output for NFTs without permission
    */
 
@@ -27828,9 +27905,10 @@
     globalThis.maxSize = max(width, height);
 
     // Backup default states before any p5 overrides
-    p5Overrides.forEach(key => {
+    p5OverridesList.forEach(key => {
       Layers$1._context[key] = window[key];
     });
+    p5PrototypeOverrides();
     
     Layers$1.init();
   };
