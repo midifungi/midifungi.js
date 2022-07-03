@@ -73,7 +73,7 @@ export default function () {
     
     
     
-    const numSnails = ~~random(1, 10)
+    const numSnails = ~~random(3, 20)
     for (let i = 0; i < numSnails; i++) {
       /**
       * Slime Trail
@@ -117,7 +117,7 @@ export default function () {
           $color1 = 0
           $color2 = 0
           
-          $pos = [random(-width/6, width/6)+width/2, random(-height/6, height/6)+height/2]
+          $pos = [random(-width/3, width/3)+width/2, random(-height/3, height/3)+height/2]
           $snailSpine = []
           $spine = []
           $slime = []
@@ -216,14 +216,15 @@ export default function () {
         
         // Regenerate the slime layer and copy its store to this layer
         beforeGenerate () {
-          this.store.shouldUpdateSlime = false
+          let shouldUpdateSlime = false
           
           if (Object.keys(this.store).length) {
             Layers[`slime${i}`].generate(true)
-            this.store.shouldUpdateSlime = true
+            shouldUpdateSlime = true
           }
           
           this.store = clone(Layers[`slime${i}`].store)
+          this.store.shouldUpdateSlime = shouldUpdateSlime
           this.store.spine = this.store.snailSpine
           this.store.color1Threshold = random(.3, .7)
         },

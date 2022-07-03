@@ -6,7 +6,7 @@ This project is still very experimental and buggy!
 
 <div class="row">
   <div class="col-6">
-    <Midifungi title="Francis Bacon Study 1" :layers="['@2/cube', '@2/brushify', '@2/emoji', '@1/texturizer']" help="@2" />
+    <Midifungi title="Scaly Slugs (NFT)" :layers="['@3/wallpaper', '@3/slugs', '@1/texturizer']" help="@3" />
   </div>
   <div class="col-6">
     <div class="custom-container tip">
@@ -50,8 +50,9 @@ This project is still very experimental and buggy!
 
 <div class="row">
   <div class="col-6">
-    <Midifungi title="Ancient Visitors" :layers="['@1/bg', '@1/main', '@1/wall-chipper', '@1/texturizer']" help="@1" />
+    <Midifungi title="Francis Bacon Study 1" :layers="['@2/cube', '@2/brushify', '@2/emoji', '@1/texturizer']" help="@2" />
   </div>
   <div class="col-6">
+    <Midifungi title="Ancient Visitors" :layers="['@1/bg', '@1/main', '@1/wall-chipper', '@1/texturizer']" help="@1" />
   </div>
 </div>
