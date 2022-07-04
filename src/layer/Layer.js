@@ -214,9 +214,7 @@ export default class Layer {
     this.store = globalThis.clone(this.opts.store)
     this.parseMenu()
     
-    this.useGlobalContext()
     this.beforeGenerate && this.beforeGenerate()
-    this.restoreGlobalContext()
 
     // Misc
     this.frameCount = 0
@@ -233,9 +231,7 @@ export default class Layer {
     }
     callSetup && this.callSetup()
     
-    this.useGlobalContext()
     this.afterGenerate && this.afterGenerate()
-    this.restoreGlobalContext()
   }
 
   /**

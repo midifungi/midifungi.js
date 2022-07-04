@@ -4,7 +4,7 @@
  * https://twitter.com/midifungi
  * https://github.com/midifungi/midifungi.js
  * ---
- * @version 0.0.31
+ * @version 0.0.32
  * @license "Apache 2.0"
  * ---
  * This file was bundled with Rollup
@@ -26373,7 +26373,7 @@
     },
 
     // About
-    version: '0.0.31',
+    version: '0.0.32',
     curId: 0,
 
     // Menus
@@ -26938,6 +26938,12 @@
     document.head.appendChild(style);
   }
 
+  function onChange (key) {
+    this.menu[key].reset && this.setup && this.setup();
+    this.noLoop && this.draw();
+    Layers.updateFilters(this);
+  }
+
   /**
    * Shows the context menu for the Moar
    */
@@ -26992,19 +26998,20 @@
                   max: typeof menu.max === 'function' ? menu.max() : menu.max,
                   step: typeof menu.step === 'function' ? menu.step() : menu.step,
                 }).on('change', ev => {
-                  // Set correct value
-                  if (menu._options && Array.isArray(menu._options)) {
-                    const keys = Object.keys(menu._options);
-                    this.store[key + '__index'] = ev.value;
-                    this.store[key] = menu._options[keys[ev.value]];
-                  }
-                  
-                  menu.onChange.call(this, ev);
-                  maybeBindControlToLayer();
-                })
-                .on('click', ev => {
-                  maybeBindControlToLayer();
-                });
+                    // Set correct value
+                    if (menu._options && Array.isArray(menu._options)) {
+                      const keys = Object.keys(menu._options);
+                      this.store[key + '__index'] = ev.value;
+                      this.store[key] = menu._options[keys[ev.value]];
+                    }
+                    
+                    menu.onChange.call(this, ev);
+                    maybeBindControlToLayer();
+                  })
+                  .on('change', () => onChange.call(this, key))
+                  .on('click', ev => {
+                    maybeBindControlToLayer();
+                  });
               break
 
               case 'list':
@@ -27012,7 +27019,8 @@
                 // @see https://github.com/cocopon/tweakpane/issues/376
                 const origVal = this.store[key];
                 this.store[key] = 0;
-                general.addInput(this.store, key, {options: menu.options});
+                general.addInput(this.store, key, {options: menu.options})
+                  .on('change', () => onChange.call(this, key));
                 this.store[key] = origVal;
               break
             }
@@ -27142,10 +27150,6 @@
         // Update filter layers above this layer
         // Persist data to localstorage
         this.$menu.on('change', () => {
-          this.setup && this.setup();
-          this.noLoop && this.draw();
-          Layers.updateFilters(this);
-
           // Store menu states
           Layers.sessionData = {};
           Layers.forEach(layer => {
@@ -27596,9 +27600,7 @@
       this.store = globalThis.clone(this.opts.store);
       this.parseMenu();
       
-      this.useGlobalContext();
       this.beforeGenerate && this.beforeGenerate();
-      this.restoreGlobalContext();
 
       // Misc
       this.frameCount = 0;
@@ -27615,9 +27617,7 @@
       }
       callSetup && this.callSetup();
       
-      this.useGlobalContext();
       this.afterGenerate && this.afterGenerate();
-      this.restoreGlobalContext();
     }
 
     /**
@@ -27845,7 +27845,7 @@
    * Midifungi 🎹🍄
    * A p5js library that helps you organize your code into layers
    * ---
-   * @version 0.0.31
+   * @version 0.0.32
    * @license "Apache 2.0" with the addendum that you cannot use this or its output for NFTs without permission
    */
 

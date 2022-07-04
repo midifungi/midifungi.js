@@ -70,6 +70,10 @@ module.exports = {
                 text: '2 - Francis Bacon Study 1',
                 link: '/art/2.html'
               },
+              {
+                text: '3 - Scaly Slugs (NFT)',
+                link: '/art/3.html'
+              },
             ]
           },
           {

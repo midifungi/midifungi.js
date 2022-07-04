@@ -19,7 +19,11 @@ Layers.create(() => {
     ],
 
     menu: {
-      numEmojis: {min: 1, max: 3},
+      numEmojis: {
+        min: 1,
+        max: 3,
+        reset: true
+      },
     },
 
     store: {
