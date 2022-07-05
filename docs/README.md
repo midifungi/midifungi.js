@@ -6,7 +6,7 @@ This project is still very experimental and buggy!
 
 <div class="row">
   <div class="col-6">
-    <Midifungi title="Scaly Slugs (NFT)" :layers="['@3/wallpaper', '@3/slugs', '@1/texturizer']" help="@3" />
+    <Midifungi title="Scaly Slugs" :layers="['@3/wallpaper', '@3/slugs', '@1/texturizer']" help="@3" />
   </div>
   <div class="col-6">
     <div class="custom-container tip">

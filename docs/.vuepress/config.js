@@ -71,7 +71,7 @@ module.exports = {
                 link: '/art/2.html'
               },
               {
-                text: '3 - Scaly Slugs (NFT)',
+                text: '3 - Scaly Slugs',
                 link: '/art/3.html'
               },
             ]
