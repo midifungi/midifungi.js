@@ -1,8 +1,8 @@
 export default function () {
-  const numWallpapers = ~~random(3, Layers.default.colors.length)
-  const wallpaperColors = [...Array(Layers.default.colors.length).keys()]
-  
   Layers.create(() => {
+    const numWallpapers = ~~random(3, Layers.default.colors.length)
+    const wallpaperColors = [...Array(Layers.default.colors.length).keys()]
+
     /**
     * Create a new layer for each wallpaper
     */
