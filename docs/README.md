@@ -2,6 +2,6 @@
 
 <div class="row">
   <div class="col-6">
-    <Midifungi title="Trippy Eye" :layers="['@1/sketch']" help="@1" />
+    <Midifungi title="Just an eye" :layers="['@1/sketch']" help="@1" />
   </div>
 </div>

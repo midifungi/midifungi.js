@@ -51,10 +51,12 @@ export default {
             case 'slider':
               // Due to a bug with Tweakpane we need to set initial value to number/string
               // @see https://github.com/cocopon/tweakpane/issues/376
+              let origValue
               if (this.menu[key]._options) {
+                origValue = this.store[key]
                this.store[key] = this.store[key + '__index']
               }
-              
+        
               general.addInput(this.store, key, {
                 min: typeof menu.min === 'function' ? menu.min() : menu.min,
                 max: typeof menu.max === 'function' ? menu.max() : menu.max,
@@ -74,6 +76,11 @@ export default {
                 .on('click', ev => {
                   maybeBindControlToLayer()
                 })
+
+                // Restore value
+                if (typeof origValue !== 'undefined') {
+                  this.store[key] = origValue
+                }
             break
 
             case 'list':
@@ -273,6 +280,7 @@ export default {
       this.$menu.containerElem_.style.top = ev.y + 'px'
     }
   },
+  
 
   /**
    * Goes through the menu object and sets defaults
