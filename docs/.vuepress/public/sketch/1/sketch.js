@@ -1,14 +1,13 @@
 export default function () {
   Layers.create(() => {
     new Layer({
-      id: '',
+      setup () {
+        this.addEye(width/2, height/2)
+      },
 
-      menu: {},
-      store: {},
-
-      setup () {},
-
-      draw () {}
+      draw () {
+        background($bg)
+      }
     })
   })
 }

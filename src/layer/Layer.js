@@ -48,6 +48,9 @@ export default class Layer {
       pixelDensity: 0,
       frameCount: 0,
 
+      // Things
+      things: [],
+
       // Dependencies
       waitFor: null,
 
@@ -74,6 +77,7 @@ export default class Layer {
 
       // Custom store
       store: {},
+      menu: {}
     })
 
     // Setup canvas
@@ -157,6 +161,7 @@ export default class Layer {
     if (!this.offscreenRenderer) this.offscreenRenderer = this.opts.offscreenRenderer
     if (!this.waitFor) this.waitFor = this.opts.waitFor
     if (!this.stack) this.stack = this.opts.stack
+    if (!this.things) this.things = this.opts.things
 
     // Always reset
     this.noLoop = this.opts.noLoop
@@ -212,6 +217,13 @@ export default class Layer {
     // Menu
     this.menu = globalThis.clone(this.opts.menu)
     this.store = globalThis.clone(this.opts.store)
+    // Add bg color to menu
+    if (!this.menu.bg) {
+      this.menu.bg = {
+        type: 'slider',
+        options: this.colors
+      }
+    }
     this.parseMenu()
     
     this.beforeGenerate && this.beforeGenerate()
@@ -312,6 +324,15 @@ export default class Layer {
       // Draw
       this.useGlobalContext()
       this.opts.draw && this.opts.draw.call(this, this.offscreen)
+      this.things.forEach(thing => {
+        if (!thing.autodraw) return
+        
+        if (!thing.hidden && thing.scale.size < 1) {
+          thing.scale.size += thing.scale.growRate
+        }
+        
+        thing.autodraw && thing.draw()
+      })
       this.restoreGlobalContext()
       this.frameCount++
   
@@ -370,6 +391,31 @@ export default class Layer {
       this.store[key] = window[`$${key}`]
       delete window[`$${key}`]
     })
+  }
+
+  /**
+   * Add a new thing to this Moar
+   * @param {*} x 
+   * @param {*} y 
+   * @param {*} size
+   * @param {*} params 
+   */
+   // @todo make this a plugin
+  addEye (x, y, size, params) {
+    if (typeof x === 'object') {
+      params = x
+      x = params.x
+      y = params.y
+      size = params.size      
+      
+      delete x.x
+      delete x.y
+      delete x.size
+    }
+    
+    const thing = new Thing.Eye(this, x, y, size, Object.assign({}, params))
+    this.things.push(thing)
+    return thing
   }
 
   /**

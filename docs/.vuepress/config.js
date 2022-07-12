@@ -63,7 +63,7 @@ module.exports = {
             collapsible: true,
             children: [
               {
-                text: '1 - Ancient Visitors',
+                text: '1 - Trippy Eyes',
                 link: '/art/1.html'
               },
               // {
