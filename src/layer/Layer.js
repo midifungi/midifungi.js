@@ -18,8 +18,10 @@ export default class Layer {
   }
   init (opts) {
     // Methods
+    // @todo Let's clean this up
     this.showContextMenu = contextMenu.showContextMenu
     this.parseMenu = contextMenu.parseMenu
+    this.checkThingsContextMenu = contextMenu.checkThingsContextMenu
     this.addMIDIButtons = midiMenu.addMIDIButtons
     this.connectMIDI = midiMenu.connectMIDI
     
@@ -30,7 +32,7 @@ export default class Layer {
     // Last moved target
     this._hasMovedTarget = null
     this.requestAnimationFrameID = null
-    
+
     // Defaults
     this.opts = globalThis.defaults(opts, {
       id: Layers.curId,

@@ -11,13 +11,14 @@ export default class ThingEye {
     this.layer.things.push(this)
     this.clones = []
     
+    // @todo Rename to .opts and use similar system as Layer
     this.params = defaults(params, {
       angle: 0,
       autodraw: true,
 
       // @todo pass a string and expand to object
       iris: {
-        color: floor(random(this.layer.colors.length))
+        color: floor(random(this.layer.colors.length-1))
       },
 
       pupil: {
@@ -159,7 +160,7 @@ export default class ThingEye {
     this.onBlink = this.params.onBlink
 
     // Context menu
-    this.menu = null
+    this.$menu = null
 
     // Body
     this.resetFeatures(this.params)
@@ -1095,19 +1096,15 @@ export default class ThingEye {
   showContextMenu (ev, menu) {
     if (!this.params.menu) return
     
-    if (menu) {
-      this.menu = menu
-      menu.children.forEach(m => {
-        m.expanded = false
-      })
-    }
+    this.$menu = menu
+    menu.children.forEach(m => {
+      m.expanded = false
+    })
     
-    // this.menu = new Tweakpane.Pane()
-    this.menu.registerPlugin(TweakpaneEssentialsPlugin)
-
     // General settings
-    const general = this.menu.addFolder({
-      title: 'Moar thing',
+    const general = this.$menu.addFolder({
+      index: 1,
+      title: 'Eye Settings',
       expanded: true
     })
 
@@ -1159,7 +1156,8 @@ export default class ThingEye {
     })
     eye.addInput(this.iris, 'color', {
       min: 0,
-      max: this.layer.colors.length - 1,
+      // @todo This is too restrictive, especially in cases where the pupil is not black
+      max: this.layer.colors.length - 2,
       step: 1
     })
     const pupilShapes = {}
@@ -1203,16 +1201,16 @@ export default class ThingEye {
     // Move the menu to the mouse position
     // @fixme Refactor with Moar.showContextMenu
     setTimeout(() => {
-      const bounds = this.menu.containerElem_.getBoundingClientRect()
+      const bounds = this.$menu.containerElem_.getBoundingClientRect()
       if (ev.x + bounds.width > windowWidth) {
-        this.menu.containerElem_.style.left = (windowWidth - bounds.width) + 'px'
+        this.$menu.containerElem_.style.left = (windowWidth - bounds.width) + 'px'
       } else {
-        this.menu.containerElem_.style.left = ev.x + 'px'
+        this.$menu.containerElem_.style.left = ev.x + 'px'
       }
       if (ev.y + bounds.height > windowHeight) {
-        this.menu.containerElem_.style.top = (windowHeight - bounds.height) + 'px'
+        this.$menu.containerElem_.style.top = (windowHeight - bounds.height) + 'px'
       } else {
-        this.menu.containerElem_.style.top = ev.y + 'px'
+        this.$menu.containerElem_.style.top = ev.y + 'px'
       }
     }, 0)
   }

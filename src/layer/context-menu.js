@@ -11,6 +11,24 @@ function onChange (key) {
  */
 export default {
   /**
+   * Checks if things are under the mouse
+   */
+  checkThingsContextMenu (ev) {
+    let bounds = this.canvas.canvas.getBoundingClientRect()
+    let x = this.x + bounds.x
+    let y = this.y + bounds.y
+    let found = false
+
+    this.things.every(thing => {
+      if (thing.isWithinThing(ev.x - x, ev.y - y)) {
+        thing.showContextMenu(ev, this.$menu)
+        found = true
+      }
+      return !found
+    })
+  },
+  
+  /**
    * Displays the clicked layer's menu, along with the other layers' menus as a context menu
    */
   showContextMenu (ev) {

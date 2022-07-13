@@ -253,6 +253,7 @@ export default globalThis.Layers = {
       const stacks = Object.keys(Layers.stack)
       let foundLayer = false
       
+      // Loop through every stack and layer
       stacks.every(stack => {
         const layerKeys = Object.keys(Layers.stack[stack]).reverse()
 
@@ -271,6 +272,7 @@ export default globalThis.Layers = {
               if (pixel[3]) {
                 ev.preventDefault()
                 layer.showContextMenu(ev)
+                layer.checkThingsContextMenu(ev)
                 foundLayer = true
                 return false
               }
