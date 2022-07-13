@@ -288,6 +288,13 @@ export default class Layer {
   }
 
   /**
+   * Reset the sketch with current store
+   */
+  reset () {
+    this.setup()
+  }
+  
+  /**
    * Resize the canvas
    */
   resize () {

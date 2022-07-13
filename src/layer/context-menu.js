@@ -91,6 +91,12 @@ export default {
                   maybeBindControlToLayer()
                 })
                 .on('change', () => onChange.call(this, key))
+                .on('change', () => {
+                  // Reset on change
+                  if (menu.resetOnChange) {
+                    this.reset()
+                  }
+                })
                 .on('click', ev => {
                   maybeBindControlToLayer()
                 })
@@ -108,6 +114,13 @@ export default {
               this.store[key] = 0
               general.addInput(this.store, key, {options: menu.options})
                 .on('change', () => onChange.call(this, key))
+                .on('change', () => {
+                  // Reset on change
+                  if (menu.resetOnChange) {
+                    this.reset()
+                  }
+                })
+
               this.store[key] = origVal
             break
           }
