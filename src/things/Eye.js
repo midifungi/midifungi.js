@@ -37,10 +37,10 @@ export default class ThingEye {
 
       blink: {
         auto: true,
-        len: 3,
+        len: 8,
         redEye: true,
         maxWait: 600,
-        lookWait: 60
+        lookWait: 120
       },
 
       // Look

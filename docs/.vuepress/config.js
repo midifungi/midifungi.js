@@ -66,6 +66,10 @@ module.exports = {
                 text: '1 - Just an eye',
                 link: '/art/1.html'
               },
+              {
+                text: '2 - Grid of eyes',
+                link: '/art/2.html'
+              },
               // {
               //   text: '2 - Francis Bacon Study 1',
               //   link: '/art/2.html'
