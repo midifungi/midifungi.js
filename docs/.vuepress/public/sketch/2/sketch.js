@@ -20,8 +20,6 @@ export default function () {
         let size = totalSize*$spacing
         let xCount = ~~(width/totalSize)
         let yCount = ~~(height/totalSize)
-
-        console.log(xCount, yCount)
         
         // Create a 3x3 grid of eyes
         for (let x = 0; x < xCount; x++) {
