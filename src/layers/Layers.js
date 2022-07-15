@@ -351,7 +351,8 @@ export default globalThis.Layers = {
     }
 
     // Loop through layers and bound properties and update to match the control
-    // @FIXME Lets compare direct midi values and channels, not properties
+    // @todo Lets compare direct midi values and channels, not properties
+    // @todo Use getters to simplify grabbing values (especially for slider lists)
     Object.keys(this.midi).forEach(key => {
       this.midi[key].forEach(binding => {
         if (binding.control.channel === control.message.channel

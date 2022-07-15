@@ -51,7 +51,6 @@ module.exports = {
           }
         },
 
-        // @todo Automate this
         sidebar: [
           {
             text: '👋 Introduction',
@@ -61,6 +60,7 @@ module.exports = {
             text: ' 🖼️ Art',
             link: '/art/',
             collapsible: true,
+            // @todo #41 - Automate these
             children: [
               {
                 text: '1 - Just an eye',
@@ -70,109 +70,12 @@ module.exports = {
                 text: '2 - Grid of eyes',
                 link: '/art/2.html'
               },
-              // {
-              //   text: '2 - Francis Bacon Study 1',
-              //   link: '/art/2.html'
-              // },
-              // {
-              //   text: '3 - Scaly Slugs',
-              //   link: '/art/3.html'
-              // },
+              {
+                text: '3 - After School',
+                link: '/art/3.html'
+              },
             ]
           },
-          // {
-          //   text: '📅 Daily Devlog',
-          //   link: '/devlog/',
-          //   collapsible: true,
-          //   children: [
-          //     {
-          //       text: '22/06/09 - Cuckoo\'s Clock',
-          //       link: '/devlog/220609.html'
-          //     },
-          //     {
-          //       text: '22/06/10 - Cuckoo\'s Clock',
-          //       link: '/devlog/220610.html'
-          //     },
-          //     {
-          //       text: '22/06/11 - Emoji Evolution',
-          //       link: '/devlog/220611.html'
-          //     },
-          //     {
-          //       text: '22/06/14 - Be the Rainbow',
-          //       link: '/devlog/220614.html'
-          //     },
-          //   ]
-          // },
-          // {
-          //   text: '🖼️ Gallery',
-          //   link: '/gallery/',
-          //   collapsible: true,
-          //   children: [
-          //     {
-          //       text: '001 - Lily Pads',
-          //       link: '/gallery/1.html'
-          //     },
-          //     {
-          //       text: '002 - Billions and Billions',
-          //       link: '/gallery/2.html'
-          //     },
-          //     {
-          //       text: '003 - Spirit Emojis',
-          //       link: '/gallery/3.html'
-          //     },
-          //     {
-          //       text: '004 - Arriving Home',
-          //       link: '/gallery/4.html'
-          //     },
-          //   ]
-          // },
-          // {
-          //   text: '🧑‍💻 Midifungi.js',
-          //   link: '/midifungi.js/',
-          //   collapsible: true,
-          //   children: [
-          //     {
-          //       text: '🏎️ Quick Start',
-          //       link: '/midifungi.js/',
-          //     },
-          //     {
-          //       text: '✨ Why Midifungi?',
-          //       link: '/midifungi.js/why.md',
-          //     },
-          //     {
-          //       text: '🪄 Overview',
-          //       link: '/midifungi.js/overview.md',
-          //     },
-          //     {
-          //       text: '🤹 Managing Layers',
-          //       link: '/midifungi.js/layers.md',
-          //     },
-          //     {
-          //       text: '🎛️ Context Menus',
-          //       link: '/midifungi.js/menus.md',
-          //     },
-          //     {
-          //       text: '🎹 MIDI Mapping',
-          //       link: '/midifungi.js/midi.md',
-          //     },
-          //     {
-          //       text: '📚 Reference',
-          //       link: '/midifungi.js/ref/'
-          //     },
-          //     {
-          //       text: '🚀 Migrating Sketches',
-          //       link: '/midifungi.js/migrating.md',
-          //     },
-          //     {
-          //       text: '🗺️ Roadmap',
-          //       link: '/roadmap.md'
-          //     },
-          //   ]
-          // },
-          // {
-          //   text: '🤝 Support Midifungi',
-          //   link: '/support.md'
-          // },
         ]
       }
     })
