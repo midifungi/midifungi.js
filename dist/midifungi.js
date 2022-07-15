@@ -4,7 +4,7 @@
  * https://twitter.com/midifungi
  * https://github.com/midifungi/midifungi.js
  * ---
- * @version 0.0.33
+ * @version 0.0.34
  * @license "Apache 2.0"
  * ---
  * This file was bundled with Rollup
@@ -26752,7 +26752,7 @@
     },
 
     // About
-    version: '0.0.33',
+    version: '0.0.34',
     curId: 0,
 
     // Menus
@@ -26939,6 +26939,7 @@
         const stacks = Object.keys(Layers.stack);
         let foundLayer = false;
         
+        // Loop through every stack and layer
         stacks.every(stack => {
           const layerKeys = Object.keys(Layers.stack[stack]).reverse();
 
@@ -26957,6 +26958,7 @@
                 if (pixel[3]) {
                   ev.preventDefault();
                   layer.showContextMenu(ev);
+                  layer.checkThingsContextMenu(ev);
                   foundLayer = true;
                   return false
                 }
@@ -27328,6 +27330,24 @@
    */
   var contextMenu = {
     /**
+     * Checks if things are under the mouse
+     */
+    checkThingsContextMenu (ev) {
+      let bounds = this.canvas.canvas.getBoundingClientRect();
+      let x = this.x + bounds.x;
+      let y = this.y + bounds.y;
+      let found = false;
+
+      this.things.every(thing => {
+        if (thing.isWithinThing(ev.x - x, ev.y - y)) {
+          thing.showContextMenu(ev, this.$menu);
+          found = true;
+        }
+        return !found
+      });
+    },
+    
+    /**
      * Displays the clicked layer's menu, along with the other layers' menus as a context menu
      */
     showContextMenu (ev) {
@@ -27368,10 +27388,12 @@
               case 'slider':
                 // Due to a bug with Tweakpane we need to set initial value to number/string
                 // @see https://github.com/cocopon/tweakpane/issues/376
+                let origValue;
                 if (this.menu[key]._options) {
+                  origValue = this.store[key];
                  this.store[key] = this.store[key + '__index'];
                 }
-                
+          
                 general.addInput(this.store, key, {
                   min: typeof menu.min === 'function' ? menu.min() : menu.min,
                   max: typeof menu.max === 'function' ? menu.max() : menu.max,
@@ -27388,9 +27410,20 @@
                     maybeBindControlToLayer();
                   })
                   .on('change', () => onChange.call(this, key))
+                  .on('change', () => {
+                    // Reset on change
+                    if (menu.resetOnChange) {
+                      this.reset();
+                    }
+                  })
                   .on('click', ev => {
                     maybeBindControlToLayer();
                   });
+
+                  // Restore value
+                  if (typeof origValue !== 'undefined') {
+                    this.store[key] = origValue;
+                  }
               break
 
               case 'list':
@@ -27399,7 +27432,14 @@
                 const origVal = this.store[key];
                 this.store[key] = 0;
                 general.addInput(this.store, key, {options: menu.options})
-                  .on('change', () => onChange.call(this, key));
+                  .on('change', () => onChange.call(this, key))
+                  .on('change', () => {
+                    // Reset on change
+                    if (menu.resetOnChange) {
+                      this.reset();
+                    }
+                  });
+
                 this.store[key] = origVal;
               break
             }
@@ -27590,6 +27630,7 @@
         this.$menu.containerElem_.style.top = ev.y + 'px';
       }
     },
+    
 
     /**
      * Goes through the menu object and sets defaults
@@ -27783,8 +27824,10 @@
     }
     init (opts) {
       // Methods
+      // @todo Let's clean this up
       this.showContextMenu = contextMenu.showContextMenu;
       this.parseMenu = contextMenu.parseMenu;
+      this.checkThingsContextMenu = contextMenu.checkThingsContextMenu;
       this.addMIDIButtons = midiMenu.addMIDIButtons;
       this.connectMIDI = midiMenu.connectMIDI;
       
@@ -27795,7 +27838,7 @@
       // Last moved target
       this._hasMovedTarget = null;
       this.requestAnimationFrameID = null;
-      
+
       // Defaults
       this.opts = globalThis.defaults(opts, {
         id: Layers.curId,
@@ -28051,6 +28094,13 @@
     }
 
     /**
+     * Reset the sketch with current store
+     */
+    reset () {
+      this.setup();
+    }
+    
+    /**
      * Resize the canvas
      */
     resize () {
@@ -28238,13 +28288,14 @@
       this.layer.things.push(this);
       this.clones = [];
       
+      // @todo Rename to .opts and use similar system as Layer
       this.params = defaults(params, {
         angle: 0,
         autodraw: true,
 
         // @todo pass a string and expand to object
         iris: {
-          color: floor(random(this.layer.colors.length))
+          color: floor(random(this.layer.colors.length-1))
         },
 
         pupil: {
@@ -28263,10 +28314,10 @@
 
         blink: {
           auto: true,
-          len: 3,
+          len: 8,
           redEye: true,
           maxWait: 600,
-          lookWait: 60
+          lookWait: 120
         },
 
         // Look
@@ -28386,7 +28437,7 @@
       this.onBlink = this.params.onBlink;
 
       // Context menu
-      this.menu = null;
+      this.$menu = null;
 
       // Body
       this.resetFeatures(this.params);
@@ -29322,19 +29373,15 @@
     showContextMenu (ev, menu) {
       if (!this.params.menu) return
       
-      if (menu) {
-        this.menu = menu;
-        menu.children.forEach(m => {
-          m.expanded = false;
-        });
-      }
+      this.$menu = menu;
+      menu.children.forEach(m => {
+        m.expanded = false;
+      });
       
-      // this.menu = new Tweakpane.Pane()
-      this.menu.registerPlugin(TweakpaneEssentialsPlugin);
-
       // General settings
-      const general = this.menu.addFolder({
-        title: 'Moar thing',
+      const general = this.$menu.addFolder({
+        index: 1,
+        title: 'Eye Settings',
         expanded: true
       });
 
@@ -29386,7 +29433,8 @@
       });
       eye.addInput(this.iris, 'color', {
         min: 0,
-        max: this.layer.colors.length - 1,
+        // @todo This is too restrictive, especially in cases where the pupil is not black
+        max: this.layer.colors.length - 2,
         step: 1
       });
       const pupilShapes = {};
@@ -29430,16 +29478,16 @@
       // Move the menu to the mouse position
       // @fixme Refactor with Moar.showContextMenu
       setTimeout(() => {
-        const bounds = this.menu.containerElem_.getBoundingClientRect();
+        const bounds = this.$menu.containerElem_.getBoundingClientRect();
         if (ev.x + bounds.width > windowWidth) {
-          this.menu.containerElem_.style.left = (windowWidth - bounds.width) + 'px';
+          this.$menu.containerElem_.style.left = (windowWidth - bounds.width) + 'px';
         } else {
-          this.menu.containerElem_.style.left = ev.x + 'px';
+          this.$menu.containerElem_.style.left = ev.x + 'px';
         }
         if (ev.y + bounds.height > windowHeight) {
-          this.menu.containerElem_.style.top = (windowHeight - bounds.height) + 'px';
+          this.$menu.containerElem_.style.top = (windowHeight - bounds.height) + 'px';
         } else {
-          this.menu.containerElem_.style.top = ev.y + 'px';
+          this.$menu.containerElem_.style.top = ev.y + 'px';
         }
       }, 0);
     }
@@ -29572,7 +29620,7 @@
    * Midifungi 🎹🍄
    * A p5js library that helps you organize your code into layers
    * ---
-   * @version 0.0.33
+   * @version 0.0.34
    * @license "Apache 2.0" with the addendum that you cannot use this or its output for NFTs without permission
    */
 
