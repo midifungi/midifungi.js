@@ -15,6 +15,7 @@ export default class ThingEye {
     this.params = defaults(params, {
       angle: 0,
       autodraw: true,
+      id: this.layer.curThingId,
 
       // @todo pass a string and expand to object
       iris: {
@@ -95,6 +96,7 @@ export default class ThingEye {
     this.canvas = this.params.canvas || this.layer.canvas
     this.autodraw = this.params.autodraw
     this.id = this.params.id
+    this.layer.curThingId++
 
     // Shape
     this.shape = this.params.shape
@@ -1104,7 +1106,7 @@ export default class ThingEye {
     // General settings
     const general = this.$menu.addFolder({
       index: 1,
-      title: 'Eye Settings',
+      title: `Eye: ${this.id}`,
       expanded: true
     })
 

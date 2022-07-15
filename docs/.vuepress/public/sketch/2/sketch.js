@@ -22,9 +22,13 @@ export default function () {
         let yCount = ~~(height/totalSize)
 
         // Create a 3x3 grid of eyes
+        let id = 0
         for (let x = 0; x < xCount; x++) {
           for (let y = 0; y < yCount; y++) {
-            this.addEye(width/2 - (xCount*totalSize/2) + x*totalSize + totalSize/2, height/2 - (yCount*totalSize/2) + y*totalSize + totalSize/2, size)
+            this.addEye(width/2 - (xCount*totalSize/2) + x*totalSize + totalSize/2, height/2 - (yCount*totalSize/2) + y*totalSize + totalSize/2, size, {
+              id
+            })
+            id++
           }
         }
       },

@@ -33,6 +33,9 @@ export default class Layer {
     this._hasMovedTarget = null
     this.requestAnimationFrameID = null
 
+    // things
+    this.curThingId = 0
+
     // Defaults
     this.opts = globalThis.defaults(opts, {
       id: Layers.curId,
@@ -94,6 +97,7 @@ export default class Layer {
     // Generate unique ID
     const origId = this.id
     Layers.curId++
+    
     if (Layers[origId]) {
       this.id = origId.toString() + '_' + Layers.curId
     }
