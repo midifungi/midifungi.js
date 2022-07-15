@@ -63,34 +63,23 @@ module.exports = {
             collapsible: true,
             children: [
               {
-                text: '1 - Ancient Visitors',
+                text: '1 - Just an eye',
                 link: '/art/1.html'
               },
               {
-                text: '2 - Francis Bacon Study 1',
+                text: '2 - Grid of eyes',
                 link: '/art/2.html'
               },
-              {
-                text: '3 - Scaly Slugs (NFT)',
-                link: '/art/3.html'
-              },
+              // {
+              //   text: '2 - Francis Bacon Study 1',
+              //   link: '/art/2.html'
+              // },
+              // {
+              //   text: '3 - Scaly Slugs',
+              //   link: '/art/3.html'
+              // },
             ]
           },
-          {
-            text: '🖌️ Techniques',
-            link: '/technique/',
-            collapsible: true,
-            children: [
-              {
-                text: 'Paint chips',
-                link: '/technique/paint-chips.html'
-              }
-            ]
-          },
-          {
-            text: '💼 Pre-Midifungi Portfolio',
-            link: 'https://ozramos.notion.site/29f2ff163a554f3081c155653d07ace0?v=07b8c60c499d42b0b734ce29bf4b0ed1'
-          }
           // {
           //   text: '📅 Daily Devlog',
           //   link: '/devlog/',

@@ -11,12 +11,18 @@ import Emojis from './emoji/Emojis'
 import './helpers.js'
 import Layers from './layers/Layers.js'
 import Layer from './layer/Layer.js'
+import ThingEye from './things/Eye.js'
+import Shapes from './things/Shapes.js'
 import p5OverridesList from './p5-overrides/list.js'
 import p5PrototypeOverrides from './p5-overrides/prototypes.js'
 
 // Global exports
 globalThis.Layers = Layers
 globalThis.Layer = Layer
+globalThis.Thing = {
+  Eye: ThingEye
+}
+globalThis.Shape = Shapes
 globalThis.Emojis = Emojis
 globalThis.config = {}
 

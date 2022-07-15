@@ -1,11 +1,15 @@
 import cloneDeep from '../node_modules/lodash-es/cloneDeep.js'
 import defaultsDeep from '../node_modules/lodash-es/defaultsDeep.js'
 import throttle from '../node_modules/lodash-es/throttle.js'
+import get from '../node_modules/lodash-es/get.js'
+import set from '../node_modules/lodash-es/set.js'
 
 // Lodash helpers
 globalThis.clone = cloneDeep
 globalThis.defaults = defaultsDeep
 globalThis.throttle = throttle
+globalThis.getProp = get
+globalThis.setProp = set
 
 /**
  * Wrap numbers between a range (pacman style)
